@@ -21,7 +21,6 @@
   },
   "homepage": "https://github.com/normalfinance/normal-v1-stellar-frontend",
   "workspaces": [
-    "packages/utils",
     "packages/contracts",
     "packages/*"
   ],

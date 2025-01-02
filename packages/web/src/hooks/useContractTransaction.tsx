@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback } from 'react';
 import {
   PhoenixPairContract,
   PhoenixMultihopContract,
@@ -6,25 +6,16 @@ import {
   PhoenixFactoryContract,
   PhoenixVestingContract,
   SorobanTokenContract,
-} from "@phoenix-protocol/contracts";
-import {
-  AssembledTransaction,
-  SentTransaction,
-} from "@stellar/stellar-sdk/lib/contract";
-import { useToast } from "@/hooks/useToast";
-import { constants, Signer } from "@phoenix-protocol/utils";
-import { useAppStore, usePersistStore } from "@phoenix-protocol/state";
-import { useRestoreModal } from "@/providers/RestoreModalProvider";
-import { AppStore, AppStorePersist } from "@phoenix-protocol/types";
+} from '@phoenix-protocol/contracts';
+import { AssembledTransaction, SentTransaction } from '@stellar/stellar-sdk/lib/contract';
+import { useToast } from '@/hooks/useToast';
+import { constants, Signer } from '@phoenix-protocol/utils';
+import { useAppStore, usePersistStore } from '@phoenix-protocol/state';
+import { useRestoreModal } from '@/providers/RestoreModalProvider';
+import { AppStore, AppStorePersist } from '@phoenix-protocol/types';
 
 // Define Contract Types
-type ContractType =
-  | "pair"
-  | "multihop"
-  | "stake"
-  | "factory"
-  | "vesting"
-  | "token";
+type ContractType = 'pair' | 'multihop' | 'stake' | 'factory' | 'vesting' | 'token';
 
 const contractClients = {
   pair: PhoenixPairContract.Client,
@@ -35,17 +26,17 @@ const contractClients = {
   token: SorobanTokenContract.Client,
 };
 
-type ContractClientType<T extends ContractType> = T extends "pair"
+type ContractClientType<T extends ContractType> = T extends 'pair'
   ? PhoenixPairContract.Client
-  : T extends "multihop"
+  : T extends 'multihop'
   ? PhoenixMultihopContract.Client
-  : T extends "stake"
+  : T extends 'stake'
   ? PhoenixStakeContract.Client
-  : T extends "factory"
+  : T extends 'factory'
   ? PhoenixFactoryContract.Client
-  : T extends "vesting"
+  : T extends 'vesting'
   ? PhoenixVestingContract.Client
-  : T extends "token"
+  : T extends 'token'
   ? SorobanTokenContract.Client
   : never;
 
@@ -63,14 +54,14 @@ interface ExecuteContractTransactionParams<T extends ContractType>
 }
 
 const getSigner = (storePersist: AppStorePersist, appStore: AppStore) => {
-  return storePersist.wallet.walletType === "wallet-connect"
+  return storePersist.wallet.walletType === 'wallet-connect'
     ? appStore.walletConnectInstance
     : new Signer();
 };
 
 const getSignerFunction = (signer: any, storePersist: any) => {
   return (tx: string) =>
-    storePersist.wallet.walletType === "wallet-connect"
+    storePersist.wallet.walletType === 'wallet-connect'
       ? signer.signTransaction(tx)
       : signer.sign(tx);
 };
@@ -113,7 +104,7 @@ export const useContractTransaction = () => {
       const signer = getSigner(storePersist, appStore);
       const networkPassphrase = constants.NETWORK_PASSPHRASE;
       const rpcUrl = constants.RPC_URL;
-      const loadingMessage = "Transaction in progress...";
+      const loadingMessage = 'Transaction in progress...';
       const publicKey = storePersist.wallet.address!;
 
       const executeTransaction = async (restore: boolean = false) => {
@@ -129,57 +120,45 @@ export const useContractTransaction = () => {
             storePersist
           );
 
-          const transaction = await transactionFunction(
-            contractClient,
-            restore
-          );
+          const transaction = await transactionFunction(contractClient, restore);
 
-          console.log("Attempting to sign and send transaction...");
+          console.log('Attempting to sign and send transaction...');
 
           // Step 2: Handle signing and sending the transaction with async toast
-          const promise = new Promise<{ transactionId?: string }>(
-            async (resolve, reject) => {
-              try {
-                if (restore) {
-                  console.log("Restoring transaction state...");
-                  await transaction.simulate({ restore: true });
-                  resolve({});
-                } else {
-                  const sentTransaction = await transaction.signAndSend();
-                  resolve({
-                    transactionId:
-                      sentTransaction.sendTransactionResponse?.hash,
-                  });
-                }
-              } catch (error) {
-                console.error("Error during signing and sending:", error);
-
-                // Check if restore is required
-                if (
-                  error instanceof Error &&
-                  error.message.includes("restore some contract state")
-                ) {
-                  openRestoreModal(async () => {
-                    try {
-                      await executeTransaction(true); // Retry with restore
-                      resolve({});
-                    } catch (restoreError) {
-                      console.error(
-                        "Error during restoring transaction:",
-                        restoreError
-                      );
-                      reject(restoreError); // Reject with the restoration error
-                    } finally {
-                      closeRestoreModal();
-                    }
-                  });
-                  return; // Exit early since restore will handle the resolution
-                }
-
-                reject(error); // Reject with the error
+          const promise = new Promise<{ transactionId?: string }>(async (resolve, reject) => {
+            try {
+              if (restore) {
+                console.log('Restoring transaction state...');
+                await transaction.simulate({ restore: true });
+                resolve({});
+              } else {
+                const sentTransaction = await transaction.signAndSend();
+                resolve({
+                  transactionId: sentTransaction.sendTransactionResponse?.hash,
+                });
               }
+            } catch (error) {
+              console.error('Error during signing and sending:', error);
+
+              // Check if restore is required
+              if (error instanceof Error && error.message.includes('restore some contract state')) {
+                openRestoreModal(async () => {
+                  try {
+                    await executeTransaction(true); // Retry with restore
+                    resolve({});
+                  } catch (restoreError) {
+                    console.error('Error during restoring transaction:', restoreError);
+                    reject(restoreError); // Reject with the restoration error
+                  } finally {
+                    closeRestoreModal();
+                  }
+                });
+                return; // Exit early since restore will handle the resolution
+              }
+
+              reject(error); // Reject with the error
             }
-          );
+          });
 
           // Add the promise to the toast for UI updates
           addAsyncToast(promise, loadingMessage);
@@ -188,7 +167,7 @@ export const useContractTransaction = () => {
           await promise;
           await new Promise((resolve) => setTimeout(resolve, 5000));
         } catch (error) {
-          console.log("Unexpected error executing contract transaction", error);
+          console.log('Unexpected error executing contract transaction', error);
           addAsyncToast(Promise.reject(error), loadingMessage);
         }
       };
