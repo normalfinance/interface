@@ -1,28 +1,35 @@
 import React, { useCallback } from 'react';
 import {
-  PhoenixPairContract,
-  PhoenixMultihopContract,
-  PhoenixStakeContract,
-  PhoenixFactoryContract,
-  PhoenixVestingContract,
+  NormalInsuranceFundContract,
+  NormalSynthMarketFactoryContract,
+  NormalIndexFactoryContract,
+  NormalVestingContract,
   SorobanTokenContract,
-} from '@phoenix-protocol/contracts';
+} from '@normalfinance/contracts';
 import { AssembledTransaction, SentTransaction } from '@stellar/stellar-sdk/lib/contract';
 import { useToast } from '@/hooks/useToast';
-import { constants, Signer } from '@phoenix-protocol/utils';
-import { useAppStore, usePersistStore } from '@phoenix-protocol/state';
+import { constants, Signer } from '@normalfinance/utils';
 import { useRestoreModal } from '@/providers/RestoreModalProvider';
-import { AppStore, AppStorePersist } from '@phoenix-protocol/types';
+import { AppStore, AppStorePersist } from '@normalfinance/types';
+import { useAppStore, usePersistStore } from '@/state/store';
 
 // Define Contract Types
-type ContractType = 'pair' | 'multihop' | 'stake' | 'factory' | 'vesting' | 'token';
+type ContractType =
+  | 'market'
+  | 'market_factory'
+  | 'insurance'
+  | 'index'
+  | 'index_factory'
+  | 'scheduler'
+  | 'vesting'
+  | 'token';
 
 const contractClients = {
   pair: PhoenixPairContract.Client,
   multihop: PhoenixMultihopContract.Client,
   stake: PhoenixStakeContract.Client,
   factory: PhoenixFactoryContract.Client,
-  vesting: PhoenixVestingContract.Client,
+  vesting: NormalVestingContract.Client,
   token: SorobanTokenContract.Client,
 };
 
@@ -35,7 +42,7 @@ type ContractClientType<T extends ContractType> = T extends 'pair'
   : T extends 'factory'
   ? PhoenixFactoryContract.Client
   : T extends 'vesting'
-  ? PhoenixVestingContract.Client
+  ? NormalVestingContract.Client
   : T extends 'token'
   ? SorobanTokenContract.Client
   : never;

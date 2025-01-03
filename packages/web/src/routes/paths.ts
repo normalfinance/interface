@@ -15,5 +15,5 @@ export const paths = {
   indexById: (id: number) => `/indexes/${encodeURIComponent(id)}`,
   createIndex: '/create-index',
 
-  insuranceFund: '/insurance',
+  insuranceFund: '/insurance-fund',
 };
