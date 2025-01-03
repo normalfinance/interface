@@ -4,11 +4,11 @@
   "version": "0.0.1",
   "scripts": {
     "test": "yarn workspace @normalfinance/utils run test --passWithNoTests",
-    "build": "yarn workspace @normalfinance/utils run build && yarn workspace @normalfinance/contracts run build && yarn workspace @normalfinance/core run build",
+    "build": "yarn workspace @normalfinance/types run build && yarn workspace @normalfinance/contracts run build && yarn workspace @normalfinance/core run build",
     "dev": "yarn workspace @normalfinance/web dev",
     "build:web": "yarn workspace @normalfinance/web build",
     "build:contracts": "yarn workspace @normalfinance/contracts build",
-    "build:utils": "yarn workspace @normalfinance/utils build"
+    "build:types": "yarn workspace @normalfinance/types build"
   },
   "repository": {
     "type": "git",
@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/normalfinance/normal-v1-stellar-frontend",
   "workspaces": [
+    "packages/types",
     "packages/contracts",
     "packages/*"
   ],
