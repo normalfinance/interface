@@ -3639,9 +3639,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@normalfinance/normal-v1-stellar-frontend@workspace:.":
+"@normalfinance/normal-v1-interface@workspace:.":
   version: 0.0.0-use.local
-  resolution: "@normalfinance/normal-v1-stellar-frontend@workspace:."
+  resolution: "@normalfinance/normal-v1-interface@workspace:."
   dependencies:
     "@stellar/stellar-sdk": ^12.1.0
     "@tsconfig/recommended": ^1.0.2
