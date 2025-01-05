@@ -1,7 +1,7 @@
 import { Connector, NetworkDetails } from '@normalfinance/types';
-import { WalletConnect as WalletClient } from '@phoenix-protocol/utils';
-import { WalletConnectAllowedMethods } from '@phoenix-protocol/utils/build/wallets/wallet-connect';
-import { NETWORK_PASSPHRASE } from '@phoenix-protocol/utils/build/constants';
+import { WalletConnect as WalletClient } from '@normalfinance/utils';
+import { WalletConnectAllowedMethods } from '@normalfinance/utils/build/wallets/wallet-connect';
+import { NETWORK_PASSPHRASE } from '@normalfinance/utils/build/constants';
 
 export class WalletConnect implements Connector {
   id: string;

@@ -9,10 +9,10 @@ import {
   fetchPho,
   PhoenixFactoryContract,
   SorobanTokenContract,
-} from '@phoenix-protocol/contracts';
+} from '@normalfinance/contracts';
 import { usePersistStore } from '../store';
-import { constants, fetchTokenPrices } from '@phoenix-protocol/utils';
-import { LiquidityPoolInfo } from '@phoenix-protocol/contracts/build/phoenix-pair';
+import { constants, fetchTokenPrices } from '@normalfinance/utils';
+import { LiquidityPoolInfo } from '@normalfinance/contracts/build/phoenix-pair';
 
 const getCategory = (name: string) => {
   switch (name.toLowerCase()) {

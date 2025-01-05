@@ -4232,9 +4232,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@phoenix-protocol/utils@workspace:packages/utils":
+"@normalfinance/utils@workspace:packages/utils":
   version: 0.0.0-use.local
-  resolution: "@phoenix-protocol/utils@workspace:packages/utils"
+  resolution: "@normalfinance/utils@workspace:packages/utils"
   dependencies:
     "@apollo/client": ^3.9.0
     "@creit.tech/xbull-wallet-connect": 0.3.0
