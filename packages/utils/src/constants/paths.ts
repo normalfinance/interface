@@ -7,13 +7,31 @@ export const paths = {
   positions: '/positions',
 
   // Markets
-  markets: '/markets',
-  marketById: (id: number) => `/market/${encodeURIComponent(id)}`,
+  markets: {
+    root: '/markets',
+    byId: (id: number) => `/market/${encodeURIComponent(id)}`,
+  },
 
   // Indexes
-  indexes: '/indexes',
-  indexById: (id: number) => `/indexes/${encodeURIComponent(id)}`,
-  createIndex: '/create-index',
+  indexes: {
+    root: '/indexes',
+    byId: (id: number) => `/indexes/${encodeURIComponent(id)}`,
+    create: '/indexes/create',
+  },
 
   insuranceFund: '/insurance-fund',
+
+  rewards: '/rewards',
+
+  staking: {
+    root: '/stake',
+    NORM: '/stake/norm'
+  },
+
+  // Analytics
+  analytics: {
+    root: '/analytics',
+    liquidations: '/analytics/liquidations',
+    bankruptcies: '/analytics/bankruptcies',
+  },
 };

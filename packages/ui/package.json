@@ -23,8 +23,8 @@
     "main",
     "module"
   ],
-  "author": "Phoenix Protocol Group",
-  "license": "GPL-3.0-or-later",
+  "author": "Normal Finance",
+  "license": "Apache-2.0",
   "devDependencies": {
     "@babel/cli": "7.18.10",
     "@babel/core": "7.19.1",

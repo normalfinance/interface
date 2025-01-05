@@ -1,7 +1,7 @@
 // routes
-import { paths } from '@/routes/paths';
+import { paths } from '@normalfinance/utils';
 // locales
-import { Trans } from '@/i18n';
+import { Trans } from '@normalfinance/ui';
 // components
 import SvgColor from '@/components/svg-color';
 
