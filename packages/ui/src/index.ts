@@ -8,3 +8,4 @@ export * from './Swap';
 export * from './HighlightedIndex';
 export * from './Theme';
 export * from './components';
+export * from './Analytics';
