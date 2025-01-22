@@ -1,15 +1,15 @@
 // @mui
 import Box from '@mui/material/Box';
 import Pagination, { paginationClasses } from '@mui/material/Pagination';
-// types
-//
+
+// components
 import { ProposalItemSkeleton } from './proposal-skeleton';
 import ProposalItemHorizontal from './proposal-item-horizontal';
 
 // ----------------------------------------------------------------------
 
 type Props = {
-  proposals: IProposalItem[];
+  proposals: Proposal[];
   loading?: boolean;
 };
 

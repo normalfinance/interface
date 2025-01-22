@@ -1,7 +1,7 @@
 import { Theme, alpha } from '@mui/material/styles';
 import { AlertProps, alertClasses } from '@mui/material/Alert';
 // components
-import Iconify from '@/components/iconify';
+import Iconify from '@/components/template/iconify';
 
 // ----------------------------------------------------------------------
 

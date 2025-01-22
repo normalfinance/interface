@@ -4,24 +4,19 @@ import Link from '@mui/material/Link';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 // routes
-import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hook';
 import { RouterLink } from 'src/routes/components';
 // hooks
 // utils
-import { fDate } from 'src/utils/format-time';
-import { fShortenNumber } from 'src/utils/format-number';
+import { fDate, fShortenNumber, paths } from '@normalfinance/utils';
 // types
-import { IPostItem } from 'src/types/blog';
 // components
-import Label from 'src/components/label';
-import Iconify from 'src/components/iconify';
-import TextMaxLine from 'src/components/text-max-line';
+import { Label, Iconify, TextMaxLine } from '@normalfinance/ui';
 
 // ----------------------------------------------------------------------
 
 type Props = {
-  proposal: IPostItem;
+  proposal: Proposal;
 };
 
 export default function ProposalItemHorizontal({ proposal }: Props) {

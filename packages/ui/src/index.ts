@@ -1,11 +1,13 @@
-import NormalThemeProvider from './ThemeProvider/ThemeProvider';
-export { NormalThemeProvider as ThemeProvider };
+// import NormalThemeProvider from './ThemeProvider/ThemeProvider';
+// export { NormalThemeProvider as ThemeProvider };
 
-export * from './Index';
-export * from './InsuranceFund';
-export * from './LiquidityPosition';
-export * from './Swap';
-export * from './HighlightedIndex';
-export * from './Theme';
+// import { ExternalProvider } from './providers/ExternalProvider';
+// export { ExternalProvider as NormalExternalProvider };
+
+// import LocalizationProvider from './providers/LocalizationProvider';
+// export { LocalizationProvider as NormalLocalizationProvider };
+
 export * from './components';
-export * from './Analytics';
+export * from './hooks';
+export * from './providers';
+export * from './theme';

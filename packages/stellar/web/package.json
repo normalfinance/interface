@@ -30,6 +30,7 @@
     "@mui/material": "^5.13.3",
     "@mui/system": "^5.13.2",
     "@mui/x-date-pickers": "^6.6.0",
+    "@normalfinance/types": "workspace:^",
     "@normalfinance/ui": "workspace:^",
     "@normalfinance/utils": "workspace:^",
     "@sentry/nextjs": "^8.47.0",

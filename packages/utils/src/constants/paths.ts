@@ -23,9 +23,11 @@ export const paths = {
 
   rewards: '/rewards',
 
-  staking: {
-    root: '/stake',
-    NORM: '/stake/norm'
+  // Governance
+  governance: {
+    root: '/governance',
+    proposals: '/governance/proposal',
+    stake: '/governance/stake',
   },
 
   // Analytics

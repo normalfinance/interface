@@ -8,7 +8,7 @@ import { createTheme, ThemeProvider as MuiThemeProvider, ThemeOptions } from '@m
 // locales
 import i18n from 'i18next';
 // components
-import { useSettingsContext } from '@/components/settings';
+import { useSettingsContext } from '@/providers/SettingsProvider';
 // system
 import { palette } from './palette';
 import { shadows } from './shadows';

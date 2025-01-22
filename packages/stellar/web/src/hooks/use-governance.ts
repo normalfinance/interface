@@ -2,6 +2,8 @@
 
 import { useCallback, useState } from 'react';
 
+import { Proposal } from '@normalfinance/types';
+
 // ----------------------------------------------------------------------
 
 interface ReturnType {
@@ -9,6 +11,7 @@ interface ReturnType {
   loading: boolean;
   proposals: Proposal[];
   getProposals: () => void;
+  getProposalById: (id: number) => Proposal;
   onVote: (proposalId: number, vote: boolean) => void;
 }
 
@@ -36,11 +39,16 @@ export function useGovernance(): ReturnType {
     alert('Vote');
   }, []);
 
+  const getProposalById = useCallback((proposalId: number, vote: boolean) => {
+    alert('Vote');
+  }, []);
+
   return {
     error,
     loading,
     proposals,
     getProposals,
+    getProposalById,
     onVote,
   };
 }

@@ -1,6 +1,8 @@
-import PageHeader from '@/components/page-header';
-import { Trans } from '@/i18n';
+// @mui
 import { Container, Grid } from '@mui/material';
+
+// components
+import { Trans, PageHeader } from '@normalfinance/ui';
 
 // ----------------------------------------------------------------------
 
@@ -9,7 +11,7 @@ export default function AnalyticsLiquidationsView() {
     <Container maxWidth="xl">
       <PageHeader
         title={<Trans>Analytics - Liquidations</Trans>}
-        subheader={<Trans>add description</Trans>}
+        subheader={<Trans>Stats about Synth Market liquidations</Trans>}
       />
 
       <Grid container spacing={3}>

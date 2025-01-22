@@ -3,34 +3,32 @@
 // @mui
 import Container from '@mui/material/Container';
 // routes
-import { paths } from 'src/routes/paths';
-import { useParams } from 'src/routes/hook';
+import { paths } from '@normalfinance/utils';
 // components
-import { useSettingsContext } from 'src/components/settings';
+import { useSettingsContext } from '@normalfinance/ui';
 import ProposalDetailsToolbar from '@/components/proposal/proposal-details-toolbar';
 import ProposalDetailsContent from '@/components/proposal/proposal-details-content';
-//
+import { useGovernance } from '@/hooks/use-governance';
 
 // ----------------------------------------------------------------------
 
-export default function ProposalView() {
+export default function GovernanceProposalView(proposalId: number) {
+  const { getProposalById } = useGovernance();
+
   const settings = useSettingsContext();
 
-  const params = useParams();
-
-  const { id } = params;
-
-  const currenProposal = [].filter((proposal) => proposal.id === id)[0];
+  // const currenProposal = [].filter((proposal) => proposal.id === proposalId)[0];
+  const currentProposal = getProposalById(proposalId);
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'lg'}>
       <ProposalDetailsToolbar
         backLink={paths.governance.root}
-        editLink={paths.dashboard.job.edit(`${currenProposal?.id}`)}
+        editLink={paths.dashboard.job.edit(`${currentProposal?.id}`)}
         liveLink="#"
       />
 
-      <ProposalDetailsContent proposal={currenProposal} />
+      <ProposalDetailsContent proposal={currentProposal} />
     </Container>
   );
 }

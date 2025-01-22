@@ -1,15 +1,25 @@
-import CommunityIndexes from '@/components/community-indexes';
-
-import LoadingButtonModal from '@/components/loading-button-modal';
-import NormalIndexes from '@/components/normal-indexes';
-import PageHeader from '@/components/page-header';
-import TVL from '@/components/tvl';
-import { useIndexes } from '@/hooks/use-indexes';
-import { Trans } from '@/i18n';
+// @mui
 import { Container, Grid } from '@mui/material';
 
+// types
+import { Index } from '@normalfinance/types';
+
+// utils
+import { splitByPredicate } from '@normalfinance/utils';
+
+// hooks
+import { useIndexes } from '@/hooks/use-indexes';
+
 // components
-import { HighlightedIndex } from '@normalfinance/ui';
+import {
+  Trans,
+  PageHeader,
+  HighlightedIndex,
+  NormalIndexes,
+  CommunityIndexes,
+  TVL,
+  LoadingButtonModal,
+} from '@normalfinance/ui';
 
 // ----------------------------------------------------------------------
 
@@ -27,7 +37,7 @@ export default function IndexesView() {
     <Container maxWidth="xl">
       <PageHeader
         title={<Trans>Crypto Indexes</Trans>}
-        subheader={<Trans>add description</Trans>}
+        subheader={<Trans>Invest in curated portfolios of crypto assets</Trans>}
       />
 
       <LoadingButtonModal buttonText={<Trans>Create an index</Trans>}>
@@ -62,15 +72,5 @@ export default function IndexesView() {
         </Grid>
       </Grid>
     </Container>
-  );
-}
-
-function splitByPredicate<T>(array: T[], predicate: (element: T) => boolean): [T[], T[]] {
-  return array.reduce<[T[], T[]]>(
-    ([pass, fail], element) => {
-      (predicate(element) ? pass : fail).push(element);
-      return [pass, fail];
-    },
-    [[], []]
   );
 }

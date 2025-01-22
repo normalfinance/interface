@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
-import ProposalView from '@/sections/governance/proposal';
+import GovernanceProposalView from '@/sections/governance/proposal';
+import { useParams } from 'src/routes/hook';
 
 // ----------------------------------------------------------------------
 
@@ -8,6 +9,15 @@ export const metadata: Metadata = {
   description: '',
 };
 
-export default function Page() {
-  return <ProposalView />;
+interface Props {
+  readonly params: Promise<{
+    readonly poolAddress: string;
+  }>;
+}
+
+export default function Page(props: Props) {
+  const params = useParams();
+  const { proposalId } = params;
+
+  return <GovernanceProposalView proposalId={proposalId} />;
 }

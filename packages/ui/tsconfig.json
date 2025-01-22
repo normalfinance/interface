@@ -16,6 +16,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "../stellar/web/src/components/wallet-popover.tsx", "../stellar/web/src/components/footer.tsx", "../stellar/web/src/components/oldFooter.tsx"],
   "exclude": ["node_modules"]
 }

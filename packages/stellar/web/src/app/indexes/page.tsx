@@ -1,10 +1,11 @@
-import CreateIndexButtonWrapper from '@/components/create-index-button-wrapper';
-import { Trans } from '@/i18n';
-import { Container, Stack, Typography } from '@mui/material';
 import { Metadata } from 'next';
+
+// @mui
+import { Container, Stack, Typography } from '@mui/material';
+
+// components
+import { Trans } from '@normalfinance/ui';
 import IndexesView from '@/sections/indexes';
-import { pageView } from '@/utils/analytics/server';
-import { paths } from '@/routes/paths';
 
 // ----------------------------------------------------------------------
 
@@ -12,9 +13,7 @@ export const metadata: Metadata = {
   title: 'Normal | Indexes',
 };
 
-export default async function IndexesPage() {
-  await pageView(paths.indexes);
-
+export default function IndexesPage() {
   return (
     <Container maxWidth="xl">
       <Stack direction="row" alignItems="center" justifyContent="space-between">
@@ -22,7 +21,7 @@ export default async function IndexesPage() {
           <Trans>Indexes</Trans>
         </Typography>
 
-        <CreateIndexButtonWrapper />
+        {/* <CreateIndexButtonWrapper /> */}
       </Stack>
 
       <IndexesView />

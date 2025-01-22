@@ -1,7 +1,7 @@
 import { alpha, Theme } from '@mui/material/styles';
 import { ChipProps, chipClasses } from '@mui/material/Chip';
 // components
-import Iconify from '@/components/iconify';
+import Iconify from '@/components/template/iconify';
 
 // ----------------------------------------------------------------------
 

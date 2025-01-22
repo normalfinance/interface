@@ -6,25 +6,26 @@ import { useEffect, useCallback, useState } from 'react';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
-// routes
-import { paths } from 'src/routes/paths';
-import { RouterLink } from 'src/routes/components';
+// hooks
+import { useGovernance } from '@/hooks/use-governance';
 // types
+import { Proposal } from '@normalfinance/types';
 // components
-import Label from 'src/components/label';
-import { useSettingsContext } from 'src/components/settings';
-import ProposalSearch from '@/components/governance/proposal-search';
+import { Trans, PageHeader, Label } from '@normalfinance/ui';
 import ProposalSort from '@/components/governance/proposal-sort';
 import GovernanceProposalListHorizontal from '@/components/governance/governance-proposal-list-horizontal';
-import { useGovernance } from '@/hooks/use-governance';
-//
 
 // ----------------------------------------------------------------------
 
 const defaultFilters = {
   publish: 'all',
+};
+
+export type IProposalFilterValue = string;
+
+export type IProposalFilters = {
+  publish: string;
 };
 
 // ----------------------------------------------------------------------
@@ -35,11 +36,6 @@ export default function GovernanceView() {
   const [sortBy, setSortBy] = useState('latest');
 
   const [filters, setFilters] = useState(defaultFilters);
-
-  const [search, setSearch] = useState<{ query: string; results: IPostItem[] }>({
-    query: '',
-    results: [],
-  });
 
   useEffect(() => {
     getProposals();
@@ -55,35 +51,11 @@ export default function GovernanceView() {
     setSortBy(newValue);
   }, []);
 
-  const handleFilters = useCallback((name: string, value: IPostFilterValue) => {
+  const handleFilters = useCallback((name: string, value: IProposalFilterValue) => {
     setFilters((prevState) => ({
       ...prevState,
       [name]: value,
     }));
-  }, []);
-
-  const handleSearch = useCallback(async (value: string) => {
-    try {
-      setSearch((prevState) => ({
-        ...prevState,
-        query: value,
-      }));
-
-      if (value) {
-        const response = await axios.get(API_ENDPOINTS.post.search, {
-          params: {
-            query: value,
-          },
-        });
-
-        setSearch((prevState) => ({
-          ...prevState,
-          results: response.data.results,
-        }));
-      }
-    } catch (error) {
-      console.error(error);
-    }
   }, []);
 
   const handleFilterPublish = useCallback(
@@ -95,7 +67,10 @@ export default function GovernanceView() {
 
   return (
     <Container maxWidth="xl">
-      <PageHeader title={<Trans>Proposals</Trans>} subheader={<Trans>add description</Trans>} />
+      <PageHeader
+        title={<Trans>Proposals</Trans>}
+        subheader={<Trans>Vote on how you think the Normal Protocol should be governed</Trans>}
+      />
 
       <Stack
         spacing={3}
@@ -106,13 +81,15 @@ export default function GovernanceView() {
           mb: { xs: 3, md: 5 },
         }}
       >
-        <ProposalSearch
-          search={search}
-          onSearch={handleSearch}
-          hrefItem={(title: string) => paths.dashboard.post.details(title)}
+        <ProposalSort
+          sort={sortBy}
+          onSort={handleSortBy}
+          sortOptions={[
+            { value: 'latest', label: 'Latest' },
+            { value: 'popular', label: 'Popular' },
+            { value: 'oldest', label: 'Oldest' },
+          ]}
         />
-
-        <ProposalSort sort={sortBy} onSort={handleSortBy} sortOptions={POST_SORT_OPTIONS} />
       </Stack>
 
       <Tabs
@@ -162,8 +139,8 @@ const applyFilter = ({
   filters,
   sortBy,
 }: {
-  inputData: IPostItem[];
-  filters: IPostFilters;
+  inputData: Proposal[];
+  filters: IProposalFilters;
   sortBy: string;
 }) => {
   const { publish } = filters;

@@ -1,5 +1,5 @@
-import DashboardLayout from '@/layouts/dashboard/layout';
-import HomeView from '@/sections/insurance-fund copy';
+import DashboardLayout from '@normalfinance/ui';
+import HomeView from '@/sections/home';
 
 // ----------------------------------------------------------------------
 
