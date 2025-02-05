@@ -1,33 +1,21 @@
-import { useState, useCallback } from 'react';
-
-// mui
-import PageHeader from '@/components/page-header';
-import { Trans } from '@/i18n';
-import { Alert, AlertTitle, Button, Container, Grid, Typography } from '@mui/material';
-import LiquidityPositionItem from '@/components/liquidity-position-item';
-import Iconify from '@/components/iconify';
-import LiquidityPositionFilters from '@/components/liquidity-position-filters';
-import { RouterLink } from '@/routes/components';
-import { paths } from '@/routes/paths';
-import TopPoolsByTVL from '@/components/top-pools-by-tvl';
-import LiquidityPositions from '@/components/liquidity-positions';
+import { DashboardContent } from '@/layouts/dashboard';
 
 // ----------------------------------------------------------------------
 
 export default function LiquidityPositionsView() {
-  const { positions } = useLPs();
-  const { pools } = usePools();
+  // const { positions } = useLPs();
+  // const { pools } = usePools();
 
-  const table = useTable();
+  // const table = useTable();
 
   return (
-    <Container maxWidth="xl">
+    <DashboardContent maxWidth="xl">
       {/* <PageHeader
         title={<Trans>Your positions</Trans>}
         subheader={<Trans>Liquidity you've provided to pools</Trans>}
       /> */}
 
-      <Grid container spacing={3}>
+      {/* <Grid container spacing={3}>
         <Grid item xs={12} md={8}>
           <LiquidityPositions positions={positions} />
         </Grid>
@@ -47,7 +35,7 @@ export default function LiquidityPositionsView() {
             </Typography>
           </Alert>
         </Grid>
-      </Grid>
-    </Container>
+      </Grid> */}
+    </DashboardContent>
   );
 }
