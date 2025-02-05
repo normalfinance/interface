@@ -5,11 +5,7 @@ import {
   StateToken as Token,
   WalletActions,
 } from '@normalfinance/types';
-import {
-  fetchPho,
-  PhoenixFactoryContract,
-  SorobanTokenContract,
-} from '@normalfinance/contracts';
+import { fetchPho, PhoenixFactoryContract, SorobanTokenContract } from '@normalfinance/contracts';
 import { usePersistStore } from '../store';
 import { constants, fetchTokenPrices } from '@normalfinance/utils';
 import { LiquidityPoolInfo } from '@normalfinance/contracts/build/phoenix-pair';

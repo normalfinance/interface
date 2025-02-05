@@ -1,4 +1,4 @@
-import { SplashScreen } from '@normalfinance/ui';
+import { SplashScreen } from 'src/components/loading-screen';
 
 // ----------------------------------------------------------------------
 

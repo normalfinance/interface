@@ -1,17 +1,14 @@
-import { useState, useCallback } from 'react';
+// import { useState, useCallback } from 'react';
 
 // mui
-import PageHeader from '@/components/page-header';
-import { Trans } from '@/i18n';
-import { Button, Container, Grid, Stack } from '@mui/material';
-import Iconify from '@/components/iconify';
 import { paths } from '@/routes/paths';
-import CustomBreadcrumbs from '@/components/custom-breadcrumbs';
-import CreateLiquidityPositionProgressTab from '@/components/create-liquidity-position-progress-tab';
-import CreateLiquidityPositionStepOne from '@/components/create-liquidity-position-step-one';
-import CreateLiquidityPositionStepTwo from '@/components/create-liquidity-position-step-two';
-import CreateLiquidityPositionStepThree from '@/components/create-liquidity-position-step-three';
-import CreateLiquidityPositionTabs from '@/components/create-liquidity-position-tabs';
+import { DashboardContent } from '@/layouts/dashboard';
+import { CustomBreadcrumbs } from '@/components/custom-breadcrumbs';
+// import CreateLiquidityPositionProgressTab from '@/components/create-liquidity-position-progress-tab';
+// import CreateLiquidityPositionStepOne from '@/components/create-liquidity-position-step-one';
+// import CreateLiquidityPositionStepTwo from '@/components/create-liquidity-position-step-two';
+// import CreateLiquidityPositionStepThree from '@/components/create-liquidity-position-step-three';
+// import CreateLiquidityPositionTabs from '@/components/create-liquidity-position-tabs';
 
 // ----------------------------------------------------------------------
 
@@ -36,42 +33,42 @@ const TABS = [
 // ----------------------------------------------------------------------
 
 export default function CreateLiquidityPositionView() {
-  const [currentTab, setCurrentTab] = useState('step1');
+  // const [currentTab, setCurrentTab] = useState('step1');
 
-  const handleChangeTab = useCallback(
-    (event: React.SyntheticEvent | undefined, newValue: string) => {
-      setCurrentTab(newValue);
-    },
-    []
-  );
+  // const handleChangeTab = useCallback(
+  //   (event: React.SyntheticEvent | undefined, newValue: string) => {
+  //     setCurrentTab(newValue);
+  //   },
+  //   []
+  // );
 
-  const handleSubmitStepOne = useCallback((tokenA: string, tokenB: string, feeTier: string) => {
-    console.log({ tokenA, tokenB, feeTier });
-    setCurrentTab('step2');
-  }, []);
+  // const handleSubmitStepOne = useCallback((tokenA: string, tokenB: string, feeTier: string) => {
+  //   console.log({ tokenA, tokenB, feeTier });
+  //   setCurrentTab('step2');
+  // }, []);
 
-  const handleSubmitStepTwo = useCallback((tokenA: string, tokenB: string, feeTier: string) => {
-    console.log({ tokenA, tokenB, feeTier });
-    setCurrentTab('step3');
-  }, []);
+  // const handleSubmitStepTwo = useCallback((tokenA: string, tokenB: string, feeTier: string) => {
+  //   console.log({ tokenA, tokenB, feeTier });
+  //   setCurrentTab('step3');
+  // }, []);
 
-  const handleReset = () => {
-    setCurrentTab('step1');
-  };
+  // const handleReset = () => {
+  //   setCurrentTab('step1');
+  // };
 
   return (
-    <Container maxWidth="xl">
+    <DashboardContent maxWidth="xl">
       <CustomBreadcrumbs
-        // heading={<Trans>Account</Trans>}
+        heading={'Liquidity'}
         links={[
-          { name: <Trans>Your positions</Trans>, href: paths.home },
-          { name: <Trans>New position</Trans>, href: paths.home },
+          { name: 'Your positions', href: paths.overview },
+          { name: 'New position', href: paths.overview },
         ]}
         sx={{
           mb: { xs: 3, md: 5 },
         }}
       />
-      <PageHeader title={<Trans>New position</Trans>} />
+      {/* <PageHeader title={<Trans>New position</Trans>} />
       <Stack
         flexGrow={1}
         spacing={1.5}
@@ -132,7 +129,7 @@ export default function CreateLiquidityPositionView() {
             </>
           )}
         </Grid>
-      </Grid>
-    </Container>
+      </Grid> */}
+    </DashboardContent>
   );
 }
