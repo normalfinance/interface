@@ -100,7 +100,7 @@ export default function OverviewView() {
         </Grid2>
 
         <Grid2 size={{ xs: 12, md: 4 }}>
-          <AssetsAndLiabilities title="Assets" list={_appRelated} />
+          <AssetsAndLiabilities title="Assets & Liabilities" list={_appRelated} />
         </Grid2>
       </Grid2>
     </DashboardContent>
