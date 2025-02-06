@@ -7,7 +7,7 @@ import { useIsClient } from 'minimal-shared/hooks';
 import Skeleton from '@mui/material/Skeleton';
 import { styled } from '@mui/material/styles';
 
-import { CONFIG } from 'src/config-global';
+import { CONFIG } from '@/global-config';
 
 // ----------------------------------------------------------------------
 

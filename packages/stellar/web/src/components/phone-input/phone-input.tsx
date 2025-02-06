@@ -11,7 +11,7 @@ import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import { inputBaseClasses } from '@mui/material/InputBase';
 
-import { countries } from 'src/assets/data/countries';
+import { countries } from '@/assets/illustrations/data';
 
 import { Iconify } from '../iconify';
 import { CountryListPopover } from './list-popover';

@@ -8,6 +8,7 @@ import { TradingVolume } from '@/components/_overview-page-components/trading-vo
 import { useTheme } from '@mui/material/styles';
 import { Stack, Typography } from '@mui/material';
 import { Markets } from '@/components/_overview-page-components/markets/markets';
+import { MarketTable } from '@/components/_overview-page-components/market-table/market-table';
 
 export default function OverviewView() {
   const theme = useTheme();
@@ -183,6 +184,10 @@ export default function OverviewView() {
         <Grid2 size={{ xs: 12, md: 4 }}>
           <Markets id="top_gainer_markets" title="Top Gainer Markets" list={_markets} />
         </Grid2>
+      </Grid2>
+      {/* Fourth row: Markets table */}
+      <Grid2 sx={{ mt: 3 }}>
+        <MarketTable />
       </Grid2>
     </DashboardContent>
   );

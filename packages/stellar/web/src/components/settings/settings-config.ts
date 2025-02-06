@@ -1,4 +1,4 @@
-import { CONFIG } from 'src/config-global';
+import { CONFIG } from '@/global-config';
 import { themeConfig } from 'src/theme/theme-config';
 
 import type { SettingsState } from './types';
