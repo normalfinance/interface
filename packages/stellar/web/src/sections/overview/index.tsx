@@ -13,80 +13,6 @@ import { MarketTable } from '@/components/_overview-page-components/market-table
 export default function OverviewView() {
   const theme = useTheme();
 
-  // PortfolioValue tmp props in array form
-  const _portfolioValueItems = [
-    {
-      id: 'portfolio_value',
-      title: 'Portfolio Value',
-      legendValues: [5344, 6789],
-      chart: {
-        // Global fallback categories (not used if series provide their own)
-        categories: [],
-        series: [
-          {
-            name: '24h',
-            categories: [
-              '00:00',
-              '01:00',
-              '02:00',
-              '03:00',
-              '04:00',
-              '05:00',
-              '06:00',
-              '07:00',
-              '08:00',
-              '09:00',
-              '10:00',
-              '11:00',
-              '12:00',
-              '13:00',
-              '14:00',
-              '15:00',
-              '16:00',
-              '17:00',
-              '18:00',
-              '19:00',
-              '20:00',
-              '21:00',
-              '22:00',
-              '23:00',
-            ],
-            data: [
-              {
-                name: 'Balance',
-                data: [
-                  10, 41, 35, 51, 49, 62, 69, 91, 148, 35, 51, 49, 20, 30, 40, 50, 60, 70, 80, 90,
-                  100, 110, 120, 130,
-                ],
-              },
-            ],
-          },
-          {
-            name: '7d',
-            categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-            data: [
-              {
-                name: 'Balance',
-                data: [51, 35, 41, 10, 91, 69, 62],
-              },
-            ],
-          },
-          {
-            name: '30d',
-            categories: Array.from({ length: 30 }, (_, i) => `Day ${i + 1}`),
-            data: [
-              {
-                name: 'Balance',
-                data: Array.from({ length: 30 }, (_, i) => i * 10 + 5),
-              },
-            ],
-          },
-        ],
-      },
-    },
-    // If you have more PortfolioValue items, you can add them here
-  ];
-
   //  AssetsAndLiabilities tmp props
   const _appRelated = [
     {
@@ -145,18 +71,9 @@ export default function OverviewView() {
       {/* First row: PortfolioValue/AssetsAndLiabilities */}
       <Grid2 container spacing={3} sx={{ mt: 3 }}>
         <Grid2 size={{ xs: 12, md: 8 }}>
-          {/* Map over _portfolioValueItems */}
-          {_portfolioValueItems.map((pvItem) => (
-            <PortfolioValue
-              key={pvItem.id}
-              id={pvItem.id}
-              title={pvItem.title}
-              legendValues={pvItem.legendValues}
-              chart={pvItem.chart}
-            />
-          ))}
+          {/* in chart-series.ts */}
+          <PortfolioValue id="portfolio_value" title="Portfolio Value" />
         </Grid2>
-
         <Grid2 size={{ xs: 12, md: 4 }}>
           <AssetsAndLiabilities title="Assets & Liabilities" list={_appRelated} />
         </Grid2>
