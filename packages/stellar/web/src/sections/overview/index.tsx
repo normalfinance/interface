@@ -7,10 +7,12 @@ import { DashboardContent } from '@/layouts/dashboard';
 import { TradingVolume } from '@/components/_overview-page-components/trading-volume/trading-volume';
 import { useTheme } from '@mui/material/styles';
 import { Stack, Typography } from '@mui/material';
+import { Markets } from '@/components/_overview-page-components/markets/markets';
 
 export default function OverviewView() {
   const theme = useTheme();
 
+  //  AssetsAndLiabilities tmp props
   const _appRelated = [
     {
       id: '1',
@@ -24,9 +26,36 @@ export default function OverviewView() {
     },
   ];
 
-  // Define dynamic balance values (for example, current balance and secondary metric)
-  // These values will be formatted (e.g. "5.00k" if using fShortenNumber)
+  // PortfolioValue tmp props
   const legendValues = [5344, 6789];
+
+  // Markets tmp props
+  const _markets = [
+    {
+      id: '1',
+      name: 'BTC-SOL',
+      coverUrl: 'https://upload.wikimedia.org/wikipedia/commons/4/46/Bitcoin.svg',
+      price: 1.69,
+      percentage: -2.5,
+      url: '/markets/btc-sol',
+    },
+    {
+      id: '2',
+      name: 'ETH-SOL',
+      coverUrl: 'https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg',
+      price: 55.47,
+      percentage: 5.2323425,
+      url: '/markets/eth-sol',
+    },
+    {
+      id: '3',
+      name: 'XRP-SOL',
+      coverUrl: 'https://cryptologos.cc/logos/xrp-xrp-logo.svg?v=040',
+      price: 93.1,
+      percentage: 3.1,
+      url: '/markets/xrp-sol',
+    },
+  ];
 
   return (
     <DashboardContent maxWidth="xl">
@@ -38,10 +67,11 @@ export default function OverviewView() {
           Account Overview
         </Typography>
       </Stack>
+      {/* First row: PortfolioValue/AssetsAndLiabilities */}
       <Grid2 container spacing={3} sx={{ mt: 3 }}>
         <Grid2 size={{ xs: 12, md: 8 }}>
           <PortfolioValue
-            id="demo__4"
+            id="portfolio_value"
             title="Portfolio Value"
             legendValues={legendValues}
             chart={{
@@ -110,12 +140,10 @@ export default function OverviewView() {
             }}
           />
         </Grid2>
-
         <Grid2 size={{ xs: 12, md: 4 }}>
           <AssetsAndLiabilities title="Assets & Liabilities" list={_appRelated} />
         </Grid2>
       </Grid2>
-
       {/* Second row: TradingVolume items */}
       <Grid2 container spacing={3} sx={{ mt: 3 }}>
         <Grid2 size={{ xs: 12, md: 4 }}>
@@ -126,6 +154,18 @@ export default function OverviewView() {
         </Grid2>
         <Grid2 size={{ xs: 12, md: 4 }}>
           <TradingVolume title="Total Value Locked" percent={0.6} total={883470000} />
+        </Grid2>
+      </Grid2>
+      {/* Third row: Markets items */}
+      <Grid2 container spacing={3} sx={{ mt: 3 }}>
+        <Grid2 size={{ xs: 12, md: 4 }}>
+          <Markets id="new_markets" title="New Markets" list={_markets} />
+        </Grid2>
+        <Grid2 size={{ xs: 12, md: 4 }}>
+          <Markets id="trending_markets" title="Trending Markets" list={_markets} />
+        </Grid2>
+        <Grid2 size={{ xs: 12, md: 4 }}>
+          <Markets id="top_gainer_markets" title="Top Gainer Markets" list={_markets} />
         </Grid2>
       </Grid2>
     </DashboardContent>
