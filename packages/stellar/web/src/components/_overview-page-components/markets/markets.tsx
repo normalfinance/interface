@@ -38,7 +38,7 @@ export function Markets({ title, subheader, list, sx, ...other }: Props) {
           sx={{
             p: 3,
             gap: 3,
-            minWidth: 360,
+            minWidth: 240,
             display: 'flex',
             flexDirection: 'column',
           }}

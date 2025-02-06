@@ -27,9 +27,6 @@ export default function OverviewView() {
     },
   ];
 
-  // PortfolioValue tmp props
-  const legendValues = [5344, 6789];
-
   // Markets tmp props
   const _markets = [
     {
