@@ -1,6 +1,7 @@
 'use client';
 
 import type { CardProps } from '@mui/material/Card';
+import type { RealtimeChartData } from 'src/utils/portfolio-value-chart-series';
 
 import { useState, useCallback } from 'react';
 import Card from '@mui/material/Card';
@@ -10,22 +11,24 @@ import CardHeader from '@mui/material/CardHeader';
 import { fShortenNumber } from 'src/utils/format-number';
 import { Chart, ChartSelect, ChartLegends, useChart } from 'src/components/chart';
 
-// Import realtime chart data generator from our helper.
-import { getRealtimeChartData } from 'src/utils/portfolio-value-chart-series';
-
 type Props = CardProps & {
   title?: string;
   subheader?: string;
-  // Legend values represent current balance or related metrics.
   legendValues?: number[];
+  // chart is an object with keys for each timeframe.
+  chart: {
+    '24h': RealtimeChartData;
+    '7d': RealtimeChartData;
+    '30d': RealtimeChartData;
+  };
 };
 
-export function PortfolioValue({ title, subheader, legendValues, sx, ...other }: Props) {
+export function PortfolioValue({ title, subheader, legendValues, chart, sx, ...other }: Props) {
   const theme = useTheme();
   const [selectedSeries, setSelectedSeries] = useState<'24h' | '7d' | '30d'>('24h');
 
-  // Generate realtime chart data for the selected timeframe.
-  const realtimeData = getRealtimeChartData(selectedSeries);
+  // Get the realtime data corresponding to the selected timeframe.
+  const realtimeData = chart[selectedSeries];
 
   // Build chart options.
   const chartOptions = useChart({
@@ -64,16 +67,11 @@ export function PortfolioValue({ title, subheader, legendValues, sx, ...other }:
 
       <ChartLegends
         colors={chartOptions?.colors}
-        // Legend labels from the realtime data's series data items.
         labels={realtimeData.series[0].data.map((item) => item.name)}
-        // Legend values: if provided, format them; otherwise, use the current balance.
         values={
           legendValues
             ? legendValues.map((v) => fShortenNumber(v))
-            : [
-                // Get the last value from the generated data:
-                fShortenNumber(realtimeData.series[0].data[0].data.slice(-1)[0]),
-              ]
+            : [fShortenNumber(realtimeData.series[0].data[0].data.slice(-1)[0])]
         }
         sx={{ px: 3, gap: 3 }}
       />

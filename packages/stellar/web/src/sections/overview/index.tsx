@@ -9,11 +9,63 @@ import { useTheme } from '@mui/material/styles';
 import { Stack, Typography } from '@mui/material';
 import { Markets } from '@/components/_overview-page-components/markets/markets';
 import { MarketTable } from '@/components/_overview-page-components/market-table/market-table';
+import { createChartData, RealtimeChartData } from 'src/utils/portfolio-value-chart-series';
 
 export default function OverviewView() {
   const theme = useTheme();
 
-  //  AssetsAndLiabilities tmp props
+  // -------------------------
+  // Hardcoded chart data arrays and current balance.
+  // -------------------------
+
+  const data24h = [
+    3444, 3600, 3750, 3900, 4100, 4300, 4500, 4700, 4900, 5200, 5400, 5500, 5650, 5800, 6000, 6200,
+    6400, 6600, 6800, 7000, 7200, 7300, 7320, 7334,
+  ];
+
+  const data7d = [3444, 4000, 4800, 5200, 5800, 6800, 7334];
+
+  const data30d = [
+    3444, 3500, 3600, 3700, 3800, 3900, 4000, 4200, 4300, 4400, 4500, 4600, 4800, 5000, 5200, 5400,
+    5600, 5800, 6000, 6200, 6400, 6600, 6800, 7000, 7100, 7200, 7250, 7300, 7320, 7330, 7334,
+  ];
+
+  // Generate x-axis labels dynamically.
+  // For 24h: hourly labels ("00:00", "01:00", ..., "23:00")
+  const categories24h = Array.from({ length: 24 }, (_, i) => i.toString().padStart(2, '0') + ':00');
+
+  // For 7d: generate 7 labels based on the past 7 days.
+  // The last label will be today's weekday.
+  const categories7d = Array.from({ length: 7 }, (_, i) => {
+    const d = new Date();
+    // i=0: 6 days ago, i=6: today.
+    d.setDate(d.getDate() - (6 - i));
+    return d.toLocaleDateString('en-US', { weekday: 'short' });
+  });
+
+  // For 30d: generate 31 labels, where the last label is today's date (e.g., "Aug 24").
+  const categories30d = Array.from({ length: 31 }, (_, i) => {
+    const d = new Date();
+    // i=0: 30 days ago, i=30: today.
+    d.setDate(d.getDate() - (30 - i));
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  });
+
+  // Create chart data objects using our helper.
+  const chartData24h = createChartData('24h', data24h, categories24h, 8);
+  const chartData7d = createChartData('7d', data7d, categories7d, 7);
+  const chartData30d = createChartData('30d', data30d, categories30d, 8);
+
+  // Combine chart data into one object.
+  const portfolioChartData: { [key in '24h' | '7d' | '30d']: RealtimeChartData } = {
+    '24h': chartData24h,
+    '7d': chartData7d,
+    '30d': chartData30d,
+  };
+
+  // -------------------------
+  // Other temporary props.
+  // -------------------------
   const _appRelated = [
     {
       id: '1',
@@ -27,7 +79,6 @@ export default function OverviewView() {
     },
   ];
 
-  // TradingVolume data array with titles.
   const tradingVolumeData = [
     {
       title: 'Total 24h Trading Volume',
@@ -46,7 +97,6 @@ export default function OverviewView() {
     },
   ];
 
-  // Markets tmp props
   const _markets = [
     {
       id: '1',
@@ -74,7 +124,6 @@ export default function OverviewView() {
     },
   ];
 
-  // Markets with titles
   const marketGroups = [
     { id: 'new_markets', title: 'New Markets', list: _markets },
     { id: 'trending_markets', title: 'Trending Markets', list: _markets },
@@ -94,8 +143,12 @@ export default function OverviewView() {
       {/* First row: PortfolioValue/AssetsAndLiabilities */}
       <Grid2 container spacing={3} sx={{ mt: 3 }}>
         <Grid2 size={{ xs: 12, md: 8 }}>
-          {/* props are in utils/portfolio-value-chart-series.ts */}
-          <PortfolioValue id="portfolio_value" title="Portfolio Value" />
+          <PortfolioValue
+            id="portfolio_value"
+            title="Portfolio Value"
+            chart={portfolioChartData}
+            legendValues={[chartData24h.series[0].data[0].data.slice(-1)[0]]}
+          />
         </Grid2>
         <Grid2 size={{ xs: 12, md: 4 }}>
           <AssetsAndLiabilities title="Assets & Liabilities" list={_appRelated} />
