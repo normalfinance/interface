@@ -58,7 +58,7 @@ function formatMonthDay(date: Date): string {
  * The tickAmount property is used to sample the x-axis labels (to avoid overcrowding).
  */
 export function getRealtimeChartData(timeframe: '24h' | '7d' | '30d'): RealtimeChartData {
-  const currentBalance = 6334; // Hardcoded current balance.
+  const currentBalance = 7334; // Hardcoded current balance.
   const now = new Date();
 
   if (timeframe === '24h') {

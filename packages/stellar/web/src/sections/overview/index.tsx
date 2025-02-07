@@ -27,6 +27,25 @@ export default function OverviewView() {
     },
   ];
 
+  // TradingVolume data array with titles.
+  const tradingVolumeData = [
+    {
+      title: 'Total 24h Trading Volume',
+      percent: 0.6,
+      total: 212350000,
+    },
+    {
+      title: 'Total 30d Trading Volume',
+      percent: -80.6,
+      total: 5690000000,
+    },
+    {
+      title: 'Total Value Locked',
+      percent: 0.6,
+      total: 883470000,
+    },
+  ];
+
   // Markets tmp props
   const _markets = [
     {
@@ -55,6 +74,13 @@ export default function OverviewView() {
     },
   ];
 
+  // Markets with titles
+  const marketGroups = [
+    { id: 'new_markets', title: 'New Markets', list: _markets },
+    { id: 'trending_markets', title: 'Trending Markets', list: _markets },
+    { id: 'top_gainer_markets', title: 'Top Gainer Markets', list: _markets },
+  ];
+
   return (
     <DashboardContent maxWidth="xl">
       <Stack spacing={1}>
@@ -68,7 +94,7 @@ export default function OverviewView() {
       {/* First row: PortfolioValue/AssetsAndLiabilities */}
       <Grid2 container spacing={3} sx={{ mt: 3 }}>
         <Grid2 size={{ xs: 12, md: 8 }}>
-          {/* in chart-series.ts */}
+          {/* props are in utils/portfolio-value-chart-series.ts */}
           <PortfolioValue id="portfolio_value" title="Portfolio Value" />
         </Grid2>
         <Grid2 size={{ xs: 12, md: 4 }}>
@@ -77,27 +103,19 @@ export default function OverviewView() {
       </Grid2>
       {/* Second row: TradingVolume items */}
       <Grid2 container spacing={3} sx={{ mt: 3 }}>
-        <Grid2 size={{ xs: 12, md: 4 }}>
-          <TradingVolume title="Total 24h Trading Volume" percent={0.6} total={212350000} />
-        </Grid2>
-        <Grid2 size={{ xs: 12, md: 4 }}>
-          <TradingVolume title="Total 30d Trading Volume" percent={-80.6} total={5690000000} />
-        </Grid2>
-        <Grid2 size={{ xs: 12, md: 4 }}>
-          <TradingVolume title="Total Value Locked" percent={0.6} total={883470000} />
-        </Grid2>
+        {tradingVolumeData.map((item, index) => (
+          <Grid2 key={index} size={{ xs: 12, md: 4 }}>
+            <TradingVolume title={item.title} percent={item.percent} total={item.total} />
+          </Grid2>
+        ))}
       </Grid2>
       {/* Third row: Markets items */}
       <Grid2 container spacing={3} sx={{ mt: 3 }}>
-        <Grid2 size={{ xs: 12, md: 4 }}>
-          <Markets id="new_markets" title="New Markets" list={_markets} />
-        </Grid2>
-        <Grid2 size={{ xs: 12, md: 4 }}>
-          <Markets id="trending_markets" title="Trending Markets" list={_markets} />
-        </Grid2>
-        <Grid2 size={{ xs: 12, md: 4 }}>
-          <Markets id="top_gainer_markets" title="Top Gainer Markets" list={_markets} />
-        </Grid2>
+        {marketGroups.map((group) => (
+          <Grid2 key={group.id} size={{ xs: 12, md: 4 }}>
+            <Markets id={group.id} title={group.title} list={group.list} />
+          </Grid2>
+        ))}
       </Grid2>
       {/* Fourth row: Markets table */}
       <Grid2 sx={{ mt: 3 }}>

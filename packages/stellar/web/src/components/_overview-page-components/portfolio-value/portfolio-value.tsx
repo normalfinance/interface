@@ -24,7 +24,7 @@ export function PortfolioValue({ title, subheader, legendValues, sx, ...other }:
   const theme = useTheme();
   const [selectedSeries, setSelectedSeries] = useState<'24h' | '7d' | '30d'>('24h');
 
-  // Generate realtime chart data (hardcoded swinging values) for the selected timeframe.
+  // Generate realtime chart data for the selected timeframe.
   const realtimeData = getRealtimeChartData(selectedSeries);
 
   // Build chart options.
