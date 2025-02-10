@@ -168,6 +168,7 @@ export function MarketTable() {
           ))}
         </Tabs>
 
+        {/************ SEARCHBAR IN THERE *************/}
         <UserTableToolbar
           filters={filters}
           onResetPage={table.onResetPage}
@@ -184,27 +185,9 @@ export function MarketTable() {
         )}
 
         <Box sx={{ position: 'relative' }}>
-          <TableSelectedAction
-            dense={table.dense}
-            numSelected={table.selected.length}
-            rowCount={dataFiltered.length}
-            onSelectAllRows={(checked) =>
-              table.onSelectAllRows(
-                checked,
-                dataFiltered.map((row) => row.id)
-              )
-            }
-            action={
-              <Tooltip title="Delete">
-                <IconButton color="primary" onClick={confirmDialog.onTrue}>
-                  <Iconify icon="solar:trash-bin-trash-bold" />
-                </IconButton>
-              </Tooltip>
-            }
-          />
-
           <Scrollbar>
             <Table size={table.dense ? 'small' : 'medium'} sx={{ minWidth: 960 }}>
+              {/**************** TABLE HEAD HERE *******************/}
               <TableHeadCustom
                 order={table.order}
                 orderBy={table.orderBy}
