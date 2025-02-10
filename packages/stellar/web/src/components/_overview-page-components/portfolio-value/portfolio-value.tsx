@@ -1,6 +1,7 @@
 'use client';
 
 import type { CardProps } from '@mui/material/Card';
+import type { ChartOptions } from 'src/components/chart';
 import type { RealtimeChartData } from 'src/utils/portfolio-value-chart-series';
 
 import { useState, useCallback } from 'react';
@@ -15,7 +16,7 @@ type Props = CardProps & {
   title?: string;
   subheader?: string;
   legendValues?: number[];
-  // chart is an object with keys for each timeframe.
+  // Chart prop holds realtime chart data for each timeframe.
   chart: {
     '24h': RealtimeChartData;
     '7d': RealtimeChartData;
@@ -27,10 +28,8 @@ export function PortfolioValue({ title, subheader, legendValues, chart, sx, ...o
   const theme = useTheme();
   const [selectedSeries, setSelectedSeries] = useState<'24h' | '7d' | '30d'>('24h');
 
-  // Get the realtime data corresponding to the selected timeframe.
   const realtimeData = chart[selectedSeries];
 
-  // Build chart options.
   const chartOptions = useChart({
     colors: [theme.palette.primary.main],
     xaxis: {

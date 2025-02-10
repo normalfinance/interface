@@ -15,46 +15,22 @@ export default function OverviewView() {
   const theme = useTheme();
 
   // -------------------------
-  // Hardcoded chart data arrays and current balance.
+  // Hardcoded chart data arrays.
   // -------------------------
-
   const data24h = [
     3444, 3600, 3750, 3900, 4100, 4300, 4500, 4700, 4900, 5200, 5400, 5500, 5650, 5800, 6000, 6200,
     6400, 6600, 6800, 7000, 7200, 7300, 7320, 7334,
   ];
-
-  const data7d = [3444, 4000, 4800, 5200, 5800, 6800, 7334];
-
+  const data7d = [3444, 4000, 4800, 8200, 5800, 6800, 7334];
   const data30d = [
     3444, 3500, 3600, 3700, 3800, 3900, 4000, 4200, 4300, 4400, 4500, 4600, 4800, 5000, 5200, 5400,
     5600, 5800, 6000, 6200, 6400, 6600, 6800, 7000, 7100, 7200, 7250, 7300, 7320, 7330, 7334,
   ];
 
-  // Generate x-axis labels dynamically.
-  // For 24h: hourly labels ("00:00", "01:00", ..., "23:00")
-  const categories24h = Array.from({ length: 24 }, (_, i) => i.toString().padStart(2, '0') + ':00');
-
-  // For 7d: generate 7 labels based on the past 7 days.
-  // The last label will be today's weekday.
-  const categories7d = Array.from({ length: 7 }, (_, i) => {
-    const d = new Date();
-    // i=0: 6 days ago, i=6: today.
-    d.setDate(d.getDate() - (6 - i));
-    return d.toLocaleDateString('en-US', { weekday: 'short' });
-  });
-
-  // For 30d: generate 31 labels, where the last label is today's date (e.g., "Aug 24").
-  const categories30d = Array.from({ length: 31 }, (_, i) => {
-    const d = new Date();
-    // i=0: 30 days ago, i=30: today.
-    d.setDate(d.getDate() - (30 - i));
-    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-  });
-
   // Create chart data objects using our helper.
-  const chartData24h = createChartData('24h', data24h, categories24h, 8);
-  const chartData7d = createChartData('7d', data7d, categories7d, 7);
-  const chartData30d = createChartData('30d', data30d, categories30d, 8);
+  const chartData24h: RealtimeChartData = createChartData('24h', data24h, 8);
+  const chartData7d: RealtimeChartData = createChartData('7d', data7d, 7);
+  const chartData30d: RealtimeChartData = createChartData('30d', data30d, 8);
 
   // Combine chart data into one object.
   const portfolioChartData: { [key in '24h' | '7d' | '30d']: RealtimeChartData } = {
