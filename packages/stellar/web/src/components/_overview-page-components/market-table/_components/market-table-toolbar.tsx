@@ -1,5 +1,4 @@
 import type { IMarketTableFilters } from 'src/types/marketTable';
-import type { SelectChangeEvent } from '@mui/material/Select';
 import type { UseSetStateReturn } from 'minimal-shared/hooks';
 
 import { useCallback } from 'react';
@@ -24,17 +23,6 @@ export function MarketTableToolbar({ filters, onResetPage }: Props) {
     (event: React.ChangeEvent<HTMLInputElement>) => {
       onResetPage();
       updateFilters({ name: event.target.value });
-    },
-    [onResetPage, updateFilters]
-  );
-
-  const handleFilterRole = useCallback(
-    (event: SelectChangeEvent<string[]>) => {
-      const newValue =
-        typeof event.target.value === 'string' ? event.target.value.split(',') : event.target.value;
-
-      onResetPage();
-      updateFilters({ role: newValue });
     },
     [onResetPage, updateFilters]
   );
