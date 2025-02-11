@@ -1,7 +1,7 @@
 'use client';
 
 import type { TableHeadCellProps } from 'src/components/table';
-import type { IUserItem, IUserTableFilters } from 'src/types/user';
+import type { IUserTableFilters } from 'src/types/user';
 
 import { useState, useCallback } from 'react';
 import { varAlpha } from 'minimal-shared/utils';
