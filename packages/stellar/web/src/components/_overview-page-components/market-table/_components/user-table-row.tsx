@@ -10,6 +10,7 @@ import { useTheme } from '@mui/material/styles';
 import { RouterLink } from 'src/routes/components';
 import { Label } from 'src/components/label';
 import { Icon } from '@iconify/react';
+import { useRouter } from 'next/navigation';
 
 type Props = {
   row: Market;
@@ -19,11 +20,29 @@ type Props = {
   onDeleteRow: () => void;
 };
 
+import { LabelColor } from 'src/components/label';
+import { fCurrency, fPercent } from '@/utils/format-number';
+
+const statusColorMapping: Record<string, LabelColor> = {
+  trending: 'info',
+  new: 'primary',
+  meme: 'warning',
+  rwa: 'error',
+  // fallback if needed
+  default: 'default',
+};
+
 export function UserTableRow({ row, selected, editHref, onSelectRow, onDeleteRow }: Props) {
   const theme = useTheme();
+  const router = useRouter();
 
   return (
-    <TableRow hover selected={selected} onClick={onSelectRow} sx={{ cursor: 'pointer' }}>
+    <TableRow
+      hover
+      selected={selected}
+      sx={{ cursor: 'pointer' }}
+      onClick={() => router.push(row.url)}
+    >
       {/* Name with avatar */}
       <TableCell>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -35,17 +54,17 @@ export function UserTableRow({ row, selected, editHref, onSelectRow, onDeleteRow
       </TableCell>
 
       {/* Price */}
-      <TableCell sx={{ whiteSpace: 'nowrap' }}>{row.price}</TableCell>
+      <TableCell sx={{ whiteSpace: 'nowrap' }}>{fCurrency(row.price)}</TableCell>
 
       {/* Percentage Change */}
-      <TableCell sx={{ whiteSpace: 'nowrap' }}>{row.percentageChange}%</TableCell>
+      <TableCell sx={{ whiteSpace: 'nowrap' }}>{fPercent(row.percentageChange)}</TableCell>
 
       {/* Performance */}
       <TableCell sx={{ whiteSpace: 'nowrap' }}>{row.performance}</TableCell>
 
       {/* Status */}
       <TableCell>
-        <Label variant="soft" color={row.status === 'active' ? 'success' : 'default'}>
+        <Label variant="soft" color={statusColorMapping[row.status] || 'default'}>
           {row.status}
         </Label>
       </TableCell>

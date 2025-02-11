@@ -104,34 +104,17 @@ export default function OverviewView() {
   ];
 
   // -------------------------
-  // Hardcoded _userList (simulate fetched user data)
+  // Hardcoded marketList (simulate fetched user data)
   // -------------------------
-  const _userList = Array.from({ length: 20 }, (_, index) => ({
-    id: `${index}`,
-    role: 'user',
-    email: `user${index}@example.com`,
-    address: '123 Main St',
-    name: `User ${index}`,
-    isVerified: index % 2 === 0,
-    company: 'Example Corp',
-    country: 'USA',
-    city: 'Sample City',
-    state: 'Sample State',
-    zipCode: '12345',
-    avatarUrl: `https://i.pravatar.cc/150?img=${index}`,
-    phoneNumber: '123-456-7890',
-    status:
-      (index % 2 && 'pending') || (index % 3 && 'banned') || (index % 4 && 'rejected') || 'active',
-  }));
 
   const allMarkets = [
     {
       id: '1',
       name: 'BTC-SOL',
-      price: 1531.32,
+      price: 1531.34325346456,
       percentageChange: 4.5,
       performance: 'CEO',
-      status: 'active',
+      status: 'trending',
       avatarUrl: 'https://upload.wikimedia.org/wikipedia/commons/4/46/Bitcoin.svg',
       url: '/markets/btc-sol',
     },
@@ -141,7 +124,7 @@ export default function OverviewView() {
       price: 531.32,
       percentageChange: 2.5,
       performance: 'CEO',
-      status: 'active',
+      status: 'meme',
       avatarUrl: 'https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg',
       url: '/markets/btc-sol',
     },
@@ -151,7 +134,7 @@ export default function OverviewView() {
       price: 731.32,
       percentageChange: -2.5,
       performance: 'CEO',
-      status: 'active',
+      status: 'rwa',
       avatarUrl: 'https://cryptologos.cc/logos/xrp-xrp-logo.svg?v=040',
       url: '/markets/btc-sol',
     },

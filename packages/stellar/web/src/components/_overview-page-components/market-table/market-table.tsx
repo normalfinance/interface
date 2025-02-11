@@ -33,7 +33,7 @@ import {
   TablePaginationCustom,
 } from 'src/components/table';
 
-import { Label } from 'src/components/label';
+import { Label, LabelColor } from 'src/components/label';
 import { _roles, _userList, USER_STATUS_OPTIONS } from 'src/_mock';
 import { UserTableRow } from './_components/user-table-row';
 import { UserTableToolbar } from './_components/user-table-toolbar';
@@ -45,10 +45,10 @@ import { UserTableFiltersResult } from './_components/user-table-filters-result'
 
 const TABLE_HEAD: TableHeadCellProps[] = [
   { id: 'name', label: 'Name' },
-  { id: 'price', label: 'Price', width: 180 },
-  { id: 'percentageChange', label: 'Change (%)', width: 220 },
-  { id: 'performance', label: 'Performance', width: 180 },
-  { id: 'status', label: 'Status', width: 100 },
+  { id: 'price', label: 'Price' },
+  { id: 'percentageChange', label: 'Change (%)' },
+  { id: 'performance', label: 'Performance' },
+  { id: 'status' },
   { id: '', width: 88 },
 ];
 
@@ -67,9 +67,20 @@ export interface Market {
 // ─── Define status options (adjust as needed) ─────────────────────────────
 const STATUS_OPTIONS = [
   { value: 'all', label: 'All' },
-  { value: 'active', label: 'Active' },
-  // You can add more statuses if your market data supports them.
+  { value: 'trending', label: 'Trending' },
+  { value: 'new', label: 'New' },
+  { value: 'meme', label: 'Meme' },
+  { value: 'rwa', label: 'RWA' },
 ];
+
+// Mapping between status values and colors
+const statusColorMapping: Record<string, LabelColor> = {
+  trending: 'info',
+  new: 'primary',
+  meme: 'warning',
+  rwa: 'error',
+  all: 'default',
+};
 
 export type MarketTableProps = {
   markets: Market[];
@@ -175,14 +186,15 @@ export function MarketTable({ markets }: MarketTableProps) {
                     'soft'
                   }
                   color={
-                    (tab.value === 'active' && 'success') ||
-                    (tab.value === 'pending' && 'warning') ||
-                    (tab.value === 'banned' && 'error') ||
+                    (tab.value === 'trending' && 'info') ||
+                    (tab.value === 'new' && 'primary') ||
+                    (tab.value === 'meme' && 'warning') ||
+                    (tab.value === 'rwa' && 'error') ||
                     'default'
                   }
                 >
-                  {['active', 'pending', 'banned', 'rejected'].includes(tab.value)
-                    ? tableData.filter((user) => user.status === tab.value).length
+                  {['trending', 'new', 'meme', 'rwa'].includes(tab.value)
+                    ? tableData.filter((market) => market.status === tab.value).length
                     : tableData.length}
                 </Label>
               }
