@@ -10,24 +10,33 @@ export type RealtimeChartData = {
 };
 
 /**
- * Helper to generate x-axis categories based on the timeframe.
- * - "24h": returns ["00:00", "01:00", …, "23:00"].
- * - "7d": returns an array of 7 abbreviated weekday names, with the last being today's weekday.
- * - "30d": returns an array of 31 labels with dates (e.g., "Aug 24") where the last label is today.
+ * Generates x-axis categories based on the timeframe.
+ * - "24h": returns an array of 24 hourly labels, where the last label is the current hour.
+ * - "7d": returns an array of 7 abbreviated weekday names (the last label is today’s weekday).
+ * - "30d": returns an array of 31 date labels (e.g., "Aug 24"), with the last label being today.
  */
 function getCategories(timeframe: '24h' | '7d' | '30d'): string[] {
   const now = new Date();
   if (timeframe === '24h') {
-    return Array.from({ length: 24 }, (_, i) => i.toString().padStart(2, '0') + ':00');
+    // Generate 24 hourly labels such that the last label is the current hour.
+    const currentHour = now.getHours();
+    return Array.from({ length: 24 }, (_, i) => {
+      // For i = 0, we want the label for currentHour - 23 (with wrap-around)
+      // For i = 23, we want the label for currentHour.
+      const hour = (currentHour - 23 + i + 24) % 24;
+      return hour.toString().padStart(2, '0') + ':00';
+    });
   } else if (timeframe === '7d') {
     return Array.from({ length: 7 }, (_, i) => {
       const d = new Date();
+      // For i = 0, label is for 6 days ago; for i = 6, label is today.
       d.setDate(d.getDate() - (6 - i));
       return d.toLocaleDateString('en-US', { weekday: 'short' });
     });
   } else if (timeframe === '30d') {
     return Array.from({ length: 31 }, (_, i) => {
       const d = new Date();
+      // For i = 0, label is for 30 days ago; for i = 30, label is today.
       d.setDate(d.getDate() - (30 - i));
       return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
     });
@@ -40,7 +49,7 @@ function getCategories(timeframe: '24h' | '7d' | '30d'): string[] {
  * @param timeframe - one of '24h', '7d', or '30d'
  * @param data - array of numbers representing the balance over time
  * @param tickAmount - number of x-axis labels to display
- * @returns RealtimeChartData object
+ * @returns a RealtimeChartData object.
  */
 export function createChartData(
   timeframe: '24h' | '7d' | '30d',
