@@ -5,15 +5,12 @@ import { AssetsAndLiabilities } from '@/components/_overview-page-components/ass
 import { PortfolioValue } from '@/components/_overview-page-components/portfolio-value/portfolio-value';
 import { DashboardContent } from '@/layouts/dashboard';
 import { TradingVolume } from '@/components/_overview-page-components/trading-volume/trading-volume';
-import { useTheme } from '@mui/material/styles';
 import { Stack, Typography } from '@mui/material';
 import { Markets } from '@/components/_overview-page-components/markets/markets';
 import { MarketTable } from '@/components/_overview-page-components/market-table/market-table';
 import { createChartData, RealtimeChartData } from 'src/utils/portfolio-value-chart-series';
 
 export default function OverviewView() {
-  const theme = useTheme();
-
   // -------------------------
   // Hardcoded chart data arrays.
   // -------------------------
@@ -106,6 +103,60 @@ export default function OverviewView() {
     { id: 'top_gainer_markets', title: 'Top Gainer Markets', list: _markets },
   ];
 
+  // -------------------------
+  // Hardcoded _userList (simulate fetched user data)
+  // -------------------------
+  const _userList = Array.from({ length: 20 }, (_, index) => ({
+    id: `${index}`,
+    role: 'user',
+    email: `user${index}@example.com`,
+    address: '123 Main St',
+    name: `User ${index}`,
+    isVerified: index % 2 === 0,
+    company: 'Example Corp',
+    country: 'USA',
+    city: 'Sample City',
+    state: 'Sample State',
+    zipCode: '12345',
+    avatarUrl: `https://i.pravatar.cc/150?img=${index}`,
+    phoneNumber: '123-456-7890',
+    status:
+      (index % 2 && 'pending') || (index % 3 && 'banned') || (index % 4 && 'rejected') || 'active',
+  }));
+
+  const allMarkets = [
+    {
+      id: '1',
+      name: 'BTC-SOL',
+      price: 1531.32,
+      percentageChange: 4.5,
+      performance: 'CEO',
+      status: 'active',
+      avatarUrl: 'https://upload.wikimedia.org/wikipedia/commons/4/46/Bitcoin.svg',
+      url: '/markets/btc-sol',
+    },
+    {
+      id: '2',
+      name: 'ETH-SOL',
+      price: 531.32,
+      percentageChange: 2.5,
+      performance: 'CEO',
+      status: 'active',
+      avatarUrl: 'https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg',
+      url: '/markets/btc-sol',
+    },
+    {
+      id: '3',
+      name: 'XRP-SOL',
+      price: 731.32,
+      percentageChange: -2.5,
+      performance: 'CEO',
+      status: 'active',
+      avatarUrl: 'https://cryptologos.cc/logos/xrp-xrp-logo.svg?v=040',
+      url: '/markets/btc-sol',
+    },
+  ];
+
   return (
     <DashboardContent maxWidth="xl">
       <Stack spacing={1}>
@@ -148,7 +199,7 @@ export default function OverviewView() {
       </Grid2>
       {/* Fourth row: Markets table */}
       <Grid2 sx={{ mt: 3 }}>
-        <MarketTable />
+        <MarketTable userList={allMarkets} />
       </Grid2>
     </DashboardContent>
   );

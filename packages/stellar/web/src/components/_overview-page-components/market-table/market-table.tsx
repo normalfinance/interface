@@ -52,14 +52,18 @@ const TABLE_HEAD: TableHeadCellProps[] = [
   { id: '', width: 88 },
 ];
 
+export type MarketTableProps = {
+  userList: IUserItem[];
+};
+
 // ----------------------------------------------------------------------
 
-export function MarketTable() {
+export function MarketTable({ userList }: MarketTableProps) {
   const table = useTable();
 
   const confirmDialog = useBoolean();
 
-  const [tableData, setTableData] = useState<IUserItem[]>(_userList);
+  const [tableData, setTableData] = useState<IUserItem[]>(userList);
 
   const filters = useSetState<IUserTableFilters>({ name: '', role: [], status: 'all' });
   const { state: currentFilters, setState: updateFilters } = filters;

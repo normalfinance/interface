@@ -39,7 +39,13 @@ export function UserTableRow({ row, selected, editHref, onSelectRow, onDeleteRow
 
   return (
     <>
-      <TableRow hover selected={selected} aria-checked={selected} tabIndex={-1}>
+      <TableRow
+        hover
+        selected={selected}
+        aria-checked={selected}
+        tabIndex={-1}
+        sx={{ cursor: 'pointer' }}
+      >
         {/* Remove the checkbox cell. If you need to preserve column count,
             you could add an empty cell with sx={{ display: 'none' }} */}
         <TableCell padding="checkbox" sx={{ display: 'none' }} />
