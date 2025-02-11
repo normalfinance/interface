@@ -199,7 +199,7 @@ export default function OverviewView() {
       </Grid2>
       {/* Fourth row: Markets table */}
       <Grid2 sx={{ mt: 3 }}>
-        <MarketTable userList={allMarkets} />
+        <MarketTable userList={_userList} />
       </Grid2>
     </DashboardContent>
   );
