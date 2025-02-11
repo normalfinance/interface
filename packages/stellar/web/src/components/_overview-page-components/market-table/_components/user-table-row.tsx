@@ -1,33 +1,18 @@
 'use client';
 
-import type { IUserItem } from 'src/types/user';
-import { useBoolean, usePopover } from 'minimal-shared/hooks';
-
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import Avatar from '@mui/material/Avatar';
-import Tooltip from '@mui/material/Tooltip';
-import MenuList from '@mui/material/MenuList';
-import MenuItem from '@mui/material/MenuItem';
+import type { Market } from 'src/components/_overview-page-components/market-table/market-table'; // adjust the path as needed
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
-import IconButton from '@mui/material/IconButton';
-import { Icon } from '@iconify/react';
+import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
+import Link from '@mui/material/Link';
 import { useTheme } from '@mui/material/styles';
-
 import { RouterLink } from 'src/routes/components';
-
 import { Label } from 'src/components/label';
-import { Iconify } from 'src/components/iconify';
-import { ConfirmDialog } from 'src/components/custom-dialog';
-import { CustomPopover } from 'src/components/custom-popover';
-
-import { UserQuickEditForm } from './user-quick-edit-form';
+import { Icon } from '@iconify/react';
 
 type Props = {
-  row: IUserItem;
+  row: Market;
   selected: boolean;
   editHref: string;
   onSelectRow: () => void;
@@ -38,63 +23,44 @@ export function UserTableRow({ row, selected, editHref, onSelectRow, onDeleteRow
   const theme = useTheme();
 
   return (
-    <>
-      <TableRow
-        hover
-        selected={selected}
-        aria-checked={selected}
-        tabIndex={-1}
-        sx={{ cursor: 'pointer' }}
-      >
-        {/* Remove the checkbox cell. If you need to preserve column count,
-            you could add an empty cell with sx={{ display: 'none' }} */}
-        <TableCell padding="checkbox" sx={{ display: 'none' }} />
+    <TableRow hover selected={selected} onClick={onSelectRow} sx={{ cursor: 'pointer' }}>
+      {/* Name with avatar */}
+      <TableCell>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Avatar alt={row.name} src={row.avatarUrl} />
+          <Link component={RouterLink} href={editHref} color="inherit" sx={{ ml: 2 }}>
+            {row.name}
+          </Link>
+        </Box>
+      </TableCell>
 
-        <TableCell>
-          <Box sx={{ gap: 2, display: 'flex', alignItems: 'center' }}>
-            <Avatar alt={row.name} src={row.avatarUrl} />
-            <Stack sx={{ typography: 'body2', flex: '1 1 auto', alignItems: 'flex-start' }}>
-              <Link
-                component={RouterLink}
-                href={editHref}
-                color="inherit"
-                sx={{ cursor: 'pointer' }}
-              >
-                {row.name}
-              </Link>
-              <Box component="span" sx={{ color: 'text.disabled' }}>
-                {row.email}
-              </Box>
-            </Stack>
-          </Box>
-        </TableCell>
-        <TableCell sx={{ whiteSpace: 'nowrap' }}>{row.phoneNumber}</TableCell>
-        <TableCell sx={{ whiteSpace: 'nowrap' }}>{row.company}</TableCell>
-        <TableCell sx={{ whiteSpace: 'nowrap' }}>{row.role}</TableCell>
-        <TableCell>
-          <Label
-            variant="soft"
-            color={
-              (row.status === 'active' && 'success') ||
-              (row.status === 'pending' && 'warning') ||
-              (row.status === 'banned' && 'error') ||
-              'default'
-            }
-          >
-            {row.status}
-          </Label>
-        </TableCell>
-        <TableCell>
-          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'end' }}>
-            <Icon
-              icon="mdi:keyboard-arrow-right"
-              width="24"
-              height="24"
-              style={{ color: theme.palette.grey[600] }}
-            />
-          </Box>
-        </TableCell>
-      </TableRow>
-    </>
+      {/* Price */}
+      <TableCell sx={{ whiteSpace: 'nowrap' }}>{row.price}</TableCell>
+
+      {/* Percentage Change */}
+      <TableCell sx={{ whiteSpace: 'nowrap' }}>{row.percentageChange}%</TableCell>
+
+      {/* Performance */}
+      <TableCell sx={{ whiteSpace: 'nowrap' }}>{row.performance}</TableCell>
+
+      {/* Status */}
+      <TableCell>
+        <Label variant="soft" color={row.status === 'active' ? 'success' : 'default'}>
+          {row.status}
+        </Label>
+      </TableCell>
+
+      {/* Action / Icon */}
+      <TableCell>
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'end' }}>
+          <Icon
+            icon="mdi:keyboard-arrow-right"
+            width="24"
+            height="24"
+            style={{ color: theme.palette.grey[600] }}
+          />
+        </Box>
+      </TableCell>
+    </TableRow>
   );
 }

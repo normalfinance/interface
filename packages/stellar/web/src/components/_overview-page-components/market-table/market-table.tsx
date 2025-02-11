@@ -41,29 +41,48 @@ import { UserTableFiltersResult } from './_components/user-table-filters-result'
 
 // ----------------------------------------------------------------------
 
-const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...USER_STATUS_OPTIONS];
+//const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...USER_STATUS_OPTIONS];
 
 const TABLE_HEAD: TableHeadCellProps[] = [
   { id: 'name', label: 'Name' },
-  { id: 'phoneNumber', label: 'Phone number', width: 180 },
-  { id: 'company', label: 'Company', width: 220 },
-  { id: 'role', label: 'Role', width: 180 },
+  { id: 'price', label: 'Price', width: 180 },
+  { id: 'percentageChange', label: 'Change (%)', width: 220 },
+  { id: 'performance', label: 'Performance', width: 180 },
   { id: 'status', label: 'Status', width: 100 },
   { id: '', width: 88 },
 ];
 
+// ─── Define a type for Market ─────────────────────────────────────────────
+export interface Market {
+  id: string;
+  name: string;
+  price: number;
+  percentageChange: number;
+  performance: string;
+  status: string;
+  avatarUrl: string;
+  url: string;
+}
+
+// ─── Define status options (adjust as needed) ─────────────────────────────
+const STATUS_OPTIONS = [
+  { value: 'all', label: 'All' },
+  { value: 'active', label: 'Active' },
+  // You can add more statuses if your market data supports them.
+];
+
 export type MarketTableProps = {
-  userList: IUserItem[];
+  markets: Market[];
 };
 
 // ----------------------------------------------------------------------
 
-export function MarketTable({ userList }: MarketTableProps) {
+export function MarketTable({ markets }: MarketTableProps) {
   const table = useTable();
 
   const confirmDialog = useBoolean();
 
-  const [tableData, setTableData] = useState<IUserItem[]>(userList);
+  const [tableData, setTableData] = useState<Market[]>(markets);
 
   const filters = useSetState<IUserTableFilters>({ name: '', role: [], status: 'all' });
   const { state: currentFilters, setState: updateFilters } = filters;
@@ -76,8 +95,7 @@ export function MarketTable({ userList }: MarketTableProps) {
 
   const dataInPage = rowInPage(dataFiltered, table.page, table.rowsPerPage);
 
-  const canReset =
-    !!currentFilters.name || currentFilters.role.length > 0 || currentFilters.status !== 'all';
+  const canReset = !!currentFilters.name || currentFilters.status !== 'all';
 
   const notFound = (!dataFiltered.length && canReset) || !dataFiltered.length;
 
@@ -255,38 +273,33 @@ export function MarketTable({ userList }: MarketTableProps) {
 // ----------------------------------------------------------------------
 
 type ApplyFilterProps = {
-  inputData: IUserItem[];
+  inputData: Market[];
   filters: IUserTableFilters;
   comparator: (a: any, b: any) => number;
 };
 
 function applyFilter({ inputData, comparator, filters }: ApplyFilterProps) {
-  const { name, status, role } = filters;
+  const { name, status } = filters; // ignore `role` since it's not used for markets
 
-  // Sort
+  // Sort the data
   const stabilizedThis = inputData.map((el, index) => [el, index] as const);
-
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
     if (order !== 0) return order;
     return a[1] - b[1];
   });
-
   inputData = stabilizedThis.map((el) => el[0]);
 
-  // Filter name
+  // Filter by name
   if (name) {
-    inputData = inputData.filter((user) => user.name.toLowerCase().includes(name.toLowerCase()));
+    inputData = inputData.filter((market) =>
+      market.name.toLowerCase().includes(name.toLowerCase())
+    );
   }
 
-  // Filter status
+  // Filter by status (if not "all")
   if (status !== 'all') {
-    inputData = inputData.filter((user) => user.status === status);
-  }
-
-  // Filter role
-  if (role.length) {
-    inputData = inputData.filter((user) => role.includes(user.role));
+    inputData = inputData.filter((market) => market.status === status);
   }
 
   return inputData;
