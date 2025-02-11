@@ -30,7 +30,7 @@ const statusColorMapping: Record<string, LabelColor> = {
   default: 'default',
 };
 
-export function UserTableRow({ row, selected, editHref }: Props) {
+export function MarketTableRow({ row, selected, editHref }: Props) {
   const theme = useTheme();
   const router = useRouter();
 

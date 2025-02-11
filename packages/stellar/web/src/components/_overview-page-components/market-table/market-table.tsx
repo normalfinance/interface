@@ -1,7 +1,7 @@
 'use client';
 
 import type { TableHeadCellProps } from 'src/components/table';
-import type { IUserTableFilters } from 'src/types/user';
+import type { IMarketTableFilters } from 'src/types/marketTable';
 
 import { useState, useCallback } from 'react';
 import { varAlpha } from 'minimal-shared/utils';
@@ -26,13 +26,13 @@ import {
 } from 'src/components/table';
 
 import { Label, LabelColor } from 'src/components/label';
-import { UserTableRow } from './_components/user-table-row';
-import { UserTableToolbar } from './_components/user-table-toolbar';
-import { UserTableFiltersResult } from './_components/user-table-filters-result';
+import { MarketTableRow } from './_components/market-table-row';
+import { MarketTableToolbar } from './_components/market-table-toolbar';
+import { MarketTableFiltersResult } from './_components/market-table-filters-result';
 
 // ----------------------------------------------------------------------
 
-//const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...USER_STATUS_OPTIONS];
+//const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...Market_STATUS_OPTIONS];
 
 const TABLE_HEAD: TableHeadCellProps[] = [
   { id: 'name', label: 'Name' },
@@ -84,7 +84,7 @@ export function MarketTable({ markets }: MarketTableProps) {
 
   const [tableData, setTableData] = useState<Market[]>(markets);
 
-  const filters = useSetState<IUserTableFilters>({ name: '', role: [], status: 'all' });
+  const filters = useSetState<IMarketTableFilters>({ name: '', role: [], status: 'all' });
   const { state: currentFilters, setState: updateFilters } = filters;
 
   const dataFiltered = applyFilter({
@@ -148,10 +148,10 @@ export function MarketTable({ markets }: MarketTableProps) {
         </Tabs>
 
         {/************ SEARCHBAR IN THERE *************/}
-        <UserTableToolbar filters={filters} onResetPage={table.onResetPage} />
+        <MarketTableToolbar filters={filters} onResetPage={table.onResetPage} />
 
         {canReset && (
-          <UserTableFiltersResult
+          <MarketTableFiltersResult
             filters={filters}
             totalResults={dataFiltered.length}
             onResetPage={table.onResetPage}
@@ -185,7 +185,7 @@ export function MarketTable({ markets }: MarketTableProps) {
                     table.page * table.rowsPerPage + table.rowsPerPage
                   )
                   .map((row) => (
-                    <UserTableRow
+                    <MarketTableRow
                       key={row.id}
                       row={row}
                       selected={table.selected.includes(row.id)}
@@ -222,7 +222,7 @@ export function MarketTable({ markets }: MarketTableProps) {
 
 type ApplyFilterProps = {
   inputData: Market[];
-  filters: IUserTableFilters;
+  filters: IMarketTableFilters;
   comparator: (a: any, b: any) => number;
 };
 

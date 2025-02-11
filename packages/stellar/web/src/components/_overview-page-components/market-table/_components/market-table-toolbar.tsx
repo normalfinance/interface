@@ -1,4 +1,4 @@
-import type { IUserTableFilters } from 'src/types/user';
+import type { IMarketTableFilters } from 'src/types/marketTable';
 import type { SelectChangeEvent } from '@mui/material/Select';
 import type { UseSetStateReturn } from 'minimal-shared/hooks';
 
@@ -14,10 +14,10 @@ import { Iconify } from 'src/components/iconify';
 
 type Props = {
   onResetPage: () => void;
-  filters: UseSetStateReturn<IUserTableFilters>;
+  filters: UseSetStateReturn<IMarketTableFilters>;
 };
 
-export function UserTableToolbar({ filters, onResetPage }: Props) {
+export function MarketTableToolbar({ filters, onResetPage }: Props) {
   const { state: currentFilters, setState: updateFilters } = filters;
 
   const handleFilterName = useCallback(
