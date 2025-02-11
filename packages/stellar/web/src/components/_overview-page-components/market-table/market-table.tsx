@@ -34,7 +34,6 @@ import {
 } from 'src/components/table';
 
 import { Label, LabelColor } from 'src/components/label';
-import { _roles, _userList, USER_STATUS_OPTIONS } from 'src/_mock';
 import { UserTableRow } from './_components/user-table-row';
 import { UserTableToolbar } from './_components/user-table-toolbar';
 import { UserTableFiltersResult } from './_components/user-table-filters-result';
@@ -203,11 +202,7 @@ export function MarketTable({ markets }: MarketTableProps) {
         </Tabs>
 
         {/************ SEARCHBAR IN THERE *************/}
-        <UserTableToolbar
-          filters={filters}
-          onResetPage={table.onResetPage}
-          options={{ roles: _roles }}
-        />
+        <UserTableToolbar filters={filters} onResetPage={table.onResetPage} />
 
         {canReset && (
           <UserTableFiltersResult

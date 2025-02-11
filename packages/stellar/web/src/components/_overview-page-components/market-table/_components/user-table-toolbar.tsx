@@ -25,12 +25,9 @@ import { CustomPopover } from 'src/components/custom-popover';
 type Props = {
   onResetPage: () => void;
   filters: UseSetStateReturn<IUserTableFilters>;
-  options: {
-    roles: string[];
-  };
 };
 
-export function UserTableToolbar({ filters, options, onResetPage }: Props) {
+export function UserTableToolbar({ filters, onResetPage }: Props) {
   const menuActions = usePopover();
 
   const { state: currentFilters, setState: updateFilters } = filters;
