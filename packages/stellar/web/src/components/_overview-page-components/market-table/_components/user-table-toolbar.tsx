@@ -3,22 +3,12 @@ import type { SelectChangeEvent } from '@mui/material/Select';
 import type { UseSetStateReturn } from 'minimal-shared/hooks';
 
 import { useCallback } from 'react';
-import { usePopover } from 'minimal-shared/hooks';
 
 import Box from '@mui/material/Box';
-import Select from '@mui/material/Select';
-import MenuList from '@mui/material/MenuList';
-import MenuItem from '@mui/material/MenuItem';
-import Checkbox from '@mui/material/Checkbox';
 import TextField from '@mui/material/TextField';
-import InputLabel from '@mui/material/InputLabel';
-import IconButton from '@mui/material/IconButton';
-import FormControl from '@mui/material/FormControl';
-import OutlinedInput from '@mui/material/OutlinedInput';
 import InputAdornment from '@mui/material/InputAdornment';
 
 import { Iconify } from 'src/components/iconify';
-import { CustomPopover } from 'src/components/custom-popover';
 
 // ----------------------------------------------------------------------
 
@@ -28,8 +18,6 @@ type Props = {
 };
 
 export function UserTableToolbar({ filters, onResetPage }: Props) {
-  const menuActions = usePopover();
-
   const { state: currentFilters, setState: updateFilters } = filters;
 
   const handleFilterName = useCallback(

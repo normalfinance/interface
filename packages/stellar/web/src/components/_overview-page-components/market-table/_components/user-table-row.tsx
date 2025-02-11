@@ -16,8 +16,6 @@ type Props = {
   row: Market;
   selected: boolean;
   editHref: string;
-  onSelectRow: () => void;
-  onDeleteRow: () => void;
 };
 
 import { LabelColor } from 'src/components/label';
@@ -32,7 +30,7 @@ const statusColorMapping: Record<string, LabelColor> = {
   default: 'default',
 };
 
-export function UserTableRow({ row, selected, editHref, onSelectRow, onDeleteRow }: Props) {
+export function UserTableRow({ row, selected, editHref }: Props) {
   const theme = useTheme();
   const router = useRouter();
 

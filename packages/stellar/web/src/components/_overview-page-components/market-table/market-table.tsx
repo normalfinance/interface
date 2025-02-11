@@ -5,23 +5,19 @@ import type { IUserTableFilters } from 'src/types/user';
 
 import { useState, useCallback } from 'react';
 import { varAlpha } from 'minimal-shared/utils';
-import { useBoolean, useSetState } from 'minimal-shared/hooks';
+import { useSetState } from 'minimal-shared/hooks';
 
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import Card from '@mui/material/Card';
 import Table from '@mui/material/Table';
-import Button from '@mui/material/Button';
 import TableBody from '@mui/material/TableBody';
 
-import { toast } from 'src/components/snackbar';
 import { Scrollbar } from 'src/components/scrollbar';
-import { ConfirmDialog } from 'src/components/custom-dialog';
 import {
   useTable,
   emptyRows,
-  rowInPage,
   TableNoData,
   getComparator,
   TableEmptyRows,
@@ -86,8 +82,6 @@ export type MarketTableProps = {
 export function MarketTable({ markets }: MarketTableProps) {
   const table = useTable();
 
-  const confirmDialog = useBoolean();
-
   const [tableData, setTableData] = useState<Market[]>(markets);
 
   const filters = useSetState<IUserTableFilters>({ name: '', role: [], status: 'all' });
@@ -99,28 +93,9 @@ export function MarketTable({ markets }: MarketTableProps) {
     filters: currentFilters,
   });
 
-  const dataInPage = rowInPage(dataFiltered, table.page, table.rowsPerPage);
-
   const canReset = !!currentFilters.name || currentFilters.status !== 'all';
 
   const notFound = (!dataFiltered.length && canReset) || !dataFiltered.length;
-
-  const handleDeleteRow = useCallback(
-    (id: string) => {
-      const deleteRow = tableData.filter((row) => row.id !== id);
-      toast.success('Delete success!');
-      setTableData(deleteRow);
-      table.onUpdatePageDeleteRow(dataInPage.length);
-    },
-    [dataInPage.length, table, tableData]
-  );
-
-  const handleDeleteRows = useCallback(() => {
-    const deleteRows = tableData.filter((row) => !table.selected.includes(row.id));
-    toast.success('Delete success!');
-    setTableData(deleteRows);
-    table.onUpdatePageDeleteRows(dataInPage.length, dataFiltered.length);
-  }, [dataFiltered.length, dataInPage.length, table, tableData]);
 
   const handleFilterStatus = useCallback(
     (event: React.SyntheticEvent, newValue: string) => {
@@ -128,31 +103,6 @@ export function MarketTable({ markets }: MarketTableProps) {
       updateFilters({ status: newValue });
     },
     [updateFilters, table]
-  );
-
-  const renderConfirmDialog = () => (
-    <ConfirmDialog
-      open={confirmDialog.value}
-      onClose={confirmDialog.onFalse}
-      title="Delete"
-      content={
-        <>
-          Are you sure want to delete <strong>{table.selected.length}</strong> items?
-        </>
-      }
-      action={
-        <Button
-          variant="contained"
-          color="error"
-          onClick={() => {
-            handleDeleteRows();
-            confirmDialog.onFalse();
-          }}
-        >
-          Delete
-        </Button>
-      }
-    />
   );
 
   return (
@@ -239,9 +189,6 @@ export function MarketTable({ markets }: MarketTableProps) {
                       key={row.id}
                       row={row}
                       selected={table.selected.includes(row.id)}
-                      onSelectRow={() => table.onSelectRow(row.id)}
-                      onDeleteRow={() => handleDeleteRow(row.id)}
-                      // `editHref` removed or replaced with custom link
                       editHref="#"
                     />
                   ))}
@@ -267,8 +214,6 @@ export function MarketTable({ markets }: MarketTableProps) {
           onRowsPerPageChange={table.onChangeRowsPerPage}
         />
       </Card>
-
-      {renderConfirmDialog()}
     </>
   );
 }
