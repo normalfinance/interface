@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 
-import { CONFIG } from 'src/config-global';
+import { CONFIG } from '@/global-config';
 
 import { NotFoundView } from 'src/sections/error';
 

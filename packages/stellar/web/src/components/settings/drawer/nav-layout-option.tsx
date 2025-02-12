@@ -4,7 +4,7 @@ import { varAlpha } from 'minimal-shared/utils';
 
 import Box from '@mui/material/Box';
 
-import { CONFIG } from 'src/config-global';
+import { CONFIG } from '@/global-config';
 
 import { OptionButton } from './styles';
 import { SvgColor } from '../../svg-color';

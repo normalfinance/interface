@@ -6,7 +6,7 @@ import { setFont } from 'minimal-shared/utils';
 import Box from '@mui/material/Box';
 import Slider, { sliderClasses } from '@mui/material/Slider';
 
-import { CONFIG } from 'src/config-global';
+import { CONFIG } from '@/global-config';
 
 import { OptionButton } from './styles';
 import { SvgColor } from '../../svg-color';

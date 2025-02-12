@@ -19,7 +19,8 @@ function processInput(inputValue: InputNumberValue): number | null {
 }
 
 // ----------------------------------------------------------------------
-
+// 1) Basic number formatting with optional overrides
+// ----------------------------------------------------------------------
 export function fNumber(inputValue: InputNumberValue, options?: Options) {
   const locale = formatNumberLocale() || DEFAULT_LOCALE;
 
@@ -36,7 +37,8 @@ export function fNumber(inputValue: InputNumberValue, options?: Options) {
 }
 
 // ----------------------------------------------------------------------
-
+// 2) Currency formatting
+// ----------------------------------------------------------------------
 export function fCurrency(inputValue: InputNumberValue, options?: Options) {
   const locale = formatNumberLocale() || DEFAULT_LOCALE;
 
@@ -55,7 +57,8 @@ export function fCurrency(inputValue: InputNumberValue, options?: Options) {
 }
 
 // ----------------------------------------------------------------------
-
+// 3) Percent formatting
+// ----------------------------------------------------------------------
 export function fPercent(inputValue: InputNumberValue, options?: Options) {
   const locale = formatNumberLocale() || DEFAULT_LOCALE;
 
@@ -73,7 +76,9 @@ export function fPercent(inputValue: InputNumberValue, options?: Options) {
 }
 
 // ----------------------------------------------------------------------
-
+// 4) Shorten number using Intl with 'compact' notation
+//    e.g. 212350000 => 212.35M, 1500 => 1.5K
+// ----------------------------------------------------------------------
 export function fShortenNumber(inputValue: InputNumberValue, options?: Options) {
   const locale = formatNumberLocale() || DEFAULT_LOCALE;
 
@@ -86,11 +91,13 @@ export function fShortenNumber(inputValue: InputNumberValue, options?: Options) 
     ...options,
   }).format(number);
 
+  // Lowercase the suffix for style reasons
   return fm.replace(/[A-Z]/g, (match) => match.toLowerCase());
 }
 
 // ----------------------------------------------------------------------
-
+// 5) Format data size in bytes -> e.g. 1.23 Mb
+// ----------------------------------------------------------------------
 export function fData(inputValue: InputNumberValue) {
   const number = processInput(inputValue);
   if (number === null || number === 0) return '0 bytes';

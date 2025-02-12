@@ -14,7 +14,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import { filledInputClasses } from '@mui/material/FilledInput';
 import { outlinedInputClasses } from '@mui/material/OutlinedInput';
 
-import { countries } from 'src/assets/data';
+import { countries } from '@/assets/illustrations/data';
 
 import { FlagIcon, flagIconClasses } from 'src/components/flag-icon';
 
