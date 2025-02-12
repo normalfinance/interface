@@ -7,7 +7,7 @@ import resourcesToBackend from 'i18next-resources-to-backend';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next, I18nextProvider as Provider } from 'react-i18next';
 
-import { CONFIG } from 'src/config-global';
+import { CONFIG } from '@/global-config';
 
 import { i18nOptions, fallbackLng } from './locales-config';
 

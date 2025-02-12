@@ -5,7 +5,7 @@ import type { Metadata, Viewport } from 'next';
 import InitColorSchemeScript from '@mui/material/InitColorSchemeScript';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 
-import { CONFIG } from 'src/config-global';
+import { CONFIG } from '@/global-config';
 import { primary } from 'src/theme/core/palette';
 import { LocalizationProvider } from 'src/locales';
 import { detectLanguage } from 'src/locales/server';

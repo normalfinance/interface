@@ -1,4 +1,4 @@
-import { CONFIG } from 'src/config-global';
+import { CONFIG } from '@/global-config';
 
 import type { ExtendFile } from './types';
 
