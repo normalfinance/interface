@@ -3,8 +3,9 @@ import { openTransferServer, TransferServer } from "./transfer-server";
 import { fetchTransferInfos, TransferServerInfo } from "./info";
 import { Asset, Networks } from "@stellar/stellar-sdk";
 import { sep10AuthSend, sep10AuthSign, sep10AuthStart } from "../sep10";
-import { NETWORK_PASSPHRASE } from "../constants";
+// import { NETWORK_PASSPHRASE } from "../constants";
 import { Deposit } from "./deposit";
+import { SOROBAN_NETWORK_PASSPHRASE } from "../../constants";
 
 /**
  * DepositManager class
@@ -62,7 +63,7 @@ export class DepositManager {
       });
 
       const signedChallengeTransaction = await sep10AuthSign({
-        networkPassphrase: NETWORK_PASSPHRASE,
+        networkPassphrase: SOROBAN_NETWORK_PASSPHRASE,
         challengeTransaction,
       });
 
