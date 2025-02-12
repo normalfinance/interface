@@ -80,7 +80,7 @@ export type MarketTableProps = {
 // ----------------------------------------------------------------------
 
 export function MarketTable({ markets }: MarketTableProps) {
-  const table = useTable();
+  const table = useTable({ defaultRowsPerPage: 100 });
 
   const [tableData, setTableData] = useState<Market[]>(markets);
 
@@ -203,16 +203,6 @@ export function MarketTable({ markets }: MarketTableProps) {
             </Table>
           </Scrollbar>
         </Box>
-
-        <TablePaginationCustom
-          page={table.page}
-          dense={table.dense}
-          count={dataFiltered.length}
-          rowsPerPage={table.rowsPerPage}
-          onPageChange={table.onChangePage}
-          onChangeDense={table.onChangeDense}
-          onRowsPerPageChange={table.onChangeRowsPerPage}
-        />
       </Card>
     </>
   );
