@@ -12,11 +12,14 @@ export const SOROBAN_RPC_URL: string =
 /**
  * Market factory contract address
  */
-export const MARKET_FACTORY_ADDRESS: string =
-  '...';
+export const MARKET_FACTORY_ADDRESS: string = '...';
 
 /**
  * Scheduler contract address
  */
-export const SCHEDULER_ADDRESS: string =
-  '...';
+export const SCHEDULER_ADDRESS: string = '...';
+
+/**
+ * Insurance contract address
+ */
+export const INSURANCE_ADDRESS: string = '...';
