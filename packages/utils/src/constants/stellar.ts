@@ -10,6 +10,11 @@ export const SOROBAN_RPC_URL: string =
   'https://mainnet.stellar.validationcloud.io/v1/YcyPYotN_b6-_656rpr0CabDwlGgkT42NCzPVIqcZh0';
 
 /**
+ * Governor contract address
+ */
+export const GOVERNOR_ADDRESS: string = '...';
+
+/**
  * Market factory contract address
  */
 export const MARKET_FACTORY_ADDRESS: string = '...';
