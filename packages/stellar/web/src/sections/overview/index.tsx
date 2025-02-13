@@ -10,7 +10,12 @@ import { Markets } from '@/components/_overview-page-components/markets/markets'
 import { MarketTable } from '@/components/_overview-page-components/market-table/market-table';
 import { createChartData, RealtimeChartData } from 'src/utils/portfolio-value-chart-series';
 
+// hooks
+import useMarkets from '@/hooks/use-markets';
+
 export default function OverviewView() {
+  const { error, loading, markets } = useMarkets();
+
   // -------------------------
   // Hardcoded chart data arrays.
   // -------------------------
@@ -70,73 +75,22 @@ export default function OverviewView() {
     },
   ];
 
-  const _markets = [
-    {
-      id: '1',
-      name: 'BTC-SOL',
-      coverUrl: 'https://upload.wikimedia.org/wikipedia/commons/4/46/Bitcoin.svg',
-      price: 1.69,
-      percentage: -2.5,
-      url: '/markets/btc-sol',
-    },
-    {
-      id: '2',
-      name: 'ETH-SOL',
-      coverUrl: 'https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg',
-      price: 55.47,
-      percentage: 5.2323425,
-      url: '/markets/eth-sol',
-    },
-    {
-      id: '3',
-      name: 'XRP-SOL',
-      coverUrl: 'https://cryptologos.cc/logos/xrp-xrp-logo.svg?v=040',
-      price: 93.1,
-      percentage: 3.1,
-      url: '/markets/xrp-sol',
-    },
-  ];
+  const new_markets = markets.filter((m) => m.created_at < 0);
+  const trending_markets = []; // TODO:
+  const top_gainer_markets = []; // TODO:
 
+  const marketsPerGroup = 3;
   const marketGroups = [
-    { id: 'new_markets', title: 'New Markets', list: _markets },
-    { id: 'trending_markets', title: 'Trending Markets', list: _markets },
-    { id: 'top_gainer_markets', title: 'Top Gainer Markets', list: _markets },
-  ];
-
-  // -------------------------
-  // Hardcoded marketList (simulate fetched user data)
-  // -------------------------
-
-  const allMarkets = [
+    { id: 'new_markets', title: 'New Markets', list: new_markets.slice(0, marketsPerGroup) },
     {
-      id: '1',
-      name: 'BTC-SOL',
-      price: 1531.34325346456,
-      percentageChange: 4.5,
-      performance: 'CEO',
-      status: 'trending',
-      avatarUrl: 'https://upload.wikimedia.org/wikipedia/commons/4/46/Bitcoin.svg',
-      url: '/markets/btc-sol',
+      id: 'trending_markets',
+      title: 'Trending Markets',
+      list: trending_markets.slice(0, marketsPerGroup),
     },
     {
-      id: '2',
-      name: 'ETH-SOL',
-      price: 531.32,
-      percentageChange: 2.5,
-      performance: 'CEO',
-      status: 'meme',
-      avatarUrl: 'https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg',
-      url: '/markets/btc-sol',
-    },
-    {
-      id: '3',
-      name: 'XRP-SOL',
-      price: 731.32,
-      percentageChange: -2.5,
-      performance: 'CEO',
-      status: 'rwa',
-      avatarUrl: 'https://cryptologos.cc/logos/xrp-xrp-logo.svg?v=040',
-      url: '/markets/btc-sol',
+      id: 'top_gainer_markets',
+      title: 'Top Gainer Markets',
+      list: top_gainer_markets.slice(0, marketsPerGroup),
     },
   ];
 
@@ -182,7 +136,7 @@ export default function OverviewView() {
       </Grid2>
       {/* Fourth row: Markets table */}
       <Grid2 sx={{ mt: 3 }}>
-        <MarketTable markets={allMarkets} />
+        <MarketTable markets={markets} />
       </Grid2>
     </DashboardContent>
   );
