@@ -1,5 +1,8 @@
 import React, { useCallback } from 'react';
 import {
+  NormalGovernorContract,
+  NormalVotesContract,
+  NormalStakingContract,
   NormalInsuranceContract,
   NormalMarketContract,
   NormalMarketFactoryContract,
@@ -17,6 +20,9 @@ import { useAppStore, usePersistStore } from '@/state/store';
 
 // Define Contract Types
 type ContractType =
+  | 'governor'
+  | 'votes'
+  | 'norm_staking'
   | 'market'
   | 'market_factory'
   | 'insurance'
@@ -26,6 +32,9 @@ type ContractType =
   | 'token';
 
 const contractClients = {
+  governor: NormalGovernorContract.Client,
+  votes: NormalVotesContract.Client,
+  norm_staking: NormalStakingContract.Client,
   market: NormalMarketContract.Client,
   market_factory: NormalMarketFactoryContract.Client,
   index: NormalIndexContract.Client,
@@ -35,21 +44,27 @@ const contractClients = {
   token: SorobanTokenContract.Client,
 };
 
-type ContractClientType<T extends ContractType> = T extends 'market'
-  ? NormalMarketContract.Client
-  : T extends 'market_factory'
-    ? NormalMarketFactoryContract.Client
-    : T extends 'insurance'
-      ? NormalInsuranceContract.Client
-      : T extends 'index'
-        ? NormalIndexContract.Client
-        : T extends 'index_factory'
-          ? NormalIndexFactoryContract.Client
-          : T extends 'scheduler'
-            ? NormalSchedulerContract.Client
-            : T extends 'token'
-              ? SorobanTokenContract.Client
-              : never;
+type ContractClientType<T extends ContractType> = T extends 'governor'
+  ? NormalGovernorContract.Client
+  : T extends 'votes'
+    ? NormalVotesContract.Client
+    : T extends 'norm_staking'
+      ? NormalStakingContract.Client
+      : T extends 'market'
+        ? NormalMarketContract.Client
+        : T extends 'market_factory'
+          ? NormalMarketFactoryContract.Client
+          : T extends 'insurance'
+            ? NormalInsuranceContract.Client
+            : T extends 'index'
+              ? NormalIndexContract.Client
+              : T extends 'index_factory'
+                ? NormalIndexFactoryContract.Client
+                : T extends 'scheduler'
+                  ? NormalSchedulerContract.Client
+                  : T extends 'token'
+                    ? SorobanTokenContract.Client
+                    : never;
 
 interface BaseExecuteContractTransactionParams<T extends ContractType> {
   contractAddress: string;
