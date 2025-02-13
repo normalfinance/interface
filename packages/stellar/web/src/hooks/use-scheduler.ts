@@ -14,9 +14,9 @@ interface ReturnType {
   loading: boolean;
   scheduler: Scheduler;
   onDeposit: (asset: string, amount: number) => void;
-  onWithdraw: (asset: string, amount: number) => void;
-  onCreateSchedule: (params: ScheduleParams) => void;
-  onDeleteSchedule: (schedule_timestamp: number) => void;
+  // onWithdraw: (asset: string, amount: number) => void;
+  // onCreateSchedule: (params: ScheduleParams) => void;
+  // onDeleteSchedule: (schedule_timestamp: number) => void;
 }
 
 // ----------------------------------------------------------------------
@@ -54,7 +54,7 @@ export function useScheduler(): ReturnType {
           {
             sender: storePersist.wallet.address!,
             asset,
-            amount: BigInt((amount * 10 ** (index?.decimals || 7)).toFixed(0))
+            amount: BigInt((amount * 10 ** (index?.decimals || 7)).toFixed(0)),
           },
           { simulate: !restore }
         );
@@ -62,19 +62,16 @@ export function useScheduler(): ReturnType {
     });
   }, []);
 
-  
-  // On component mount, fetch index
+  // On component mount, fetch scheduler
   useEffect(() => {
-    fetchIndex(indexAddress);
-  }, [fetchIndex]);
+    fetchScheduler();
+  }, [fetchScheduler]);
 
   return {
     error,
     loading,
-    index,
-    onMint,
-    onRedeem,
-    onCollectFees,
-    onRebalance,
+    scheduler,
+    onDeposit,
+    // ...
   };
 }
