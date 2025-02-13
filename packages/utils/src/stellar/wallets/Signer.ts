@@ -5,7 +5,8 @@ import {
   WalletConnect as WalletClient,
   WalletConnectAllowedMethods,
 } from "./wallet-connect";
-import { NETWORK_PASSPHRASE } from "../constants";
+import { SOROBAN_NETWORK_PASSPHRASE } from "../../constants";
+// import { NETWORK_PASSPHRASE } from "../constants";
 
 const initializeWalletConnect = async () => {
   const walletConnectInstance = new WalletClient({
@@ -15,7 +16,7 @@ const initializeWalletConnect = async () => {
     url: "https://app.phoenix-hub.io",
     icons: ["https://app.phoenix-hub.io/logoIcon.png"],
     method: WalletConnectAllowedMethods.SIGN_AND_SUBMIT,
-    network: NETWORK_PASSPHRASE,
+    network: SOROBAN_NETWORK_PASSPHRASE,
   });
   console.log("Initialized Wallet Connect");
 
