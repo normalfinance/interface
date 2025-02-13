@@ -23,3 +23,8 @@ export const SCHEDULER_ADDRESS: string = '...';
  * Insurance contract address
  */
 export const INSURANCE_ADDRESS: string = '...';
+
+/**
+ * NORM Staking contract address
+ */
+export const NORM_STAKING_ADDRESS: string = '...';
