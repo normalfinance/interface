@@ -2,7 +2,6 @@
 
 import Grid2 from '@mui/material/Grid2';
 import { AssetsAndLiabilities } from '@/components/_overview-page-components/assets-and-liabilities/assets-and-liabilities';
-import { PortfolioValue } from '@/components/_overview-page-components/portfolio-value/portfolio-value';
 import { DashboardContent } from '@/layouts/dashboard';
 import { Stack, Typography, useTheme } from '@mui/material';
 import { Markets } from '@/components/_overview-page-components/markets/markets';
