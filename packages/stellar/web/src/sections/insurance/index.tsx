@@ -3,12 +3,18 @@ import Grid2 from '@mui/material/Grid2';
 import { DashboardContent } from '@/layouts/dashboard';
 import { Stack, Typography, useTheme } from '@mui/material';
 import { StatCard } from '@/components/_common/stat-card';
-import { fShortenNumber, fRawPercent, fCurrency } from 'src/utils/format-number';
+import {
+  fShortenNumber,
+  fRawPercent,
+  fCurrency,
+  fPercent,
+  fCurrencyTwoDecimals,
+} from 'src/utils/format-number';
 import type { ChartOptions } from 'src/components/chart';
 import { StatCardData } from '@/types/stat-card-data';
 import { CurrentBalance } from '@/components/_common/current-balance-card';
 import { createChartData, RealtimeChartData } from '@/utils/portfolio-value-chart-series';
-import { AreaChartCard } from '@/components/_common/area-chart-card';
+import { AreaChartCard, LegendValue } from '@/components/_common/area-chart-card';
 
 export default function InsuranceView() {
   const theme = useTheme();
@@ -65,8 +71,8 @@ export default function InsuranceView() {
       staked: 1400,
       currentBalance: 1492.84,
       rows: [
-        { label: 'Staked', value: 1400, formatter: fCurrency },
-        { label: 'Earned', value: 92.84, formatter: fCurrency },
+        { label: 'Staked', value: 1400, formatter: fCurrencyTwoDecimals },
+        { label: 'Earned', value: 92.84, formatter: fCurrencyTwoDecimals },
         { label: 'Yield', value: 6.73, formatter: fRawPercent },
       ],
       // Cast color and variant to the specific literal types
@@ -105,6 +111,10 @@ export default function InsuranceView() {
   const usageBondingCurveData: { [key in '12m']: RealtimeChartData } = {
     '12m': chartData12m,
   };
+
+  const myLegendValues: LegendValue[] = [
+    { title: 'Utilization', number: 6.483, formatter: fRawPercent },
+  ];
 
   return (
     <DashboardContent maxWidth="xl">
@@ -161,7 +171,8 @@ export default function InsuranceView() {
             title="Usage Bonding Curve"
             subheader="The yield changed based on how much insurance exists"
             chart={usageBondingCurveData}
-            legendValues={[chartData12m.series[0].data[0].data.slice(-1)[0]]}
+            legendValues={myLegendValues}
+            color={theme.palette.secondary.main} // for example, using a different color
           />
         </Grid2>
       </Grid2>

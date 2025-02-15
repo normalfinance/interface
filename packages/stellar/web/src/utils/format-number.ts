@@ -138,3 +138,16 @@ export function fCurrencyTwoDecimals(inputValue: InputNumberValue, options?: Opt
   }).format(number);
   return fm;
 }
+
+export function fCurrencyCompact(inputValue: InputNumberValue, options?: Options) {
+  const locale = formatNumberLocale() || DEFAULT_LOCALE;
+  const number = processInput(inputValue);
+  if (number === null) return '';
+  const fm = new Intl.NumberFormat(locale.code, {
+    notation: 'compact',
+    maximumFractionDigits: 2,
+    ...options,
+  }).format(number);
+  // Lowercase the suffix and prepend '$'
+  return '$' + fm.replace(/[A-Z]/g, (match) => match.toLowerCase());
+}
