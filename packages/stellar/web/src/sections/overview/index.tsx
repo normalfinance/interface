@@ -9,9 +9,9 @@ import { Markets } from '@/components/_overview-page-components/markets/markets'
 import { MarketTable } from '@/components/_overview-page-components/market-table/market-table';
 import { createChartData, RealtimeChartData } from 'src/utils/portfolio-value-chart-series';
 import { StatCardData } from '@/types/stat-card-data';
-import { fShortenNumber } from '@/utils/format-number';
+import { fCurrency, fCurrencyCompact, fPercent, fShortenNumber } from '@/utils/format-number';
 import { StatCard } from '@/components/_common/stat-card';
-import { AreaChartCard } from '@/components/_common/area-chart-card';
+import { AreaChartCard, LegendValue } from '@/components/_common/area-chart-card';
 
 export default function OverviewView() {
   const theme = useTheme();
@@ -43,6 +43,10 @@ export default function OverviewView() {
     '7d': chartData7d,
     '30d': chartData30d,
   };
+
+  const myLegendValues: LegendValue[] = [
+    { title: 'Balance', number: 7334, formatter: fCurrencyCompact },
+  ];
 
   // -------------------------
   // Other temporary props.
@@ -189,7 +193,8 @@ export default function OverviewView() {
             id="portfolio_value"
             title="Portfolio Value"
             chart={portfolioChartData}
-            legendValues={[chartData24h.series[0].data[0].data.slice(-1)[0]]}
+            legendValues={myLegendValues}
+            color={theme.palette.primary.main} // for example, using a different color
           />
         </Grid2>
         <Grid2 size={{ xs: 12, md: 4 }}>
