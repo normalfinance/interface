@@ -15,7 +15,7 @@ export type RealtimeChartData = {
  * - "7d": returns an array of 7 abbreviated weekday names (the last label is today’s weekday).
  * - "30d": returns an array of 31 date labels (e.g., "Aug 24"), with the last label being today.
  */
-function getCategories(timeframe: '24h' | '7d' | '30d'): string[] {
+function getCategories(timeframe: '24h' | '7d' | '30d' | '12m'): string[] {
   const now = new Date();
   if (timeframe === '24h') {
     // Generate 24 hourly labels such that the last label is the current hour.
@@ -40,6 +40,15 @@ function getCategories(timeframe: '24h' | '7d' | '30d'): string[] {
       d.setDate(d.getDate() - (30 - i));
       return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
     });
+  } else if (timeframe === '12m') {
+    const categories: string[] = [];
+    // Generate 12 month labels ending with the current month.
+    const now = new Date();
+    for (let i = 11; i >= 0; i--) {
+      const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+      categories.push(d.toLocaleString('default', { month: 'short' }));
+    }
+    return categories;
   }
   return [];
 }
@@ -52,7 +61,7 @@ function getCategories(timeframe: '24h' | '7d' | '30d'): string[] {
  * @returns a RealtimeChartData object.
  */
 export function createChartData(
-  timeframe: '24h' | '7d' | '30d',
+  timeframe: '24h' | '7d' | '30d' | '12m',
   data: number[],
   tickAmount: number
 ): RealtimeChartData {

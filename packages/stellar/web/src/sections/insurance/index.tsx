@@ -7,6 +7,8 @@ import { fShortenNumber, fRawPercent, fCurrency } from 'src/utils/format-number'
 import type { ChartOptions } from 'src/components/chart';
 import { StatCardData } from '@/types/stat-card-data';
 import { CurrentBalance } from '@/components/_common/current-balance-card';
+import { createChartData, RealtimeChartData } from '@/utils/portfolio-value-chart-series';
+import { AreaChartCard } from '@/components/_common/area-chart-card';
 
 export default function InsuranceView() {
   const theme = useTheme();
@@ -90,6 +92,20 @@ export default function InsuranceView() {
     // Add more items here if needed...
   ];
 
+  // -------------------------
+  // Hardcoded chart data arrays.
+  // -------------------------
+  const data12m = [1000, 1200, 1100, 1300, 1250, 1400, 1350, 1500, 1450, 1600, 1550, 1700];
+
+  // Create chart data objects using our helper.
+
+  const chartData12m: RealtimeChartData = createChartData('12m', data12m, 6);
+
+  // Combine chart data into one object.
+  const usageBondingCurveData: { [key in '12m']: RealtimeChartData } = {
+    '12m': chartData12m,
+  };
+
   return (
     <DashboardContent maxWidth="xl">
       <Stack spacing={1}>
@@ -139,7 +155,15 @@ export default function InsuranceView() {
             />
           </Grid2>
         ))}
-        <Grid2 size={{ xs: 12, md: 8 }}></Grid2>
+        <Grid2 size={{ xs: 12, md: 8 }}>
+          <AreaChartCard
+            id="portfolio_value"
+            title="Usage Bonding Curve"
+            subheader="The yield changed based on how much insurance exists"
+            chart={usageBondingCurveData}
+            legendValues={[chartData12m.series[0].data[0].data.slice(-1)[0]]}
+          />
+        </Grid2>
       </Grid2>
     </DashboardContent>
   );

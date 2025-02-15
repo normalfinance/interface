@@ -11,6 +11,7 @@ import { createChartData, RealtimeChartData } from 'src/utils/portfolio-value-ch
 import { StatCardData } from '@/types/stat-card-data';
 import { fShortenNumber } from '@/utils/format-number';
 import { StatCard } from '@/components/_common/stat-card';
+import { AreaChartCard } from '@/components/_common/area-chart-card';
 
 export default function OverviewView() {
   const theme = useTheme();
@@ -18,6 +19,8 @@ export default function OverviewView() {
   // -------------------------
   // Hardcoded chart data arrays.
   // -------------------------
+
+  const portfolioValue = 7334;
   const data24h = [
     3444, 3600, 3750, 3900, 4100, 4300, 4500, 4700, 4900, 5200, 5400, 5500, 5650, 5800, 6000, 6200,
     6400, 6600, 6800, 7000, 7200, 7300, 7320, 7334,
@@ -27,6 +30,7 @@ export default function OverviewView() {
     3444, 3500, 3600, 3700, 3800, 3900, 4000, 4200, 4300, 4400, 4500, 4600, 4800, 5000, 5200, 5400,
     5600, 5800, 6000, 6200, 6400, 6600, 6800, 7000, 7100, 7200, 7250, 7300, 7320, 7330, 7334,
   ];
+  // Hardcoded 12 month data
 
   // Create chart data objects using our helper.
   const chartData24h: RealtimeChartData = createChartData('24h', data24h, 8);
@@ -53,24 +57,6 @@ export default function OverviewView() {
       downloaded: 1500,
       ratingNumber: 4.5,
       totalReviews: 100,
-    },
-  ];
-
-  const tradingVolumeData = [
-    {
-      title: 'Total 24h Trading Volume',
-      percent: 0.6,
-      total: 212350000,
-    },
-    {
-      title: 'Total 30d Trading Volume',
-      percent: -80.6,
-      total: 5690000000,
-    },
-    {
-      title: 'Total Value Locked',
-      percent: 0.6,
-      total: 883470000,
     },
   ];
 
@@ -199,7 +185,7 @@ export default function OverviewView() {
       {/* First row: PortfolioValue/AssetsAndLiabilities */}
       <Grid2 container spacing={3} sx={{ mt: 3 }}>
         <Grid2 size={{ xs: 12, md: 8 }}>
-          <PortfolioValue
+          <AreaChartCard
             id="portfolio_value"
             title="Portfolio Value"
             chart={portfolioChartData}
