@@ -3,19 +3,22 @@ import Grid2 from '@mui/material/Grid2';
 import { DashboardContent } from '@/layouts/dashboard';
 import { Stack, Typography, useTheme } from '@mui/material';
 import { StatCard } from '@/components/_common/stat-card';
-import { fShortenNumber, fRawPercent } from 'src/utils/format-number';
+import { fShortenNumber, fRawPercent, fCurrency } from 'src/utils/format-number';
+import type { ChartOptions } from 'src/components/chart';
 import { StatCardData } from '@/types/stat-card-data';
+import { CurrentBalance } from '@/components/_common/current-balance-card';
 
 export default function InsuranceView() {
   const theme = useTheme();
 
+  // Stat card data array
   const statCardsData: StatCardData[] = [
     {
       title: 'Normal Buffer',
       percent: 1.2,
       total: 139390,
       formatter: fShortenNumber,
-      chartType: 'bar', // typed literal
+      chartType: 'bar',
       displayChart: true,
       chart: {
         colors: [theme.palette.success.light, theme.palette.success.main],
@@ -51,6 +54,42 @@ export default function InsuranceView() {
     },
   ];
 
+  // Current balance data array for the CurrentBalance component
+  const currentBalanceData = [
+    {
+      title: 'Current balance',
+      yieldPercent: 92.84,
+      refunded: 6.73,
+      staked: 1400,
+      currentBalance: 1492.84,
+      rows: [
+        { label: 'Staked', value: 1400, formatter: fCurrency },
+        { label: 'Earned', value: 92.84, formatter: fCurrency },
+        { label: 'Yield', value: 6.73, formatter: fRawPercent },
+      ],
+      // Cast color and variant to the specific literal types
+      actionButtons: [
+        {
+          label: 'Deposit',
+          color: 'primary' as 'primary',
+          onClick: () => {
+            alert('Deposit');
+          },
+          variant: 'contained' as 'contained',
+        },
+        {
+          label: 'Withdraw',
+          color: 'error' as 'error',
+          onClick: () => {
+            alert('Withdraw');
+          },
+          variant: 'contained' as 'contained',
+        },
+      ],
+    },
+    // Add more items here if needed...
+  ];
+
   return (
     <DashboardContent maxWidth="xl">
       <Stack spacing={1}>
@@ -78,13 +117,30 @@ export default function InsuranceView() {
         ))}
       </Grid2>
 
-      <Stack sx={{ mt: 3, maxWidth: '976px', mx: 'auto' }} textAlign={'center'}>
+      <Stack sx={{ mt: 3, maxWidth: '976px', mx: 'auto', px: 2 }} textAlign="center">
         <Typography variant="body1" color="text.secondary">
           Insurance covering protocol debt is covered first by the Normal Buffer, which receives a
           portion of protocol revenue, and then by the Normal Insurance Fund, which pays yield to
           3rd party liquidity providers.
         </Typography>
       </Stack>
+
+      <Grid2 container spacing={3} sx={{ mt: 3 }}>
+        {currentBalanceData.map((balance, index) => (
+          <Grid2 key={index} size={{ xs: 12, md: 4 }}>
+            <CurrentBalance
+              title={balance.title}
+              yieldPercent={balance.yieldPercent}
+              refunded={balance.refunded}
+              staked={balance.staked}
+              currentBalance={balance.currentBalance}
+              rows={balance.rows}
+              actionButtons={balance.actionButtons} // Optional, if provided
+            />
+          </Grid2>
+        ))}
+        <Grid2 size={{ xs: 12, md: 8 }}></Grid2>
+      </Grid2>
     </DashboardContent>
   );
 }

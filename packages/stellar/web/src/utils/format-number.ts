@@ -124,3 +124,17 @@ export function fRawPercent(inputValue: InputNumberValue, options?: Options) {
   }).format(number);
   return fm + '%';
 }
+
+export function fCurrencyTwoDecimals(inputValue: InputNumberValue, options?: Options) {
+  const locale = formatNumberLocale() || DEFAULT_LOCALE;
+  const number = processInput(inputValue);
+  if (number === null) return '';
+  const fm = new Intl.NumberFormat(locale.code, {
+    style: 'currency',
+    currency: locale.currency,
+    minimumFractionDigits: 2, // force two decimals
+    maximumFractionDigits: 2,
+    ...options,
+  }).format(number);
+  return fm;
+}
