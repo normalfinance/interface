@@ -8,6 +8,7 @@ import { StatCardData } from '@/types/stat-card-data';
 import { CurrentBalance } from '@/components/_common/current-balance-card';
 import { createChartData, RealtimeChartData } from '@/utils/portfolio-value-chart-series';
 import { AreaChartCard, LegendValue } from '@/components/_common/area-chart-card';
+import { TabsTable } from '@/components/_common/tabs-table-card';
 
 export default function InsuranceView() {
   const theme = useTheme();
@@ -168,6 +169,9 @@ export default function InsuranceView() {
             color={theme.palette.secondary.main} // for example, using a different color
           />
         </Grid2>
+      </Grid2>
+      <Grid2 sx={{ mt: 3 }}>
+        <TabsTable />
       </Grid2>
     </DashboardContent>
   );
