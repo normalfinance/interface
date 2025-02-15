@@ -5,12 +5,17 @@ import { AssetsAndLiabilities } from '@/components/_overview-page-components/ass
 import { PortfolioValue } from '@/components/_overview-page-components/portfolio-value/portfolio-value';
 import { DashboardContent } from '@/layouts/dashboard';
 import { TradingVolume } from '@/components/_overview-page-components/trading-volume/trading-volume';
-import { Stack, Typography } from '@mui/material';
+import { Stack, Typography, useTheme } from '@mui/material';
 import { Markets } from '@/components/_overview-page-components/markets/markets';
 import { MarketTable } from '@/components/_overview-page-components/market-table/market-table';
 import { createChartData, RealtimeChartData } from 'src/utils/portfolio-value-chart-series';
+import { StatCardData } from '@/types/stat-card-data';
+import { fShortenNumber } from '@/utils/format-number';
+import { StatCard } from '@/components/_common/stat-card';
 
 export default function OverviewView() {
+  const theme = useTheme();
+
   // -------------------------
   // Hardcoded chart data arrays.
   // -------------------------
@@ -67,6 +72,48 @@ export default function OverviewView() {
       title: 'Total Value Locked',
       percent: 0.6,
       total: 883470000,
+    },
+  ];
+
+  const statCardsData: StatCardData[] = [
+    {
+      title: 'Total 24h Trading Volume',
+      percent: 0.6,
+      total: 212350000,
+      formatter: fShortenNumber,
+      chartType: 'bar', // typed literal
+      displayChart: false,
+      chart: {
+        colors: [theme.palette.success.light, theme.palette.success.main],
+        categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        series: [139390, 134590, 149390, 169390, 139390, 179390, 149390],
+      },
+    },
+    {
+      title: 'Total 30d Trading Volume',
+      percent: -80.6,
+      total: 5690000000,
+      formatter: fShortenNumber,
+      chartType: 'bar',
+      displayChart: false,
+      chart: {
+        colors: [theme.palette.info.light, theme.palette.info.main],
+        categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        series: [24930, 34930, 64930, 74930, 24930, 54930, 74930],
+      },
+    },
+    {
+      title: 'Total Value Locked',
+      percent: 0.6,
+      total: 883470000,
+      formatter: fShortenNumber,
+      chartType: 'bar',
+      displayChart: false,
+      chart: {
+        colors: [theme.palette.warning.light, theme.palette.warning.main],
+        categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        series: [2.981, 7.981, 7.981, 10, 4.981, 3.981, 7.981],
+      },
     },
   ];
 
@@ -166,9 +213,17 @@ export default function OverviewView() {
       </Grid2>
       {/* Second row: TradingVolume items */}
       <Grid2 container spacing={3} sx={{ mt: 3 }}>
-        {tradingVolumeData.map((item, index) => (
+        {statCardsData.map((item, index) => (
           <Grid2 key={index} size={{ xs: 12, md: 4 }}>
-            <TradingVolume title={item.title} percent={item.percent} total={item.total} />
+            <StatCard
+              title={item.title}
+              percent={item.percent}
+              total={item.total}
+              formatter={item.formatter}
+              chartType={item.chartType}
+              displayChart={item.displayChart}
+              chart={item.chart}
+            />
           </Grid2>
         ))}
       </Grid2>
