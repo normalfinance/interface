@@ -4,7 +4,6 @@ import { DashboardContent } from '@/layouts/dashboard';
 import { Stack, Typography, useTheme } from '@mui/material';
 import { StatCard } from '@/components/_common/stat-card';
 import { fShortenNumber, fRawPercent } from 'src/utils/format-number';
-import type { ChartOptions } from 'src/components/chart';
 import { StatCardData } from '@/types/stat-card-data';
 
 export default function InsuranceView() {
