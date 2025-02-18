@@ -91,11 +91,13 @@ export function StatCard({
           position: 'relative',
           alignItems: 'center',
           justifyContent: 'center',
+          bgcolor: varAlpha(theme.vars.palette.success.mainChannel, 0.16),
           color: 'success.dark',
           ...theme.applyStyles('dark', {
             color: 'success.light',
           }),
           ...(percent < 0 && {
+            bgcolor: varAlpha(theme.vars.palette.error.mainChannel, 0.16),
             color: 'error.dark',
             ...theme.applyStyles('dark', {
               color: 'error.light',
@@ -104,12 +106,8 @@ export function StatCard({
         }}
       >
         <Iconify
-          width={24}
-          icon={
-            percent < 0
-              ? 'solar:double-alt-arrow-down-bold-duotone'
-              : 'solar:double-alt-arrow-up-bold-duotone'
-          }
+          width={16}
+          icon={percent < 0 ? 'eva:trending-down-fill' : 'eva:trending-up-fill'}
         />
       </Box>
 
