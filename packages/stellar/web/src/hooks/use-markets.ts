@@ -1,10 +1,14 @@
 'use client';
 
-import { useCallback, useState, useEffect } from 'react';
+import type { MarketInfo } from '@normalfinance/stellar-contracts/build/normal-market-factory';
 
-import { NormalMarketFactoryContract } from '@normalfinance/stellar-contracts';
+import { paths } from '@/routes/paths';
 import { constants } from '@normalfinance/utils';
-import { MarketInfo } from '@normalfinance/stellar-contracts/build/normal-market-factory';
+import { useState, useEffect, useCallback } from 'react';
+import {
+  NormalMarketContract,
+  NormalMarketFactoryContract,
+} from '@normalfinance/stellar-contracts';
 
 // ----------------------------------------------------------------------
 
@@ -12,6 +16,13 @@ interface ReturnType {
   error: any | null;
   loading: boolean;
   markets: MarketInfo[];
+  // onDepositCollateral: () => void;
+  // onWithdrawCollateral: () => void;
+  // onBorrowAndIncreaseLiquidity: () => void;
+  // onRemoveLiquidityAndRepay: () => void;
+  // onSwap: () => void;
+  // onIncreaseLiquidity: () => void;
+  // onDecreaseLiquidity: () => void;
 }
 
 // ----------------------------------------------------------------------
@@ -19,7 +30,7 @@ interface ReturnType {
 export function useMarkets(): ReturnType {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true); // Loading state for async operations
-  const [allMarkets, setAllMarkets] = useState<MarketInfo[]>([]); // State to hold index data
+  const [allMarkets, setAllMarkets] = useState<MarketInfo[]>([]); // State to hold all market data
 
   /**
    * Fetch market information by its address.
@@ -27,9 +38,10 @@ export function useMarkets(): ReturnType {
    * @async
    * @function fetchMarket
    * @param {string} marketAddress - The address of the market.
+   * @param {number} index - The index of the market in the list of markets.
    * @returns {Promise<Market | undefined>} A promise that resolves to the market information or undefined in case of failure.
    */
-  const fetchMarket = useCallback(async (marketAddress: string) => {
+  const fetchMarket = useCallback(async (marketAddress: string, index: number) => {
     try {
       const MarketContract = new NormalMarketContract.Client({
         contractId: marketAddress,
@@ -37,65 +49,62 @@ export function useMarkets(): ReturnType {
         rpcUrl: constants.SOROBAN_RPC_URL,
       });
 
-      const [marketConfig, marketInfo] = await Promise.all([
-        MarketContract.query_config(),
-        MarketContract.query_market(),
-      ]);
+      const market = await MarketContract.query_market();
 
-      if (marketConfig?.result && marketInfo?.result) {
+      if (market) {
         // Construct and return market object if all fetches are successful
         return {
-          // tokens: [
-          //   {
-          //     name: tokenA?.symbol || '',
-          //     icon: `/cryptoIcons/${tokenA?.symbol.toLowerCase()}.svg`,
-          //     amount: Number(pairInfo.result.asset_a.amount) / 10 ** Number(tokenA?.decimals),
-          //     category: '',
-          //     usdValue: 0,
-          //   },
-          //   {
-          //     name: tokenB?.symbol || '',
-          //     icon: `/cryptoIcons/${tokenB?.symbol.toLowerCase()}.svg`,
-          //     amount: Number(pairInfo.result.asset_b.amount) / 10 ** Number(tokenB?.decimals),
-          //     category: '',
-          //     usdValue: 0,
-          //   },
-          // ],
-          marketAddress: marketAddress,
+          id: index,
+          name: market.name || '',
+          price: 0,
+          percentageChange: 0,
+          performance: 0,
+          status: '',
+          avatarUrl: `/cryptoIcons/${market.name.toLowerCase()}.svg`,
+          url: paths.markets.details(market.name),
+          address: marketAddress,
         };
       }
+      return undefined;
     } catch (e) {
       console.log(e);
+      return undefined;
     }
-    return;
   }, []);
 
   const fetchAllMarkets = useCallback(async () => {
-    const MarketFactoryContract = new NormalMarketFactoryContract.Client({
-      ...NormalMarketFactoryContract.networks.testnet,
-      contractId: constants.MARKET_FACTORY_ADDRESS,
-      networkPassphrase: constants.SOROBAN_NETWORK_PASSPHRASE,
-      rpcUrl: constants.SOROBAN_RPC_URL,
-    });
+    try {
+      setLoading(true);
+      setError(null);
 
-    const markets = await MarketFactoryContract.query_markets({});
+      const MarketFactoryContract = new NormalMarketFactoryContract.Client({
+        ...NormalMarketFactoryContract.networks.testnet,
+        contractId: constants.MARKET_FACTORY_ADDRESS,
+        networkPassphrase: constants.SOROBAN_NETWORK_PASSPHRASE,
+        rpcUrl: constants.SOROBAN_RPC_URL,
+      });
 
-    const marketsWithData =
-      markets && Array.isArray(markets.result)
-        ? await Promise.all(
-            markets.result.map(async (pool: string) => {
-              return await fetchMarket(pool);
-            })
-          )
-        : [];
+      const markets = await MarketFactoryContract.query_markets({});
 
-    const marketsFiltered: MarketInfo[] = marketsWithData.filter(
-      (el) =>
-        el !== undefined &&
-        el.marketAddress !== 'CBXBKAB6QIRUGTG77OQZHC46BIIPA5WDKIKZKPA2H7Q7CPKQ555W3EVB'
-    );
-    setAllMarkets(marketsFiltered as Market[]);
-    setLoading(false);
+      // TODO: complete
+      // const marketsWithData =
+      //   markets && Array.isArray(markets.result)
+      //     ? await Promise.all(
+      //         markets.result.map(async (market: string, index) => await fetchMarket(market, index))
+      //       )
+      //     : [];
+
+      // const marketsFiltered: MarketInfo[] = marketsWithData.filter(
+      //   (el) =>
+      //     el !== undefined &&
+      //     el.address !== 'CBXBKAB6QIRUGTG77OQZHC46BIIPA5WDKIKZKPA2H7Q7CPKQ555W3EVB'
+      // );
+      // setAllMarkets(marketsFiltered as MarketInfo[]);
+      setLoading(false);
+    } catch (e) {
+      console.log(e);
+      setError(e as any);
+    }
   }, [fetchMarket]);
 
   // On component mount, fetch markets
