@@ -29,21 +29,6 @@ export function TablePaginationCustom({
         {...other}
         sx={{ borderTopColor: 'transparent' }}
       />
-
-      {onChangeDense && (
-        <FormControlLabel
-          label="Dense"
-          control={
-            <Switch checked={dense} onChange={onChangeDense} inputProps={{ id: 'dense-switch' }} />
-          }
-          sx={{
-            pl: 2,
-            py: 1.5,
-            top: 0,
-            position: { sm: 'absolute' },
-          }}
-        />
-      )}
     </Box>
   );
 }

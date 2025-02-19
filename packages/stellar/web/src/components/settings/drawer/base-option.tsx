@@ -7,7 +7,7 @@ import Tooltip from '@mui/material/Tooltip';
 import { styled } from '@mui/material/styles';
 import ButtonBase from '@mui/material/ButtonBase';
 
-import { CONFIG } from 'src/config-global';
+import { CONFIG } from '@/global-config';
 
 import { Iconify } from 'src/components/iconify';
 
