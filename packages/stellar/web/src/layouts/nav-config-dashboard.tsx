@@ -1,10 +1,11 @@
 import type { NavSectionProps } from '@/components/nav-section';
 
+import { CONFIG } from '@/config-global';
 import { paths } from 'src/routes/paths';
 
-import { CONFIG } from '@/global-config';
-
 import { SvgColor } from '@/components/svg-color';
+
+import { paths } from 'src/routes/paths';
 
 // ----------------------------------------------------------------------
 
@@ -36,7 +37,6 @@ export const navData: NavSectionProps['data'] = [
         icon: ICONS.dashboard,
         children: [
           { title: 'Synths', path: paths.markets.root },
-          { title: 'Indexes', path: paths.index.root },
         ],
       },
       {
@@ -45,7 +45,7 @@ export const navData: NavSectionProps['data'] = [
         icon: ICONS.dashboard,
         children: [
           { title: 'Yield', path: paths.markets.root },
-          { title: 'LP', path: paths.index.root },
+          { title: 'LP', path: paths.markets.root },
           { title: 'Insurance', path: paths.insurance },
         ],
       },
@@ -54,7 +54,6 @@ export const navData: NavSectionProps['data'] = [
         path: '',
         icon: ICONS.dashboard,
         children: [
-          { title: 'NORM', path: paths.governance.root },
           { title: 'Referrals', path: paths.rewards },
         ],
       },
@@ -68,11 +67,6 @@ export const navData: NavSectionProps['data'] = [
         path: '',
         icon: ICONS.dashboard,
         children: [
-          {
-            title: 'Governance',
-            path: 'https://www.google.com/',
-            icon: ICONS.external,
-          },
           {
             title: 'Help & Feedback',
             path: 'https://www.google.com/',
