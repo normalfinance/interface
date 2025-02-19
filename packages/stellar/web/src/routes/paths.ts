@@ -11,21 +11,7 @@ export const paths = {
     root: '/markets',
     details: (title: string) => `/markets/${kebabCase(title)}`,
   },
-  index: {
-    root: '/index',
-    details: (title: string) => `/index/${kebabCase(title)}`,
-    create: '/index/create',
-  },
   insurance: '/insurance',
   rewards: '/rewards',
   analytics: '/analytics',
-  governance: {
-    root: '/governance',
-    proposals: {
-      root: '/governance/proposals',
-      details: (id: string) => `/governance/proposals/${kebabCase(id)}`,
-    },
-    lock: '/governance/lock',
-    liquidityVoting: '/governance/vote',
-  },
 };
