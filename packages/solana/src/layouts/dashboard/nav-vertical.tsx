@@ -7,12 +7,9 @@ import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
 
 import { Logo } from 'src/components/logo';
-import { Scrollbar } from 'src/components/scrollbar';
-import { NavSectionMini, NavSectionVertical } from 'src/components/nav-section';
+import { NavSectionMini } from 'src/components/nav-section';
 
 import { layoutClasses } from '../core/classes';
-import { NavUpgrade } from '../components/nav-upgrade';
-import { NavToggleButton } from '../components/nav-toggle-button';
 
 // ----------------------------------------------------------------------
 
@@ -40,22 +37,6 @@ export function NavVertical({
   layoutQuery = 'md',
   ...other
 }: NavVerticalProps) {
-  const renderNavVertical = () => (
-    <>
-      {slots?.topArea ?? (
-        <Box sx={{ pl: 3.5, pt: 2.5, pb: 1 }}>
-          <Logo />
-        </Box>
-      )}
-
-      <Scrollbar fillContent>
-        <NavSectionVertical data={data} cssVars={cssVars} sx={{ px: 2, flex: '1 1 auto' }} />
-
-        {slots?.bottomArea ?? <NavUpgrade />}
-      </Scrollbar>
-    </>
-  );
-
   const renderNavMini = () => (
     <>
       {slots?.topArea ?? (
@@ -90,17 +71,7 @@ export function NavVertical({
       sx={sx}
       {...other}
     >
-      <NavToggleButton
-        isNavMini={isNavMini}
-        onClick={onToggleNav}
-        sx={[
-          (theme) => ({
-            display: 'none',
-            [theme.breakpoints.up(layoutQuery)]: { display: 'inline-flex' },
-          }),
-        ]}
-      />
-      {isNavMini ? renderNavMini() : renderNavVertical()}
+      {renderNavMini()}
     </NavRoot>
   );
 }
