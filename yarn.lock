@@ -5790,6 +5790,7 @@ __metadata:
     "@mui/x-data-grid": ^7.23.5
     "@mui/x-date-pickers": ^7.23.3
     "@mui/x-tree-view": ^7.23.2
+    "@normalfinance/solana-sdk": ^0.0.1
     "@solana/spl-token": 0.4.9
     "@solana/wallet-adapter-base": 0.9.23
     "@solana/wallet-adapter-react": 0.15.35

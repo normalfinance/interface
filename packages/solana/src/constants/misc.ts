@@ -31,3 +31,7 @@ export const IF_STAKE_ACCOUNT_BASE_RENT = BigNum.fromPrint('0.002', BASE_PRECISI
 export const MIN_LEFTOVER_SOL = BigNum.fromPrint('0.015', BASE_PRECISION_EXP);
 
 export const ONE_DAY_MS = 1000 * 60 * 60 * 24;
+
+export const SOLANA_EXPLORER_URL = 'https://explorer.solana.com';
+
+export const TOKEN_ICON_S3_OBJECT_URL = `https://normal-public.s3.us-east-2.amazonaws.com/assets/icons/markets`;
