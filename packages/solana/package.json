@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 8082",
+    "dev": "next dev --turbo -p 8082",
     "start": "next start -p 8082",
     "build": "next build",
     "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\"",
@@ -19,6 +19,15 @@
     "tsc:dev": "yarn dev & yarn tsc:watch",
     "tsc:watch": "tsc --noEmit --watch",
     "tsc:print": "npx tsc --showConfig"
+  },
+  "browser": {
+    "fs": false,
+    "os": false,
+    "path": false,
+    "crypto": false,
+    "@microsoft/typescript-etw": false,
+    "source-map-support": false,
+    "inspector": false
   },
   "dependencies": {
     "@emotion/cache": "^11.14.0",
@@ -37,6 +46,7 @@
     "@mui/x-data-grid": "^7.23.5",
     "@mui/x-date-pickers": "^7.23.3",
     "@mui/x-tree-view": "^7.23.2",
+    "@normalfinance/solana-sdk": "^0.0.1",
     "@solana/spl-token": "0.4.9",
     "@solana/wallet-adapter-base": "0.9.23",
     "@solana/wallet-adapter-react": "0.15.35",
@@ -122,20 +132,5 @@
     "prettier": "^3.4.2",
     "typescript": "^5.7.2",
     "typescript-eslint": "^8.19.0"
-  },
-  "engines": {
-    "node": ">=20",
-    "pnpm": ">=9"
-  },
-  "browserslist": {
-    "production": [
-      ">0.5%",
-      "not dead"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
   }
 }
