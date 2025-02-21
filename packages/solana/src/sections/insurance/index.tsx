@@ -9,9 +9,12 @@ import { CurrentBalance } from '@/components/_common/current-balance-card';
 import { createChartData, RealtimeChartData } from '@/utils/portfolio-value-chart-series';
 import { AreaChartCard, LegendValue } from '@/components/_common/area-chart-card';
 import { TabsTable } from '@/components/_common/tabs-table-card';
+import { useInsuranceFund } from '@/hooks/insuranceFund';
 
 export default function InsuranceView() {
   const theme = useTheme();
+
+  const { insuranceFundAccountData } = useInsuranceFund();
 
   // Stat card data array
   const statCardsData: StatCardData[] = [

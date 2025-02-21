@@ -21,8 +21,8 @@ import createNormalActions from '../actions/normalActions';
 export type UserData = {
   user: User | undefined;
   userAccount: UserAccount | undefined;
-  // spotPositions: SpotPosition[];
-  // leverage: number;
+  // collateralPositions: CollateralPosition[];
+  // liquidityPositions: LiquidityPosition[];
   accountId: number | undefined;
 };
 
@@ -31,7 +31,7 @@ const DEFAULT_SOL_BALANCE = {
   loaded: false,
 };
 
-export type SpotMarketData = {
+export type SynthMarketData = {
   tvl: BigNum;
   deposits: BigNum;
   borrows: BigNum;

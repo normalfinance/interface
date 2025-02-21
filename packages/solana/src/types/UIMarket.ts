@@ -19,7 +19,7 @@ export class UIMarket {
     readonly marketType: MarketType
   ) {
     const marketId = new MarketId(marketIndex, marketType);
-    const markets = marketId.isPerp ? Config.perpMarketsLookup : Config.spotMarketsLookup;
+    const markets = marketId.isSynth ? Config.perpMarketsLookup : Config.spotMarketsLookup;
 
     const market = markets[marketIndex];
 
@@ -44,12 +44,12 @@ export class UIMarket {
     return new UIMarket(marketId.marketIndex, marketId.marketType);
   }
 
-  get isSpot() {
-    return this.marketId.isSpot;
+  get isSynth() {
+    return this.marketId.isSynth;
   }
 
-  get isPerp() {
-    return this.marketId.isPerp;
+  get isIndex() {
+    return this.marketId.isIndex;
   }
 
   get marketTypeStr() {
@@ -81,7 +81,7 @@ export class UIMarket {
   }
 
   baseAssetSymbol(removePrefix = false) {
-    let baseAssetSymbol = this.isPerp
+    let baseAssetSymbol = this.isSynth
       ? (this.market as PerpMarketConfig).baseAssetSymbol
       : this.market.symbol;
 

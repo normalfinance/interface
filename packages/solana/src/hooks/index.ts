@@ -3,6 +3,7 @@ export * from './useCurrentRpc';
 export * from './useWalletContext';
 export * from './useSyncWalletToStore';
 export * from './useSolBalance';
+export * from './useSPLTokenBalance';
 export * from './useEmulation';
 export * from './useDisableScroll';
 export * from './useNormalClientIsReady';
@@ -15,3 +16,6 @@ export * from './priorityFees';
 export * from './useImmediateInterval';
 export * from './useSyncLocalStorage';
 export * from './useHandleBadRpc';
+
+export * from './insuranceFund';
+export * from './market';
