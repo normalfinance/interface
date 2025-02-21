@@ -7,6 +7,9 @@ export interface ModalStore {
   get: (x: any) => ModalStore;
   modals: {
     showConnectWalletModal?: boolean;
+    // showSelectTokenModal?: boolean;
+    // showReviewSwapModal?: boolean;
+    // showReviewSendModal?: boolean;
   };
 }
 
