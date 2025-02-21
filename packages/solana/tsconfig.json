@@ -26,7 +26,6 @@
     "plugins": [{ "name": "next" }],
 
     "paths": {
-      "@project/anchor": ["anchor/src"],
       "@/*": ["./src/*"]
     }
   },
