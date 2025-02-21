@@ -16,10 +16,9 @@ import { Snackbar } from 'src/components/snackbar';
 import { ProgressBar } from 'src/components/progress-bar';
 import { MotionLazy } from 'src/components/animate/motion-lazy';
 import { detectSettings } from 'src/components/settings/server';
-import { SolanaProvider } from 'src/components/solana/solana-provider';
 import { defaultSettings, SettingsProvider } from 'src/components/settings';
-import { ClusterProvider } from 'src/components/cluster/cluster-data-access';
 import AppWrapper from '@/components/AppWrapper';
+import FloatingUI from '@/components/FloatingUI';
 
 // ----------------------------------------------------------------------
 
@@ -90,7 +89,11 @@ export default async function RootLayout({ children }: RootLayoutProps) {
                   <MotionLazy>
                     <Snackbar />
                     <ProgressBar />
-                    <AppWrapper>{children}</AppWrapper>
+                    <AppWrapper>
+                      {/** Floating Content */}
+                      <FloatingUI />
+                      {children}
+                    </AppWrapper>
                   </MotionLazy>
                 </ThemeProvider>
               </AppRouterCacheProvider>
