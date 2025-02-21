@@ -25,7 +25,7 @@ import { MainSection } from '../core/main-section';
 import { MenuButton } from '../components/menu-button';
 import { HeaderSection } from '../core/header-section';
 import { LayoutSection } from '../core/layout-section';
-import { AccountDrawer } from '../components/account-drawer';
+// import { AccountDrawer } from '../components/connect-wallet-drawer';
 import { SettingsButton } from '../components/settings-button';
 import { LanguagePopover } from '../components/language-popover';
 import { navData as dashboardNavData } from '../nav-config-dashboard';
@@ -133,7 +133,7 @@ export function DashboardLayout({
           <SettingsButton />
 
           {/** @slot Account drawer */}
-          <AccountDrawer user={null} data={[]} />
+          {/* <AccountDrawer /> */}
         </Box>
       ),
     };
