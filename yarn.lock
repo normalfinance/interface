@@ -2180,7 +2180,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@coral-xyz/anchor-30@npm:@coral-xyz/anchor@0.30.1, @coral-xyz/anchor@npm:0.30.1":
+"@coral-xyz/anchor-30@npm:@coral-xyz/anchor@0.30.1":
   version: 0.30.1
   resolution: "@coral-xyz/anchor@npm:0.30.1"
   dependencies:
@@ -5769,11 +5769,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@normalfinance/solana-web@workspace:packages/solana/web":
+"@normalfinance/solana@workspace:packages/solana":
   version: 0.0.0-use.local
-  resolution: "@normalfinance/solana-web@workspace:packages/solana/web"
+  resolution: "@normalfinance/solana@workspace:packages/solana"
   dependencies:
-    "@coral-xyz/anchor": 0.30.1
     "@emotion/cache": ^11.14.0
     "@emotion/react": ^11.14.0
     "@emotion/styled": ^11.14.0

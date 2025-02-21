@@ -18,14 +18,9 @@
     "re:build-npm": "npm run clean && npm install && npm run build",
     "tsc:dev": "yarn dev & yarn tsc:watch",
     "tsc:watch": "tsc --noEmit --watch",
-    "tsc:print": "npx tsc --showConfig",
-    "anchor": "cd anchor && anchor",
-    "anchor-build": "cd anchor && anchor build",
-    "anchor-localnet": "cd anchor && anchor localnet",
-    "anchor-test": "cd anchor && anchor test"
+    "tsc:print": "npx tsc --showConfig"
   },
   "dependencies": {
-    "@coral-xyz/anchor": "0.30.1",
     "@emotion/cache": "^11.14.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
