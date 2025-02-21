@@ -1,14 +1,14 @@
-import { Container } from '@mui/material';
-import DashboardLayout from '@/layouts/dashboard/layout';
+import type { Metadata } from 'next';
+
+import { HomeView } from 'src/sections/home/view';
 
 // ----------------------------------------------------------------------
 
-export default function Home() {
-  return (
-    <DashboardLayout>
-      <Container maxWidth="xl">
-        <p>Home page</p>
-      </Container>
-    </DashboardLayout>
-  );
+export const metadata: Metadata = {
+  title: 'Normal | Home',
+  description: '',
+};
+
+export default function Page() {
+  return <HomeView />;
 }

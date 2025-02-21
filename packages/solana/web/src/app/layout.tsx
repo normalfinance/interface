@@ -1,72 +1,102 @@
-import type { Metadata } from 'next';
+import 'src/global.css';
 
-// locales
-import { LanguageProvider } from '@/i18n';
+import type { Metadata, Viewport } from 'next';
 
-// theme
-import { NormalThemeProvider, primaryFont } from '@normalfinance/ui';
+import InitColorSchemeScript from '@mui/material/InitColorSchemeScript';
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 
-// providers
-import { ExternalProvider } from '@/providers/ExternalProvider';
-import { SettingsProvider } from '@/components/settings';
-import LocalizationProvider from '@/providers/LocalizationProvider';
+import { CONFIG } from 'src/global-config';
+import { primary } from 'src/theme/core/palette';
+import { LocalizationProvider } from 'src/locales';
+import { detectLanguage } from 'src/locales/server';
+import { themeConfig, ThemeProvider } from 'src/theme';
+import { I18nProvider } from 'src/locales/i18n-provider';
+
+import { Snackbar } from 'src/components/snackbar';
+import { ProgressBar } from 'src/components/progress-bar';
+import { MotionLazy } from 'src/components/animate/motion-lazy';
+import { detectSettings } from 'src/components/settings/server';
+import { SolanaProvider } from 'src/components/solana/solana-provider';
+import { defaultSettings, SettingsProvider } from 'src/components/settings';
+import { ClusterProvider } from 'src/components/cluster/cluster-data-access';
+import AppWrapper from '@/components/AppWrapper';
+
+// ----------------------------------------------------------------------
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  themeColor: primary.main,
+};
 
 export const metadata: Metadata = {
-  title: 'Normal',
-  description: '',
-  keywords: 'crypto, investing, crypto index, defi',
-  twitter: {
-    card: 'summary_large_image',
-  },
-  manifest: '/manifest.json',
   icons: [
     {
       rel: 'icon',
-      url: '/favicon/favicon.ico',
-    },
-    {
-      rel: 'icon',
-      type: 'image/png',
-      sizes: '16x16',
-      url: '/favicon/favicon-16x16.png',
-    },
-    {
-      rel: 'icon',
-      type: 'image/png',
-      sizes: '32x32',
-      url: '/favicon/favicon-32x32.png',
-    },
-    {
-      rel: 'apple-touch-icon',
-      sizes: '180x180',
-      url: '/favicon/apple-touch-icon.png',
+      url: `${CONFIG.assetsDir}/favicon.ico`,
     },
   ],
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
+// ----------------------------------------------------------------------
+
+type RootLayoutProps = {
   children: React.ReactNode;
-}>) {
+};
+
+async function getAppConfig() {
+  if (CONFIG.isStaticExport) {
+    return {
+      lang: 'en',
+      i18nLang: undefined,
+      cookieSettings: undefined,
+      dir: defaultSettings.direction,
+    };
+  } else {
+    const [lang, settings] = await Promise.all([detectLanguage(), detectSettings()]);
+
+    return {
+      lang: lang ?? 'en',
+      i18nLang: lang ?? 'en',
+      cookieSettings: settings,
+      dir: settings.direction,
+    };
+  }
+}
+
+export default async function RootLayout({ children }: RootLayoutProps) {
+  const appConfig = await getAppConfig();
+
   return (
-    <html lang="en" className={primaryFont.className}>
+    <html lang={appConfig.lang} dir={appConfig.dir} suppressHydrationWarning>
       <body>
-        <LocalizationProvider>
+        <InitColorSchemeScript
+          defaultMode={themeConfig.defaultMode}
+          modeStorageKey={themeConfig.modeStorageKey}
+          attribute={themeConfig.cssVariables.colorSchemeSelector}
+        />
+
+        <I18nProvider lang={appConfig.i18nLang}>
           <SettingsProvider
-            defaultSettings={{
-              themeMode: 'light',
-              themeDirection: 'ltr',
-              themeLayout: 'vertical',
-            }}
+            cookieSettings={appConfig.cookieSettings}
+            defaultSettings={defaultSettings}
           >
-            <LanguageProvider>
-              <ExternalProvider>
-                <NormalThemeProvider>{children}</NormalThemeProvider>
-              </ExternalProvider>
-            </LanguageProvider>
+            <LocalizationProvider>
+              <AppRouterCacheProvider options={{ key: 'css' }}>
+                <ThemeProvider
+                  defaultMode={themeConfig.defaultMode}
+                  modeStorageKey={themeConfig.modeStorageKey}
+                >
+                  <MotionLazy>
+                    <Snackbar />
+                    <ProgressBar />
+                    <AppWrapper>{children}</AppWrapper>
+                  </MotionLazy>
+                </ThemeProvider>
+              </AppRouterCacheProvider>
+            </LocalizationProvider>
           </SettingsProvider>
-        </LocalizationProvider>
+        </I18nProvider>
       </body>
     </html>
   );
