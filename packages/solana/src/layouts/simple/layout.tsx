@@ -17,7 +17,7 @@ import { SimpleCompactContent } from './content';
 import { MainSection } from '../core/main-section';
 import { LayoutSection } from '../core/layout-section';
 import { HeaderSection } from '../core/header-section';
-import { SettingsButton } from '../components/settings-button';
+import { SettingsButton } from '../components/light-dark-mode-button';
 
 import type { SimpleCompactContentProps } from './content';
 import type { MainSectionProps } from '../core/main-section';
