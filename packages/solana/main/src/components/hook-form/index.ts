@@ -2,15 +2,11 @@ export * from './fields';
 
 export * from './rhf-code';
 
-export * from './rhf-upload';
-
 export * from './rhf-select';
 
 export * from './rhf-rating';
 
 export * from './rhf-switch';
-
-export * from './rhf-editor';
 
 export * from './rhf-slider';
 
