@@ -20,14 +20,13 @@ import { NavMobile } from './nav-mobile';
 import { VerticalDivider } from './content';
 import { NavVertical } from './nav-vertical';
 import { layoutClasses } from '../core/classes';
-import { NavHorizontal } from './nav-horizontal';
 import { MainSection } from '../core/main-section';
 import { Searchbar } from '../components/searchbar';
 import { MenuButton } from '../components/menu-button';
 import { HeaderSection } from '../core/header-section';
 import { LayoutSection } from '../core/layout-section';
 // import { AccountDrawer } from '../components/connect-wallet-drawer';
-import { SettingsButton } from '../components/settings-button';
+import { LightDarkModeButton } from '../components/light-dark-mode-button';
 import { LanguagePopover } from '../components/language-popover';
 import { navData as dashboardNavData } from '../nav-config-dashboard';
 import { dashboardLayoutVars, dashboardNavColorVars } from './css-vars';
@@ -35,6 +34,8 @@ import { dashboardLayoutVars, dashboardNavColorVars } from './css-vars';
 import type { MainSectionProps } from '../core/main-section';
 import type { HeaderSectionProps } from '../core/header-section';
 import type { LayoutSectionProps } from '../core/layout-section';
+import { Footer } from './footer';
+import { Searchbar } from '../components/searchbar';
 
 // ----------------------------------------------------------------------
 
@@ -69,21 +70,12 @@ export function DashboardLayout({
   const navData = slotProps?.nav?.data ?? dashboardNavData;
 
   const isNavMini = settings.state.navLayout === 'mini';
-  const isNavHorizontal = settings.state.navLayout === 'horizontal';
-  const isNavVertical = isNavMini || settings.state.navLayout === 'vertical';
 
   const renderHeader = () => {
     const headerSlotProps: HeaderSectionProps['slotProps'] = {
       container: {
         maxWidth: false,
-        sx: {
-          ...(isNavVertical && { px: { [layoutQuery]: 5 } }),
-          ...(isNavHorizontal && {
-            bgcolor: 'var(--layout-nav-bg)',
-            height: { [layoutQuery]: 'var(--layout-nav-horizontal-height)' },
-            [`& .${iconButtonClasses.root}`]: { color: 'var(--layout-nav-text-secondary-color)' },
-          }),
-        },
+        sx: { px: { [layoutQuery]: 5 } },
       },
     };
 
@@ -93,9 +85,7 @@ export function DashboardLayout({
           This is an info Alert.
         </Alert>
       ),
-      bottomArea: isNavHorizontal ? (
-        <NavHorizontal data={navData} layoutQuery={layoutQuery} cssVars={navVars.section} />
-      ) : null,
+      bottomArea: null,
       leftArea: (
         <>
           {/** @slot Nav mobile */}
@@ -104,21 +94,6 @@ export function DashboardLayout({
             sx={{ mr: 1, ml: -1, [theme.breakpoints.up(layoutQuery)]: { display: 'none' } }}
           />
           <NavMobile data={navData} open={open} onClose={onClose} cssVars={navVars.section} />
-
-          {/** @slot Logo */}
-          {isNavHorizontal && (
-            <Logo
-              sx={{
-                display: 'none',
-                [theme.breakpoints.up(layoutQuery)]: { display: 'inline-flex' },
-              }}
-            />
-          )}
-
-          {/** @slot Divider */}
-          {isNavHorizontal && (
-            <VerticalDivider sx={{ [theme.breakpoints.up(layoutQuery)]: { display: 'flex' } }} />
-          )}
         </>
       ),
       rightArea: (
@@ -130,7 +105,7 @@ export function DashboardLayout({
           <LanguagePopover data={allLangs} />
 
           {/** @slot Settings button */}
-          <SettingsButton />
+          <LightDarkModeButton />
 
           {/** @slot Account drawer */}
           {/* <AccountDrawer /> */}
@@ -141,7 +116,7 @@ export function DashboardLayout({
     return (
       <HeaderSection
         layoutQuery={layoutQuery}
-        disableElevation={isNavVertical}
+        disableElevation={true}
         {...slotProps?.header}
         slots={{ ...headerSlots, ...slotProps?.header?.slots }}
         slotProps={merge(headerSlotProps, slotProps?.header?.slotProps ?? {})}
@@ -165,7 +140,7 @@ export function DashboardLayout({
     />
   );
 
-  const renderFooter = () => null;
+  const renderFooter = () => <Footer />;
 
   const renderMain = () => <MainSection {...slotProps?.main}>{children}</MainSection>;
 
@@ -178,7 +153,7 @@ export function DashboardLayout({
       /** **************************************
        * @Sidebar
        *************************************** */
-      sidebarSection={isNavHorizontal ? null : renderSidebar()}
+      sidebarSection={renderSidebar()}
       /** **************************************
        * @Footer
        *************************************** */
