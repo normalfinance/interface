@@ -1,11 +1,9 @@
 import type { NavSectionProps } from '@/components/nav-section';
 
-import { CONFIG } from '@/config-global';
+import { CONFIG } from '@/global-config';
 import { paths } from 'src/routes/paths';
 
 import { SvgColor } from '@/components/svg-color';
-
-import { paths } from 'src/routes/paths';
 
 // ----------------------------------------------------------------------
 
@@ -35,9 +33,7 @@ export const navData: NavSectionProps['data'] = [
         title: 'Trade',
         path: '',
         icon: ICONS.dashboard,
-        children: [
-          { title: 'Synths', path: paths.markets.root },
-        ],
+        children: [{ title: 'Synths', path: paths.markets.root }],
       },
       {
         title: 'Earn',
@@ -53,9 +49,7 @@ export const navData: NavSectionProps['data'] = [
         title: 'Rewards',
         path: '',
         icon: ICONS.dashboard,
-        children: [
-          { title: 'Referrals', path: paths.rewards },
-        ],
+        children: [{ title: 'Referrals', path: paths.rewards }],
       },
       {
         title: 'Analytics',

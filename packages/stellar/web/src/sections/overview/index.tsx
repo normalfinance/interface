@@ -11,6 +11,7 @@ import { StatCardData } from '@/types/stat-card-data';
 import { fCurrency, fCurrencyCompact, fPercent, fShortenNumber } from '@/utils/format-number';
 import { StatCard } from '@/components/_common/stat-card';
 import { AreaChartCard, LegendValue } from '@/components/_common/area-chart-card';
+import { SwapSendCard } from '@/components/_common/swap-send-card';
 
 export default function OverviewView() {
   const theme = useTheme();
@@ -197,7 +198,8 @@ export default function OverviewView() {
           />
         </Grid2>
         <Grid2 size={{ xs: 12, md: 4 }}>
-          <AssetsAndLiabilities title="Assets & Liabilities" list={_appRelated} />
+          {/*<AssetsAndLiabilities title="Assets & Liabilities" list={_appRelated} />*/}
+          <SwapSendCard />
         </Grid2>
       </Grid2>
       {/* Second row: TradingVolume items */}
