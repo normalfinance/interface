@@ -12,6 +12,7 @@ import { fCurrency, fCurrencyCompact, fPercent, fShortenNumber } from '@/utils/f
 import { StatCard } from '@/components/_common/stat-card';
 import { AreaChartCard, LegendValue } from '@/components/_common/area-chart-card';
 import { SwapSendCard } from '@/components/_common/swap-send-card';
+import { Token } from '@/types/token';
 
 export default function OverviewView() {
   const theme = useTheme();
@@ -176,6 +177,57 @@ export default function OverviewView() {
     },
   ];
 
+  const tokensList: Token[] = [
+    {
+      url: 'https://token-icons.s3.amazonaws.com/eth.png',
+      name: 'Ethereum',
+      shortname: 'ETH',
+      owned: true,
+      countstatus: 2,
+      pricestatus: '$3,000',
+    },
+    {
+      url: 'https://coin-images.coingecko.com/coins/images/6319/large/usdc.png?1696506694',
+      name: 'USDC',
+      shortname: 'USDC',
+      owned: false,
+      countstatus: 0,
+      pricestatus: '$40,000',
+    },
+    {
+      url: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xdAC17F958D2ee523a2206206994597C13D831ec7/logo.png',
+      name: 'Tether',
+      shortname: 'USDT',
+      owned: true,
+      countstatus: 1000,
+      pricestatus: '$1.20',
+    },
+    {
+      url: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xdAC17F958D2ee523a2206206994597C13D831ec7/logo.png',
+      name: 'Tether',
+      shortname: 'USDT',
+      owned: true,
+      countstatus: 1000,
+      pricestatus: '$1.20',
+    },
+    {
+      url: 'https://coin-images.coingecko.com/coins/images/7598/large/wrapped_bitcoin_wbtc.png?1696507857',
+      name: 'Wrapped Bitcoin',
+      shortname: 'WBTC',
+      owned: true,
+      countstatus: 1000,
+      pricestatus: '$1.20',
+    },
+    {
+      url: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png',
+      name: 'Wrapped Ether',
+      shortname: 'WETH',
+      owned: true,
+      countstatus: 1000,
+      pricestatus: '$1.20',
+    },
+  ];
+
   return (
     <DashboardContent maxWidth="xl">
       <Stack spacing={1}>
@@ -199,7 +251,7 @@ export default function OverviewView() {
         </Grid2>
         <Grid2 size={{ xs: 12, md: 4 }}>
           {/*<AssetsAndLiabilities title="Assets & Liabilities" list={_appRelated} />*/}
-          <SwapSendCard />
+          <SwapSendCard tokensList={tokensList} />
         </Grid2>
       </Grid2>
       {/* Second row: TradingVolume items */}

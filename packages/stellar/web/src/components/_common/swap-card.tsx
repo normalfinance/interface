@@ -1,14 +1,28 @@
 import React, { useState } from 'react';
-import { Typography, Box, Button, InputBase } from '@mui/material';
+import { Typography, Box, Button, InputBase, CardProps } from '@mui/material';
 import { alpha, useTheme } from '@mui/material/styles';
 import { Iconify } from 'src/components/iconify';
 import SwapSendPopupButton from './swap-send-popup-button';
 import SwapSendEmptyPopupButton from './swap-send-empty-popup-button';
+import PickToken from './pick-token';
+import { Token } from '@/types/token';
 
-const SwapCard: React.FC = () => {
+interface SwapCardProps extends CardProps {
+  tokensList?: Token[];
+}
+
+const SwapCard: React.FC<SwapCardProps> = ({ tokensList, ...other }) => {
   const theme = useTheme();
   // Store the input as a string to control formatting
   const [amount, setAmount] = useState<string>('0');
+
+  // State to control the PickToken popup
+  const [open, setOpen] = useState(false);
+  // New state to track which button opened the popup (e.g. "sell" or "buy")
+  const [activeButton, setActiveButton] = useState<string>('');
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let newVal = e.target.value;
@@ -130,7 +144,7 @@ const SwapCard: React.FC = () => {
               flexDirection: 'column',
               justifyContent: 'space-between',
               alignItems: 'flex-start',
-              gap: 2, // gap using theme spacing (2 * 8px = 16px)
+              gap: 2,
             }}
           >
             <Typography variant="body1">Sell</Typography>
@@ -184,11 +198,13 @@ const SwapCard: React.FC = () => {
               height: '128px',
             }}
           >
+            {/* This button opens the popup for "Sell" */}
             <SwapSendPopupButton
               imgUrl="https://token-icons.s3.amazonaws.com/eth.png"
               label="eth"
               onClick={() => {
-                console.log('Button clicked');
+                setActiveButton('sell');
+                handleOpen();
               }}
             />
           </Box>
@@ -216,7 +232,7 @@ const SwapCard: React.FC = () => {
               flexDirection: 'column',
               justifyContent: 'space-between',
               alignItems: 'flex-start',
-              gap: 2, // gap using theme spacing (2 * 8px = 16px)
+              gap: 2,
             }}
           >
             <Typography variant="body1">Buy</Typography>
@@ -238,7 +254,6 @@ const SwapCard: React.FC = () => {
             >
               0
             </Typography>
-
             <Typography
               sx={{
                 fontSize: 'var(--components-nav-item-size, 14px)',
@@ -263,10 +278,12 @@ const SwapCard: React.FC = () => {
               height: '128px',
             }}
           >
+            {/* This button opens the popup for "Buy" */}
             <SwapSendEmptyPopupButton
               label="Select token"
               onClick={() => {
-                console.log('Button clicked');
+                setActiveButton('buy');
+                handleOpen();
               }}
             />
           </Box>
@@ -279,6 +296,13 @@ const SwapCard: React.FC = () => {
           Get started
         </Button>
       </Box>
+
+      <PickToken
+        open={open}
+        onClose={handleClose}
+        buttonSource={activeButton}
+        tokensList={tokensList}
+      />
     </Box>
   );
 };
