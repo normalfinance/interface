@@ -179,6 +179,7 @@ export default function OverviewView() {
 
   const tokensList: Token[] = [
     {
+      id: 1,
       url: 'https://token-icons.s3.amazonaws.com/eth.png',
       name: 'Ethereum',
       shortname: 'ETH',
@@ -187,6 +188,7 @@ export default function OverviewView() {
       pricestatus: '$3,000',
     },
     {
+      id: 2,
       url: 'https://coin-images.coingecko.com/coins/images/6319/large/usdc.png?1696506694',
       name: 'USDC',
       shortname: 'USDC',
@@ -195,6 +197,7 @@ export default function OverviewView() {
       pricestatus: '$40,000',
     },
     {
+      id: 3,
       url: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xdAC17F958D2ee523a2206206994597C13D831ec7/logo.png',
       name: 'Tether',
       shortname: 'USDT',
@@ -204,6 +207,7 @@ export default function OverviewView() {
     },
 
     {
+      id: 4,
       url: 'https://coin-images.coingecko.com/coins/images/7598/large/wrapped_bitcoin_wbtc.png?1696507857',
       name: 'Wrapped Bitcoin',
       shortname: 'WBTC',
@@ -212,6 +216,7 @@ export default function OverviewView() {
       pricestatus: '$1.20',
     },
     {
+      id: 5,
       url: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png',
       name: 'Wrapped Ether',
       shortname: 'WETH',

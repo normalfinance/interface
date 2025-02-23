@@ -63,12 +63,19 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList, ...other }) => {
 
   const handleTokenSelect = (token: Token) => {
     if (activeButton === 'sell') {
+      // If the token selected for sell is already chosen for buy, clear buy
+      if (buyToken && buyToken.id === token.id) {
+        setBuyToken(null);
+      }
       setSellToken(token);
     } else if (activeButton === 'buy') {
+      // If the token selected for buy is already chosen for sell, clear sell
+      if (sellToken && sellToken.id === token.id) {
+        setSellToken(null);
+      }
       setBuyToken(token);
     }
   };
-
   return (
     <Box
       sx={{
@@ -224,7 +231,7 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList, ...other }) => {
               />
             ) : (
               <SwapSendEmptyPopupButton
-                label="eth"
+                label="Select token"
                 onClick={() => {
                   setActiveButton('sell');
                   handleOpen();
