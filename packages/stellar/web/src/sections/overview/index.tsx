@@ -184,8 +184,8 @@ export default function OverviewView() {
       name: 'Ethereum',
       shortname: 'ETH',
       owned: true,
-      countstatus: 2,
-      pricestatus: '$3,000',
+      countstatus: 0.02103,
+      pricestatus: 2814.25,
     },
     {
       id: 2,
@@ -194,16 +194,16 @@ export default function OverviewView() {
       shortname: 'USDC',
       owned: false,
       countstatus: 0,
-      pricestatus: '$40,000',
+      pricestatus: 0.9998,
     },
     {
       id: 3,
       url: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xdAC17F958D2ee523a2206206994597C13D831ec7/logo.png',
       name: 'Tether',
       shortname: 'USDT',
-      owned: true,
+      owned: false,
       countstatus: 1000,
-      pricestatus: '$1.20',
+      pricestatus: 0.9999,
     },
 
     {
@@ -211,18 +211,18 @@ export default function OverviewView() {
       url: 'https://coin-images.coingecko.com/coins/images/7598/large/wrapped_bitcoin_wbtc.png?1696507857',
       name: 'Wrapped Bitcoin',
       shortname: 'WBTC',
-      owned: true,
+      owned: false,
       countstatus: 1000,
-      pricestatus: '$1.20',
+      pricestatus: 95799.17,
     },
     {
       id: 5,
       url: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png',
       name: 'Wrapped Ether',
       shortname: 'WETH',
-      owned: true,
+      owned: false,
       countstatus: 1000,
-      pricestatus: '$1.20',
+      pricestatus: 2806.75,
     },
   ];
 

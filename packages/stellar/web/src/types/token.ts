@@ -5,5 +5,5 @@ export interface Token {
   shortname: string;
   owned: boolean;
   countstatus: number;
-  pricestatus: string;
+  pricestatus: number;
 }
