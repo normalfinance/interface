@@ -8,6 +8,7 @@ import { useTabs } from 'minimal-shared/hooks';
 import { CustomTabsSwapSend } from './swap-send-card-custom-card';
 import SwapCard from './swap-card';
 import SendCard from './send-card';
+import { alpha, useTheme } from '@mui/material/styles';
 
 interface SwapSendCardProps extends CardProps {
   title?: string;
@@ -15,6 +16,8 @@ interface SwapSendCardProps extends CardProps {
 }
 
 export const SwapSendCard: React.FC<SwapSendCardProps> = ({ sx, title, subheader, ...other }) => {
+  const theme = useTheme();
+
   // Use the tabs hook with a default value of 'swap'
   const tabs = useTabs('swap');
 
@@ -31,9 +34,10 @@ export const SwapSendCard: React.FC<SwapSendCardProps> = ({ sx, title, subheader
         flexDirection: 'column',
         minWidth: '200px',
         maxWidth: '100%',
-        minHeight: '400px',
+        minHeight: '380px',
         maxHeight: '600px',
         padding: '8px',
+        paddingTop: '12px',
         gap: '2px',
         borderRadius: '16px',
         ...sx,
@@ -57,7 +61,22 @@ export const SwapSendCard: React.FC<SwapSendCardProps> = ({ sx, title, subheader
         value={tabs.value}
         onChange={tabs.onChange}
         variant="standard"
-        slotProps={{ tab: { px: 0 } }}
+        sx={{ bgcolor: 'background.paper', padding: 0 }}
+        slotProps={{
+          flexContainer: { gap: '8px', padding: 0 },
+          tab: {
+            borderRadius: '8px',
+            px: '12px',
+            height: '34px',
+            color: theme.palette.text.primary,
+          },
+          selected: {},
+          indicator: {
+            boxShadow: 'none !important',
+            backgroundColor: alpha(theme.palette.grey[500], 0.08),
+            border: `1px solid ${theme.palette.divider}`,
+          },
+        }}
       >
         {TABS.map((tab) => (
           <Tab key={tab.value} value={tab.value} label={tab.label} />
