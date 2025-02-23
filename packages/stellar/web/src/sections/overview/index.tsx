@@ -202,14 +202,7 @@ export default function OverviewView() {
       countstatus: 1000,
       pricestatus: '$1.20',
     },
-    {
-      url: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xdAC17F958D2ee523a2206206994597C13D831ec7/logo.png',
-      name: 'Tether',
-      shortname: 'USDT',
-      owned: true,
-      countstatus: 1000,
-      pricestatus: '$1.20',
-    },
+
     {
       url: 'https://coin-images.coingecko.com/coins/images/7598/large/wrapped_bitcoin_wbtc.png?1696507857',
       name: 'Wrapped Bitcoin',

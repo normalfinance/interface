@@ -21,6 +21,12 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList, ...other }) => {
   // New state to track which button opened the popup (e.g. "sell" or "buy")
   const [activeButton, setActiveButton] = useState<string>('');
 
+  // States for the selected tokens
+  const [sellToken, setSellToken] = useState<Token | null>(
+    tokensList && tokensList.length > 0 ? tokensList[0] : null
+  );
+  const [buyToken, setBuyToken] = useState<Token | null>(null);
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -52,6 +58,14 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList, ...other }) => {
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === '-') {
       e.preventDefault();
+    }
+  };
+
+  const handleTokenSelect = (token: Token) => {
+    if (activeButton === 'sell') {
+      setSellToken(token);
+    } else if (activeButton === 'buy') {
+      setBuyToken(token);
     }
   };
 
@@ -199,14 +213,24 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList, ...other }) => {
             }}
           >
             {/* This button opens the popup for "Sell" */}
-            <SwapSendPopupButton
-              imgUrl="https://token-icons.s3.amazonaws.com/eth.png"
-              label="eth"
-              onClick={() => {
-                setActiveButton('sell');
-                handleOpen();
-              }}
-            />
+            {sellToken ? (
+              <SwapSendPopupButton
+                imgUrl={sellToken.url}
+                label={sellToken.shortname}
+                onClick={() => {
+                  setActiveButton('sell');
+                  handleOpen();
+                }}
+              />
+            ) : (
+              <SwapSendEmptyPopupButton
+                label="eth"
+                onClick={() => {
+                  setActiveButton('sell');
+                  handleOpen();
+                }}
+              />
+            )}
           </Box>
         </Box>
 
@@ -279,13 +303,24 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList, ...other }) => {
             }}
           >
             {/* This button opens the popup for "Buy" */}
-            <SwapSendEmptyPopupButton
-              label="Select token"
-              onClick={() => {
-                setActiveButton('buy');
-                handleOpen();
-              }}
-            />
+            {buyToken ? (
+              <SwapSendPopupButton
+                imgUrl={buyToken.url}
+                label={buyToken.shortname}
+                onClick={() => {
+                  setActiveButton('buy');
+                  handleOpen();
+                }}
+              />
+            ) : (
+              <SwapSendEmptyPopupButton
+                label="Select token"
+                onClick={() => {
+                  setActiveButton('buy');
+                  handleOpen();
+                }}
+              />
+            )}
           </Box>
         </Box>
       </Box>
@@ -302,6 +337,7 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList, ...other }) => {
         onClose={handleClose}
         buttonSource={activeButton}
         tokensList={tokensList}
+        onTokenSelect={handleTokenSelect}
       />
     </Box>
   );
