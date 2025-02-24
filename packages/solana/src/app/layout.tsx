@@ -2,6 +2,8 @@ import 'src/global.css';
 
 import type { Metadata, Viewport } from 'next';
 
+import { PrivyProvider } from '@privy-io/react-auth';
+
 import InitColorSchemeScript from '@mui/material/InitColorSchemeScript';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 
@@ -95,6 +97,27 @@ export default async function RootLayout({ children }: RootLayoutProps) {
                       {children}
                     </AppWrapper>
                   </MotionLazy>
+                  <PrivyProvider
+                    appId="cm7jfvpu1023haffjdk3klr7o"
+                    config={{
+                      // Customize Privy's appearance in your app
+                      appearance: {
+                        theme: 'light',
+                        accentColor: '#676FFF',
+                        logo: 'https://your-logo-url',
+                      },
+                      // Create embedded wallets for users who don't have a wallet
+                      embeddedWallets: {
+                        createOnLogin: 'users-without-wallets',
+                      },
+                    }}
+                  >
+                    <MotionLazy>
+                      <Snackbar />
+                      <ProgressBar />
+                      {children}
+                    </MotionLazy>
+                  </PrivyProvider>
                 </ThemeProvider>
               </AppRouterCacheProvider>
             </LocalizationProvider>
