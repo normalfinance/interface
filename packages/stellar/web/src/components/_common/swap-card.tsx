@@ -115,18 +115,31 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], ...other }) => {
     }
   };
 
-  // --- New function to invert tokens ---
+  // --- New function to invert tokens and amounts ---
   const handleInvertTokens = () => {
-    // If neither or only one token is selected, you could choose how to handle.
-    // For now, we skip if either side is null (optional).
+    // If neither or only one token is selected, decide how to handle
     if (!sellToken || !buyToken) return;
 
-    // Swap
+    // Save old values
     const oldSellToken = sellToken;
-    setSellToken(buyToken);
+    const oldBuyToken = buyToken;
+    const oldAmount = amount; // typed input for SELL
+    const oldBuyAmount = buyAmount; // calculated result
+
+    // 1) Swap tokens
+    setSellToken(oldBuyToken);
     setBuyToken(oldSellToken);
 
-    // Reset quote states if desired
+    // 2) Swap amounts
+    // Now we want the typed amount to reflect the old buy quantity
+    // Typically, you might format it to a string with some decimals:
+    const newTypedAmount = oldBuyAmount > 0 ? oldBuyAmount.toFixed(4) : '0';
+    setAmount(newTypedAmount);
+
+    // Optionally, if you want to preserve the old typed amount as the new buy amount:
+    // setBuyAmount(parseFloat(oldAmount) || 0);
+
+    // 3) Reset states so a new quote is triggered
     setIsLoading(false);
     setQuoteFetched(false);
     setInsufficientBalance(false);
