@@ -6,4 +6,6 @@ export interface Token {
   owned: boolean;
   countstatus: number;
   pricestatus: number;
+  featured: boolean;
+  address: string;
 }

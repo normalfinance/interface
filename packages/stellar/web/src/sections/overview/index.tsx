@@ -186,6 +186,8 @@ export default function OverviewView() {
       owned: true,
       countstatus: 0.02103,
       pricestatus: 2814.25,
+      featured: true,
+      address: '0x742d35Cc6634C0532925a3b844Bc454e4438f44e',
     },
     {
       id: 2,
@@ -195,6 +197,8 @@ export default function OverviewView() {
       owned: false,
       countstatus: 0,
       pricestatus: 0.9998,
+      featured: true,
+      address: '0x742d35Cc6634C0532925a3b844Bc454e4438f44e',
     },
     {
       id: 3,
@@ -204,6 +208,8 @@ export default function OverviewView() {
       owned: false,
       countstatus: 0,
       pricestatus: 0.9999,
+      featured: true,
+      address: '0x742d35Cc6634C0532925a3b844Bc454e4438f44e',
     },
 
     {
@@ -212,8 +218,10 @@ export default function OverviewView() {
       name: 'Wrapped Bitcoin',
       shortname: 'WBTC',
       owned: false,
-      countstatus: 1000,
+      countstatus: 0,
       pricestatus: 95799.17,
+      featured: true,
+      address: '0x742d35Cc6634C0532925a3b844Bc454e4438f44e',
     },
     {
       id: 5,
@@ -221,8 +229,21 @@ export default function OverviewView() {
       name: 'Wrapped Ether',
       shortname: 'WETH',
       owned: false,
-      countstatus: 1000,
+      countstatus: 0,
       pricestatus: 2806.75,
+      featured: true,
+      address: '0x742d35Cc6634C0532925a3b844Bc454e4438f44e',
+    },
+    {
+      id: 6,
+      url: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png',
+      name: 'Wrapped Ether',
+      shortname: 'WETH',
+      owned: false,
+      countstatus: 0,
+      pricestatus: 2806.75,
+      featured: false,
+      address: '0x742d35Cc6634C0532925a3b844Bc454e4438f44e',
     },
   ];
 
