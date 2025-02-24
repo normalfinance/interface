@@ -202,7 +202,7 @@ export default function OverviewView() {
       name: 'Tether',
       shortname: 'USDT',
       owned: false,
-      countstatus: 1000,
+      countstatus: 0,
       pricestatus: 0.9999,
     },
 

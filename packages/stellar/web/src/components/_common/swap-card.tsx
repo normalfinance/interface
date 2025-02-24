@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, Box, Button, InputBase, CardProps } from '@mui/material';
+import { Typography, Box, Button, InputBase, CardProps, Tooltip } from '@mui/material';
 import { alpha, useTheme } from '@mui/material/styles';
 import { Iconify } from 'src/components/iconify';
 import SwapSendPopupButton from './swap-send-popup-button';
@@ -258,68 +258,101 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], ...other }) => {
             borderRadius: '8px',
             border: `1px solid ${theme.palette.divider}`,
             backgroundColor: alpha(theme.palette.grey[500], 0.08),
+            // Optionally set a maxWidth if you want to strictly limit it
+            // maxWidth: 400, // for example
+            overflow: 'hidden', // ensure content does not push beyond
           }}
         >
-          {/* Sell Input */}
           <Box
             sx={{
-              flexGrow: 1,
               display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
+              // Force the input area to shrink if the input is very long
+              flexGrow: 1,
+              minWidth: 0, // Allows overflow hidden to work correctly
               alignItems: 'flex-start',
-              gap: 2,
+              overflow: 'hidden', // Hide any overflowing text
             }}
           >
-            <Typography variant="body1">Sell</Typography>
-            <InputBase
-              type="number"
-              value={amount}
-              onChange={handleInputChange}
-              onFocus={handleFocus}
-              onBlur={handleBlur}
-              onKeyDown={handleKeyDown}
-              inputProps={{
-                min: 0,
-                style: {
-                  fontSize: 'var(--h3-size, 32px)',
-                  fontStyle: 'normal',
-                  fontWeight: 'var(--h3-weight, 700)',
-                  lineHeight: 'var(--h3-line-height, 48px)',
-                  letterSpacing: 'var(--h3-letter-spacing, 0px)',
-                },
-              }}
+            {/* Left side: Sell label, input, fiat text */}
+            <Box
               sx={{
-                width: '100%',
-                color:
-                  amount === '0' || amount === ''
-                    ? theme.palette.text.secondary
-                    : theme.palette.text.primary,
-                border: 'none',
-                padding: 0,
-              }}
-            />
-            <Typography
-              sx={{
-                fontSize: 'var(--components-nav-item-size, 14px)',
-                fontStyle: 'normal',
-                fontWeight: 'var(--components-nav-item-weight, 500)',
-                lineHeight: 'var(--components-nav-item-line-height, 22px)',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 2,
+                flexGrow: 1,
+                minWidth: 0, // again, to allow truncation
               }}
             >
-              {`$${sellFiatValue.toFixed(2)}`}
-            </Typography>
+              <Typography variant="body1" noWrap>
+                Sell
+              </Typography>
+              <InputBase
+                type="number"
+                value={amount}
+                onChange={handleInputChange}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+                onKeyDown={handleKeyDown}
+                inputProps={{
+                  min: 0,
+                  style: {
+                    fontSize: 'var(--h3-size, 32px)',
+                    fontStyle: 'normal',
+                    fontWeight: 'var(--h3-weight, 700)',
+                    lineHeight: 'var(--h3-line-height, 48px)',
+                    letterSpacing: 'var(--h3-letter-spacing, 0px)',
+                    // For very long input, let it truncate
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'clip',
+                  },
+                }}
+                sx={{
+                  width: '100%',
+                  border: 'none',
+                  padding: 0,
+                  color:
+                    amount === '0' || amount === ''
+                      ? theme.palette.text.secondary
+                      : theme.palette.text.primary,
+                  // Ensure the input doesn't expand infinitely
+                  // and let overflow happen
+                  flexGrow: 1,
+                  minWidth: 0,
+                  overflow: 'hidden',
+                  textOverflow: 'clip',
+                  whiteSpace: 'nowrap',
+                }}
+              />
+              <Typography
+                noWrap
+                sx={{
+                  fontSize: 'var(--components-nav-item-size, 14px)',
+                  fontStyle: 'normal',
+                  fontWeight: 'var(--components-nav-item-weight, 500)',
+                  lineHeight: 'var(--components-nav-item-line-height, 22px)',
+                  // Truncate if needed
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'clip',
+                  minWidth: 0,
+                }}
+              >
+                {`$${sellFiatValue.toFixed(2)}`}
+              </Typography>
+            </Box>
           </Box>
 
-          {/* Sell Token Button */}
+          {/* Right side: Sell Token Button */}
           <Box
             sx={{
-              flexShrink: 0,
+              flexShrink: 0, // Don’t let the button shrink
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'center',
               alignItems: 'flex-end',
               height: '128px',
+              overflow: 'hidden', // keep button inside
             }}
           >
             {sellToken ? (
@@ -356,35 +389,50 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], ...other }) => {
             borderRadius: '8px',
             border: `1px solid ${theme.palette.divider}`,
             backgroundColor: theme.palette.background.paper,
+            overflow: 'hidden', // ensure no overflow
           }}
         >
-          {/* Show how many buy tokens the user might get */}
+          {/* Left side: Buy display */}
           <Box
             sx={{
-              flexGrow: 1,
               display: 'flex',
               flexDirection: 'column',
-              justifyContent: 'space-between',
-              alignItems: 'flex-start',
+              flexGrow: 1,
+              minWidth: 0, // Crucial for flex truncation
+              overflow: 'hidden', // Hide any overflow
               gap: 2,
             }}
           >
-            <Typography variant="body1">Buy</Typography>
-            <Typography
+            <Typography variant="body1" noWrap>
+              Buy
+            </Typography>
+
+            {/* Primary buy amount */}
+            <Box
               sx={{
-                width: '100%',
-                color: !quoteFetched ? theme.palette.text.secondary : theme.palette.text.primary,
-                border: 'none',
-                padding: 0,
-                fontSize: 'var(--h3-size, 32px)',
-                fontStyle: 'normal',
-                fontWeight: 'var(--h3-weight, 700)',
-                lineHeight: 'var(--h3-line-height, 48px)',
-                letterSpacing: 'var(--h3-letter-spacing, 0px)',
+                // Constrain the width so the text can overflow horizontally
+                maxWidth: '100%', // or '100%', or any suitable width
+                overflowX: 'auto', // horizontal scroll if text is wider than container
+                whiteSpace: 'nowrap',
               }}
             >
-              {quoteFetched && buyToken ? buyAmount.toFixed(4) : 0}
-            </Typography>
+              <Typography
+                sx={{
+                  display: 'inline-block', // ensures Typography doesn't shrink to fit
+                  // No textOverflow: 'clip' (or ellipsis) if you want the user to scroll
+                  fontSize: 'var(--h3-size, 32px)',
+                  fontStyle: 'normal',
+                  fontWeight: 'var(--h3-weight, 700)',
+                  lineHeight: 'var(--h3-line-height, 48px)',
+                  letterSpacing: 'var(--h3-letter-spacing, 0px)',
+                  color: !quoteFetched ? theme.palette.text.secondary : theme.palette.text.primary,
+                }}
+              >
+                {quoteFetched && buyToken ? buyAmount.toFixed(2) : 0}
+              </Typography>
+            </Box>
+
+            {/* Fiat value */}
             <Typography
               sx={{
                 fontSize: 'var(--components-nav-item-size, 14px)',
@@ -392,21 +440,24 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], ...other }) => {
                 fontWeight: 'var(--components-nav-item-weight, 500)',
                 lineHeight: 'var(--components-nav-item-line-height, 22px)',
                 opacity: quoteFetched && buyToken ? 1 : 0,
+                whiteSpace: 'nowrap',
+                overflow: 'visible',
               }}
             >
               {buyToken ? `$${(buyToken.pricestatus * buyAmount).toFixed(2)}` : '$0'}
             </Typography>
           </Box>
 
-          {/* Buy Token Button */}
+          {/* Right side: Buy Token Button */}
           <Box
             sx={{
-              flexShrink: 0,
+              flexShrink: 0, // Don’t let the button shrink
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'center',
               alignItems: 'flex-end',
               height: '128px',
+              overflow: 'hidden',
             }}
           >
             {buyToken ? (
