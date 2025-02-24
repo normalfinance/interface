@@ -6,6 +6,7 @@ import SwapSendPopupButton from './swap-send-popup-button';
 import SwapSendEmptyPopupButton from './swap-send-empty-popup-button';
 import PickToken from './pick-token';
 import { Token } from '@/types/token';
+import { fCurrency } from '@/utils/format-number';
 
 interface SwapCardProps extends CardProps {
   tokensList?: Token[];
@@ -98,6 +99,10 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], ...other }) => {
   };
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === '-') e.preventDefault();
+
+    if (e.key === ',') {
+      e.preventDefault();
+    }
   };
 
   // 9) handle token selection from popup
@@ -133,7 +138,7 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], ...other }) => {
     // 2) Swap amounts
     // Now we want the typed amount to reflect the old buy quantity
     // Typically, you might format it to a string with some decimals:
-    const newTypedAmount = oldBuyAmount > 0 ? oldBuyAmount.toFixed(4) : '0';
+    const newTypedAmount = oldBuyAmount > 0 ? oldBuyAmount.toFixed(4).replace(',', '.') : '0';
     setAmount(newTypedAmount);
 
     // Optionally, if you want to preserve the old typed amount as the new buy amount:
@@ -338,7 +343,7 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], ...other }) => {
                   minWidth: 0,
                 }}
               >
-                {`$${sellFiatValue.toFixed(2)}`}
+                {`${fCurrency(sellFiatValue)}`}
               </Typography>
             </Box>
           </Box>
@@ -410,16 +415,14 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], ...other }) => {
             {/* Primary buy amount */}
             <Box
               sx={{
-                // Constrain the width so the text can overflow horizontally
-                maxWidth: '100%', // or '100%', or any suitable width
-                overflowX: 'auto', // horizontal scroll if text is wider than container
+                maxWidth: '100%',
+                overflowX: 'auto',
                 whiteSpace: 'nowrap',
               }}
             >
               <Typography
                 sx={{
-                  display: 'inline-block', // ensures Typography doesn't shrink to fit
-                  // No textOverflow: 'clip' (or ellipsis) if you want the user to scroll
+                  display: 'inline-block',
                   fontSize: 'var(--h3-size, 32px)',
                   fontStyle: 'normal',
                   fontWeight: 'var(--h3-weight, 700)',
@@ -428,7 +431,7 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], ...other }) => {
                   color: !quoteFetched ? theme.palette.text.secondary : theme.palette.text.primary,
                 }}
               >
-                {quoteFetched && buyToken ? buyAmount.toFixed(2) : 0}
+                {quoteFetched && buyToken ? buyAmount.toFixed(4) : 0}
               </Typography>
             </Box>
 
@@ -444,7 +447,7 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], ...other }) => {
                 overflow: 'visible',
               }}
             >
-              {buyToken ? `$${(buyToken.pricestatus * buyAmount).toFixed(2)}` : '$0'}
+              {buyToken ? `${fCurrency(buyToken.pricestatus * buyAmount)}` : '$0'}
             </Typography>
           </Box>
 
