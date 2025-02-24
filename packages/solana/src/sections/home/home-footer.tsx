@@ -1,6 +1,8 @@
 import type { Breakpoint } from '@mui/material/styles';
 
 import { paths } from '@/routes/paths';
+import { Logo } from '@/components/logo';
+import { RouterLink } from '@/routes/components';
 
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
@@ -11,19 +13,15 @@ import Container from '@mui/material/Container';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 
-import { RouterLink } from 'src/routes/components';
-
-import { Logo } from 'src/components/logo';
-
 // ----------------------------------------------------------------------
 
 const LINKS = [
   {
     headline: 'Minimal',
     children: [
-      { name: 'About us', href: paths.about },
-      { name: 'Contact us', href: paths.contact },
-      { name: 'FAQs', href: paths.faqs },
+      { name: 'About us', href: paths.rewards },
+      { name: 'Contact us', href: paths.rewards },
+      { name: 'FAQs', href: paths.rewards },
     ],
   },
   {

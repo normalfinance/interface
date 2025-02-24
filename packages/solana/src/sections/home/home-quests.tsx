@@ -5,7 +5,6 @@ import { MotionViewport } from '@/components/animate';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 
-
 // ----------------------------------------------------------------------
 
 const QUESTS = [
@@ -14,7 +13,6 @@ const QUESTS = [
     description: '',
     reward: '',
     action: '',
-   
   },
 ];
 

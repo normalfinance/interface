@@ -26,8 +26,8 @@ import { Iconify } from 'src/components/iconify';
 import { Scrollbar } from 'src/components/scrollbar';
 import { SearchNotFound } from 'src/components/search-not-found';
 
+import { applyFilter } from './utils';
 import { ResultItem } from './result-item';
-import { applyFilter, flattenNavSections } from './utils';
 
 // ----------------------------------------------------------------------
 
@@ -71,10 +71,8 @@ export function Searchbar({ data: navItems = [], sx, ...other }: SearchbarProps)
     setSearchQuery(event.target.value);
   }, []);
 
-  const formattedNavItems = flattenNavSections(navItems);
-
   const dataFiltered = applyFilter({
-    inputData: formattedNavItems,
+    inputData: [], // TODO: add tokens list
     query: searchQuery,
   });
 
@@ -123,7 +121,7 @@ export function Searchbar({ data: navItems = [], sx, ...other }: SearchbarProps)
           />
         </SvgIcon>
       </Box>
-
+      Search tokens...
       <Label
         sx={{
           color: 'grey.800',

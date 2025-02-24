@@ -227,12 +227,18 @@ export function HomeFAQs({ sx, ...other }: BoxProps) {
 
       <m.div variants={varFade('in')}>
         <Button
-          color="inherit"
           variant="contained"
-          href="mailto:support@minimals.cc?subject=[Feedback] from Customer"
-          startIcon={<Iconify icon="fluent:mail-24-filled" />}
+          startIcon={<Iconify icon="ic:baseline-x" />}
+          sx={{ backgroundColor: '#5865F2' }}
         >
-          Contact us
+          Follow us on Twitter
+        </Button>
+        <Button
+          variant="contained"
+          startIcon={<Iconify icon="ic:baseline-discord" />}
+          sx={{ backgroundColor: '#5865F2' }}
+        >
+          Join our Discord
         </Button>
       </m.div>
     </Box>

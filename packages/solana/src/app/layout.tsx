@@ -2,7 +2,8 @@ import 'src/global.css';
 
 import type { Metadata, Viewport } from 'next';
 
-import { PrivyProvider } from '@privy-io/react-auth';
+import Providers from '@/components/providers';
+import { DashboardLayout } from '@/layouts/dashboard';
 
 import InitColorSchemeScript from '@mui/material/InitColorSchemeScript';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
@@ -19,8 +20,6 @@ import { ProgressBar } from 'src/components/progress-bar';
 import { MotionLazy } from 'src/components/animate/motion-lazy';
 import { detectSettings } from 'src/components/settings/server';
 import { defaultSettings, SettingsProvider } from 'src/components/settings';
-import AppWrapper from '@/components/AppWrapper';
-import FloatingUI from '@/components/FloatingUI';
 
 // ----------------------------------------------------------------------
 
@@ -88,36 +87,13 @@ export default async function RootLayout({ children }: RootLayoutProps) {
                   defaultMode={themeConfig.defaultMode}
                   modeStorageKey={themeConfig.modeStorageKey}
                 >
-                  <MotionLazy>
-                    <Snackbar />
-                    <ProgressBar />
-                    <AppWrapper>
-                      {/** Floating Content */}
-                      <FloatingUI />
-                      {children}
-                    </AppWrapper>
-                  </MotionLazy>
-                  <PrivyProvider
-                    appId="cm7jfvpu1023haffjdk3klr7o"
-                    config={{
-                      // Customize Privy's appearance in your app
-                      appearance: {
-                        theme: 'light',
-                        accentColor: '#676FFF',
-                        logo: 'https://your-logo-url',
-                      },
-                      // Create embedded wallets for users who don't have a wallet
-                      embeddedWallets: {
-                        createOnLogin: 'users-without-wallets',
-                      },
-                    }}
-                  >
+                  <Providers>
                     <MotionLazy>
                       <Snackbar />
                       <ProgressBar />
-                      {children}
+                      <DashboardLayout>{children}</DashboardLayout>
                     </MotionLazy>
-                  </PrivyProvider>
+                  </Providers>
                 </ThemeProvider>
               </AppRouterCacheProvider>
             </LocalizationProvider>

@@ -5,6 +5,7 @@ import type {
   AutocompleteRenderGetTagProps,
 } from '@mui/material/Autocomplete';
 
+import { countries } from '@/assets/data';
 import { useMemo, useCallback } from 'react';
 
 import Chip from '@mui/material/Chip';
@@ -13,8 +14,6 @@ import Autocomplete from '@mui/material/Autocomplete';
 import InputAdornment from '@mui/material/InputAdornment';
 import { filledInputClasses } from '@mui/material/FilledInput';
 import { outlinedInputClasses } from '@mui/material/OutlinedInput';
-
-import { countries } from '@/assets/illustrations/data';
 
 import { FlagIcon, flagIconClasses } from 'src/components/flag-icon';
 

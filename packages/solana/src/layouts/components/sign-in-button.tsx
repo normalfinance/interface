@@ -1,9 +1,10 @@
+'use client';
+
 import type { ButtonProps } from '@mui/material/Button';
 
 import { usePrivy } from '@privy-io/react-auth';
 
 import Button from '@mui/material/Button';
-
 
 // ----------------------------------------------------------------------
 

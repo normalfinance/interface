@@ -9,15 +9,12 @@ import { useBoolean } from 'minimal-shared/hooks';
 import Box from '@mui/material/Box';
 import Alert from '@mui/material/Alert';
 import { useTheme } from '@mui/material/styles';
-import { iconButtonClasses } from '@mui/material/IconButton';
 
 import { allLangs } from 'src/locales';
 
-import { Logo } from 'src/components/logo';
 import { useSettingsContext } from 'src/components/settings';
 
 import { NavMobile } from './nav-mobile';
-import { VerticalDivider } from './content';
 import { NavVertical } from './nav-vertical';
 import { layoutClasses } from '../core/classes';
 import { MainSection } from '../core/main-section';
@@ -25,17 +22,15 @@ import { Searchbar } from '../components/searchbar';
 import { MenuButton } from '../components/menu-button';
 import { HeaderSection } from '../core/header-section';
 import { LayoutSection } from '../core/layout-section';
-// import { AccountDrawer } from '../components/connect-wallet-drawer';
-import { LightDarkModeButton } from '../components/light-dark-mode-button';
+import { AccountPopover } from '../components/account-popover';
 import { LanguagePopover } from '../components/language-popover';
 import { navData as dashboardNavData } from '../nav-config-dashboard';
 import { dashboardLayoutVars, dashboardNavColorVars } from './css-vars';
+import { LightDarkModeButton } from '../components/light-dark-mode-button';
 
 import type { MainSectionProps } from '../core/main-section';
 import type { HeaderSectionProps } from '../core/header-section';
 import type { LayoutSectionProps } from '../core/layout-section';
-import { Footer } from './footer';
-import { Searchbar } from '../components/searchbar';
 
 // ----------------------------------------------------------------------
 
@@ -107,8 +102,9 @@ export function DashboardLayout({
           {/** @slot Settings button */}
           <LightDarkModeButton />
 
-          {/** @slot Account drawer */}
-          {/* <AccountDrawer /> */}
+          <AccountPopover />
+          {/** @slot Sign in button */}
+          {/* <SignInButton /> */}
         </Box>
       ),
     };
@@ -116,7 +112,7 @@ export function DashboardLayout({
     return (
       <HeaderSection
         layoutQuery={layoutQuery}
-        disableElevation={true}
+        disableElevation
         {...slotProps?.header}
         slots={{ ...headerSlots, ...slotProps?.header?.slots }}
         slotProps={merge(headerSlotProps, slotProps?.header?.slotProps ?? {})}
@@ -140,7 +136,7 @@ export function DashboardLayout({
     />
   );
 
-  const renderFooter = () => <Footer />;
+  // const renderFooter = () => <Footer />;
 
   const renderMain = () => <MainSection {...slotProps?.main}>{children}</MainSection>;
 
@@ -157,7 +153,7 @@ export function DashboardLayout({
       /** **************************************
        * @Footer
        *************************************** */
-      footerSection={renderFooter()}
+      // footerSection={renderFooter()}
       /** **************************************
        * @Styles
        *************************************** */

@@ -30,8 +30,6 @@ export function DashboardContent({
 }: DashboardContentProps) {
   const settings = useSettingsContext();
 
-  const isNavHorizontal = settings.state.navLayout === 'horizontal';
-
   return (
     <Container
       className={mergeClasses([layoutClasses.content, className])}
@@ -45,7 +43,6 @@ export function DashboardContent({
           pb: 'var(--layout-dashboard-content-pb)',
           [theme.breakpoints.up(layoutQuery)]: {
             px: 'var(--layout-dashboard-content-px)',
-            ...(isNavHorizontal && { '--layout-dashboard-content-pt': '40px' }),
           },
           ...(disablePadding && {
             p: {

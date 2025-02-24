@@ -115,7 +115,7 @@ export function HomeHero({ sx, ...other }: BoxProps) {
     <Stack spacing={3} sx={{ textAlign: 'center' }}>
       <m.div {...motionProps}>
         <Typography variant="overline" sx={{ opacity: 0.4 }}>
-          Available For
+          Launching Soon On
         </Typography>
       </m.div>
 
@@ -128,8 +128,8 @@ export function HomeHero({ sx, ...other }: BoxProps) {
               src={`${CONFIG.assetsDir}/assets/icons/platforms/${platform}.svg`}
               sx={[
                 {
-                  width: 24,
-                  height: 24,
+                  width: 256,
+                  height: 256,
                   ...theme.applyStyles('dark', {
                     ...(platform === 'nextjs' && { filter: 'invert(1)' }),
                   }),
