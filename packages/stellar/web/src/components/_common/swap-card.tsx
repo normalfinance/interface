@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Typography, Box, Button, InputBase, CardProps } from '@mui/material';
 import { alpha, useTheme } from '@mui/material/styles';
 import { Iconify } from 'src/components/iconify';
@@ -11,89 +11,166 @@ interface SwapCardProps extends CardProps {
   tokensList?: Token[];
 }
 
-const SwapCard: React.FC<SwapCardProps> = ({ tokensList, ...other }) => {
+const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], ...other }) => {
   const theme = useTheme();
-  // Store the input as a string to control formatting
-  const [amount, setAmount] = useState<string>('0');
 
-  // State to control the PickToken popup
-  const [open, setOpen] = useState(false);
-  // New state to track which button opened the popup (e.g. "sell" or "buy")
-  const [activeButton, setActiveButton] = useState<string>('');
-
-  // States for the selected tokens
+  // 1) States for tokens
   const [sellToken, setSellToken] = useState<Token | null>(
-    tokensList && tokensList.length > 0 ? tokensList[0] : null
+    tokensList.length ? tokensList[0] : null
   );
   const [buyToken, setBuyToken] = useState<Token | null>(null);
 
+  // 2) State for the user’s sell amount
+  const [amount, setAmount] = useState<string>('0');
+
+  // 3) Popup states
+  const [open, setOpen] = useState(false);
+  const [activeButton, setActiveButton] = useState<'sell' | 'buy' | ''>('');
+
+  // 4) Quote states
+  const [isLoading, setIsLoading] = useState(false);
+  const [quoteFetched, setQuoteFetched] = useState(false);
+  const [insufficientBalance, setInsufficientBalance] = useState(false);
+
+  // Compute the fiat value for the user’s sell input
+  const sellVal = parseFloat(amount) || 0;
+  const sellFiatValue = sellToken && sellVal > 0 ? sellVal * sellToken.pricestatus : 0;
+
+  // 5) Example of how much buyToken the user might get
+  const [buyAmount, setBuyAmount] = useState<number>(0);
+
+  // 6) Open/close the token picker
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let newVal = e.target.value;
-    // Prevent negative values: if input contains "-" do nothing
-    if (newVal.includes('-')) {
+  // 7) Auto-fetch quote whenever relevant fields change: sellToken, buyToken, amount
+  useEffect(() => {
+    // Clear old quote state each time we start a new calculation
+    setIsLoading(false);
+    setQuoteFetched(false);
+    setInsufficientBalance(false);
+    setBuyAmount(0);
+
+    // Make sure we have both tokens
+    if (!sellToken || !buyToken) return;
+
+    // If user hasn't typed anything or typed 0
+    const sellVal = parseFloat(amount) || 0;
+    if (!amount || sellVal <= 0) {
       return;
     }
-    // Remove unwanted leading zeros (unless valid decimal like "0.21")
+
+    // Start “fetching” quote
+    setIsLoading(true);
+
+    // Simulate an async fetch with a 1s delay
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+      setQuoteFetched(true);
+
+      const potentialBuyAmount = sellVal * (sellToken.pricestatus / buyToken.pricestatus);
+      setBuyAmount(potentialBuyAmount);
+
+      if (sellVal > sellToken.countstatus) {
+        setInsufficientBalance(true);
+      }
+    }, 1000);
+
+    // Cleanup if user changes input quickly
+    return () => clearTimeout(timer);
+  }, [sellToken, buyToken, amount]);
+
+  // 8) handle input changes
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let newVal = e.target.value;
+    // No negative
+    if (newVal.includes('-')) return;
+    // Remove leading zeros if not decimal
     if (newVal.length > 1 && newVal.startsWith('0') && !newVal.startsWith('0.')) {
       newVal = newVal.replace(/^0+/, '');
     }
     setAmount(newVal);
   };
-
-  const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
-    if (amount === '0') {
-      setAmount('');
-    }
+  const handleFocus = () => {
+    if (amount === '0') setAmount('');
   };
-
-  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-    if (amount === '') {
-      setAmount('0');
-    }
+  const handleBlur = () => {
+    if (amount === '') setAmount('0');
   };
-
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === '-') {
-      e.preventDefault();
-    }
+    if (e.key === '-') e.preventDefault();
   };
 
+  // 9) handle token selection from popup
   const handleTokenSelect = (token: Token) => {
     if (activeButton === 'sell') {
-      // If the token selected for sell is already chosen for buy, clear buy
+      // If it’s the same as buy, clear buy
       if (buyToken && buyToken.id === token.id) {
         setBuyToken(null);
       }
       setSellToken(token);
     } else if (activeButton === 'buy') {
-      // If the token selected for buy is already chosen for sell, clear sell
       if (sellToken && sellToken.id === token.id) {
         setSellToken(null);
       }
       setBuyToken(token);
     }
   };
+
+  // 10) Derive the big button’s label
+  const getButtonLabel = (): string => {
+    // 1) No tokens selected
+    if (!sellToken || !buyToken) {
+      return 'Select a token';
+    }
+
+    // 2) Check user’s sell amount
+    const sellVal = parseFloat(amount) || 0;
+    if (sellVal <= 0) {
+      return 'Enter an amount';
+    }
+
+    // 3) If loading
+    if (isLoading) {
+      return 'Finalizing quote...';
+    }
+
+    // 4) Quote fetched
+    if (quoteFetched) {
+      if (insufficientBalance) {
+        return `Insufficient ${sellToken.shortname}`;
+      }
+      return 'Review';
+    }
+
+    // 5) If not loading and quote hasn’t been fetched yet (rare edge case),
+    //    you can choose which label to show. Usually "Enter an amount"
+    //    or "Select a token" will catch most states.
+    //    Or you can do "Finalizing quote..." if you're sure the effect
+    //    is about to fetch.
+    return 'Enter an amount';
+  };
+  const handleMainButtonClick = () => {
+    const label = getButtonLabel();
+    if (label === 'Select a token') {
+      // Possibly do something like open whichever token is missing
+    } else if (label === 'Enter an amount') {
+      // Focus the input?
+    } else if (label === 'Finalizing quote...') {
+      // do nothing or show a message
+    } else if (label.startsWith('Insufficient')) {
+      // show an error or do nothing
+    } else if (label === 'Review') {
+      // open a review popup
+      console.log('Open Review Popup');
+    }
+  };
+
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '2px', // 2px gap between wrapper and button
-      }}
-    >
-      {/* Wrapper for the two boxes */}
-      <Box
-        sx={{
-          position: 'relative',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '2px',
-        }}
-      >
-        {/* Absolute Box centered within the wrapper */}
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+      {/* Container with the 2 token boxes */}
+      <Box sx={{ position: 'relative', display: 'flex', flexDirection: 'column', gap: '2px' }}>
+        {/* Arrow in the middle */}
         <Box
           sx={{
             position: 'absolute',
@@ -142,14 +219,14 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList, ...other }) => {
           </Box>
         </Box>
 
-        {/* First Box: Header */}
+        {/* SELL Section */}
         <Box
           sx={{
             display: 'flex',
             flexDirection: 'row',
             gap: 2,
             height: '160px',
-            padding: theme.spacing(2), // 16px
+            padding: theme.spacing(2),
             justifyContent: 'space-between',
             alignItems: 'flex-start',
             borderRadius: '8px',
@@ -157,7 +234,7 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList, ...other }) => {
             backgroundColor: alpha(theme.palette.grey[500], 0.08),
           }}
         >
-          {/* Inner Box with three items */}
+          {/* Sell Input */}
           <Box
             sx={{
               flexGrow: 1,
@@ -182,7 +259,7 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList, ...other }) => {
                   fontSize: 'var(--h3-size, 32px)',
                   fontStyle: 'normal',
                   fontWeight: 'var(--h3-weight, 700)',
-                  lineHeight: 'var(--h3-line-height, 48px)', // 150%
+                  lineHeight: 'var(--h3-line-height, 48px)',
                   letterSpacing: 'var(--h3-letter-spacing, 0px)',
                 },
               }}
@@ -204,11 +281,11 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList, ...other }) => {
                 lineHeight: 'var(--components-nav-item-line-height, 22px)',
               }}
             >
-              ${amount === '' || isNaN(parseFloat(amount)) ? '0.00' : parseFloat(amount).toFixed(2)}
+              {`$${sellFiatValue.toFixed(2)}`}
             </Typography>
           </Box>
 
-          {/* Right box: fixed size, no flex growth */}
+          {/* Sell Token Button */}
           <Box
             sx={{
               flexShrink: 0,
@@ -219,7 +296,6 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList, ...other }) => {
               height: '128px',
             }}
           >
-            {/* This button opens the popup for "Sell" */}
             {sellToken ? (
               <SwapSendPopupButton
                 imgUrl={sellToken.url}
@@ -241,14 +317,14 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList, ...other }) => {
           </Box>
         </Box>
 
-        {/* Second Box: Content */}
+        {/* BUY Section */}
         <Box
           sx={{
             display: 'flex',
             flexDirection: 'row',
             gap: 2,
             height: '160px',
-            padding: theme.spacing(2), // 16px
+            padding: theme.spacing(2),
             justifyContent: 'space-between',
             alignItems: 'center',
             borderRadius: '8px',
@@ -256,6 +332,7 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList, ...other }) => {
             backgroundColor: theme.palette.background.paper,
           }}
         >
+          {/* Show how many buy tokens the user might get */}
           <Box
             sx={{
               flexGrow: 1,
@@ -270,20 +347,17 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList, ...other }) => {
             <Typography
               sx={{
                 width: '100%',
-                color:
-                  amount === '0' || amount === ''
-                    ? theme.palette.text.secondary
-                    : theme.palette.text.primary,
+                color: !quoteFetched ? theme.palette.text.secondary : theme.palette.text.primary,
                 border: 'none',
                 padding: 0,
                 fontSize: 'var(--h3-size, 32px)',
                 fontStyle: 'normal',
                 fontWeight: 'var(--h3-weight, 700)',
-                lineHeight: 'var(--h3-line-height, 48px)', // 150%
+                lineHeight: 'var(--h3-line-height, 48px)',
                 letterSpacing: 'var(--h3-letter-spacing, 0px)',
               }}
             >
-              0
+              {quoteFetched && buyToken ? buyAmount.toFixed(4) : 0}
             </Typography>
             <Typography
               sx={{
@@ -291,14 +365,14 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList, ...other }) => {
                 fontStyle: 'normal',
                 fontWeight: 'var(--components-nav-item-weight, 500)',
                 lineHeight: 'var(--components-nav-item-line-height, 22px)',
-                opacity: 0,
+                opacity: quoteFetched && buyToken ? 1 : 0,
               }}
             >
-              $0
+              {buyToken ? `$${(buyToken.pricestatus * buyAmount).toFixed(2)}` : '$0'}
             </Typography>
           </Box>
 
-          {/* Right box: fixed size, no flex growth */}
+          {/* Buy Token Button */}
           <Box
             sx={{
               flexShrink: 0,
@@ -309,7 +383,6 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList, ...other }) => {
               height: '128px',
             }}
           >
-            {/* This button opens the popup for "Buy" */}
             {buyToken ? (
               <SwapSendPopupButton
                 imgUrl={buyToken.url}
@@ -332,13 +405,21 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList, ...other }) => {
         </Box>
       </Box>
 
-      {/* Button Box */}
+      {/* Main button with multiple states */}
       <Box>
-        <Button fullWidth variant="soft" color="success" size="large">
-          Get started
+        <Button
+          fullWidth
+          variant="soft"
+          color="success"
+          size="large"
+          onClick={handleMainButtonClick}
+          disabled={isLoading} // disable if loading, optional
+        >
+          {getButtonLabel()}
         </Button>
       </Box>
 
+      {/* Token Picker Popup */}
       <PickToken
         open={open}
         onClose={handleClose}
