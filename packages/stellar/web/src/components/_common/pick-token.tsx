@@ -84,7 +84,21 @@ const PickToken: React.FC<PickTokenProps> = ({
         </Box>
       </DialogTitle>
 
-      <DialogContent sx={{ p: 2, width: '100%' }}>
+      <DialogContent
+        sx={{
+          p: 2,
+          width: '100%',
+          '&::-webkit-scrollbar': {
+            width: '2px',
+          },
+          '&::-webkit-scrollbar-thumb': {
+            backgroundColor: theme.palette.divider,
+            borderRadius: '4px',
+          },
+          scrollbarWidth: 'thin',
+          scrollbarColor: `${theme.palette.divider} transparent`,
+        }}
+      >
         {/* Search Bar */}
         <Box sx={{ mb: 2, display: 'flex', gap: 1, height: '48px' }}>
           <TextField
@@ -247,6 +261,7 @@ const PickToken: React.FC<PickTokenProps> = ({
                   display: 'flex',
                   alignItems: 'flex-start',
                   gap: '4px',
+                  justifyContent: 'flex-start',
                   alignSelf: 'stretch',
                   flexWrap: 'wrap',
                 }}
@@ -257,7 +272,7 @@ const PickToken: React.FC<PickTokenProps> = ({
                     sx={{
                       display: 'flex',
                       height: '68px',
-                      width: '70px',
+                      width: '68.5px',
                       padding: '10px',
                       flexDirection: 'column',
                       alignItems: 'center',

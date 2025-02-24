@@ -10,11 +10,13 @@ import SwapCard from './swap-card';
 import SendCard from './send-card';
 import { alpha, useTheme } from '@mui/material/styles';
 import { Token } from '@/types/token';
+import { SwapFeeInfo } from '@/types/swap-fee-info';
 
 interface SwapSendCardProps extends CardProps {
   title?: string;
   subheader?: string;
   tokensList?: Token[]; // new prop for tokens list
+  swapFeeInfo?: SwapFeeInfo;
 }
 
 export const SwapSendCard: React.FC<SwapSendCardProps> = ({
@@ -22,6 +24,7 @@ export const SwapSendCard: React.FC<SwapSendCardProps> = ({
   title,
   subheader,
   tokensList,
+  swapFeeInfo,
   ...other
 }) => {
   const theme = useTheme();
@@ -42,9 +45,10 @@ export const SwapSendCard: React.FC<SwapSendCardProps> = ({
         minWidth: '200px',
         maxWidth: '100%',
         minHeight: '380px',
-        maxHeight: '600px',
+        maxHeight: '800px',
         padding: '8px',
         paddingTop: '12px',
+        paddingBottom: '12px',
         gap: '2px',
         borderRadius: '16px',
         ...sx,
@@ -91,7 +95,11 @@ export const SwapSendCard: React.FC<SwapSendCardProps> = ({
       </CustomTabsSwapSend>
 
       {/* Conditionally render a component based on the active tab */}
-      {tabs.value === 'swap' ? <SwapCard tokensList={tokensList} /> : <SendCard />}
+      {tabs.value === 'swap' ? (
+        <SwapCard tokensList={tokensList} swapFeeInfo={swapFeeInfo} />
+      ) : (
+        <SendCard />
+      )}
     </Card>
   );
 };

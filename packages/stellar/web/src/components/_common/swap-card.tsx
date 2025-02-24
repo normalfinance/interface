@@ -1,18 +1,31 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, Box, Button, InputBase, CardProps, Tooltip } from '@mui/material';
+import {
+  Typography,
+  Box,
+  Button,
+  InputBase,
+  CardProps,
+  Tooltip,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+} from '@mui/material';
 import { alpha, useTheme } from '@mui/material/styles';
 import { Iconify } from 'src/components/iconify';
 import SwapSendPopupButton from './swap-send-popup-button';
 import SwapSendEmptyPopupButton from './swap-send-empty-popup-button';
 import PickToken from './pick-token';
 import { Token } from '@/types/token';
-import { fCurrency } from '@/utils/format-number';
+import { fCurrency, fCurrencyTwoDecimals, fRawPercent } from '@/utils/format-number';
+import { SwapFeeInfo } from '@/types/swap-fee-info';
+import { GridExpandMoreIcon } from '@mui/x-data-grid';
 
 interface SwapCardProps extends CardProps {
   tokensList?: Token[];
+  swapFeeInfo?: SwapFeeInfo;
 }
 
-const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], ...other }) => {
+const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], swapFeeInfo, ...other }) => {
   const theme = useTheme();
 
   // 1) States for tokens
@@ -83,9 +96,9 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], ...other }) => {
   // 8) handle input changes
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let newVal = e.target.value;
-    // No negative
-    if (newVal.includes('-')) return;
-    // Remove leading zeros if not decimal
+    // Remove unwanted characters: minus and comma
+    newVal = newVal.replace(/[-,]/g, '');
+    // Remove leading zeros if not a valid decimal
     if (newVal.length > 1 && newVal.startsWith('0') && !newVal.startsWith('0.')) {
       newVal = newVal.replace(/^0+/, '');
     }
@@ -99,10 +112,6 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], ...other }) => {
   };
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === '-') e.preventDefault();
-
-    if (e.key === ',') {
-      e.preventDefault();
-    }
   };
 
   // 9) handle token selection from popup
@@ -120,31 +129,24 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], ...other }) => {
     }
   };
 
-  // --- New function to invert tokens and amounts ---
+  // --- Function to invert tokens and amounts ---
   const handleInvertTokens = () => {
-    // If neither or only one token is selected, decide how to handle
     if (!sellToken || !buyToken) return;
 
-    // Save old values
     const oldSellToken = sellToken;
     const oldBuyToken = buyToken;
-    const oldAmount = amount; // typed input for SELL
-    const oldBuyAmount = buyAmount; // calculated result
+    const oldAmount = amount;
+    const oldBuyAmount = buyAmount;
 
-    // 1) Swap tokens
+    // Swap tokens
     setSellToken(oldBuyToken);
     setBuyToken(oldSellToken);
 
-    // 2) Swap amounts
-    // Now we want the typed amount to reflect the old buy quantity
-    // Typically, you might format it to a string with some decimals:
+    // Swap amounts: set the input to reflect the old calculated buy amount
     const newTypedAmount = oldBuyAmount > 0 ? oldBuyAmount.toFixed(4).replace(',', '.') : '0';
     setAmount(newTypedAmount);
 
-    // Optionally, if you want to preserve the old typed amount as the new buy amount:
-    // setBuyAmount(parseFloat(oldAmount) || 0);
-
-    // 3) Reset states so a new quote is triggered
+    // Reset quote states
     setIsLoading(false);
     setQuoteFetched(false);
     setInsufficientBalance(false);
@@ -153,31 +155,32 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], ...other }) => {
 
   // 10) Derive the main button’s label
   const getButtonLabel = (): string => {
-    // 1) No tokens selected
     if (!sellToken || !buyToken) {
       return 'Select a token';
     }
-
-    // 2) Check user’s sell amount
     if (sellVal <= 0) {
       return 'Enter an amount';
     }
-
-    // 3) If loading
     if (isLoading) {
       return 'Finalizing quote...';
     }
-
-    // 4) Quote fetched
     if (quoteFetched) {
       if (insufficientBalance) {
         return `Insufficient ${sellToken.shortname}`;
       }
       return 'Review';
     }
-
-    // 5) If not loading and quote hasn’t been fetched yet
     return 'Enter an amount';
+  };
+
+  // New function: get conversion text in the final quote box.
+  const getConversionText = (): string => {
+    if (!sellToken || !buyToken) return '';
+    // Calculate conversion: 1 buyToken = (buyToken.pricestatus / sellToken.pricestatus) sellToken
+    const conversion = buyToken.pricestatus / sellToken.pricestatus;
+    return `1 ${buyToken.shortname} = ${conversion.toFixed(9)} ${sellToken.shortname} (${fCurrencyTwoDecimals(
+      buyToken.pricestatus
+    )})`;
   };
 
   const handleMainButtonClick = () => {
@@ -202,7 +205,7 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], ...other }) => {
       <Box sx={{ position: 'relative', display: 'flex', flexDirection: 'column', gap: '2px' }}>
         {/* Arrow in the middle */}
         <Box
-          onClick={handleInvertTokens} // <--- Click to invert
+          onClick={handleInvertTokens}
           sx={{
             position: 'absolute',
             top: '50%',
@@ -263,29 +266,25 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], ...other }) => {
             borderRadius: '8px',
             border: `1px solid ${theme.palette.divider}`,
             backgroundColor: alpha(theme.palette.grey[500], 0.08),
-            // Optionally set a maxWidth if you want to strictly limit it
-            // maxWidth: 400, // for example
-            overflow: 'hidden', // ensure content does not push beyond
+            overflow: 'hidden',
           }}
         >
           <Box
             sx={{
               display: 'flex',
-              // Force the input area to shrink if the input is very long
               flexGrow: 1,
-              minWidth: 0, // Allows overflow hidden to work correctly
+              minWidth: 0,
               alignItems: 'flex-start',
-              overflow: 'hidden', // Hide any overflowing text
+              overflow: 'hidden',
             }}
           >
-            {/* Left side: Sell label, input, fiat text */}
             <Box
               sx={{
                 display: 'flex',
                 flexDirection: 'column',
                 gap: 2,
                 flexGrow: 1,
-                minWidth: 0, // again, to allow truncation
+                minWidth: 0,
               }}
             >
               <Typography variant="body1" noWrap>
@@ -306,7 +305,6 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], ...other }) => {
                     fontWeight: 'var(--h3-weight, 700)',
                     lineHeight: 'var(--h3-line-height, 48px)',
                     letterSpacing: 'var(--h3-letter-spacing, 0px)',
-                    // For very long input, let it truncate
                     whiteSpace: 'nowrap',
                     overflow: 'hidden',
                     textOverflow: 'clip',
@@ -320,8 +318,6 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], ...other }) => {
                     amount === '0' || amount === ''
                       ? theme.palette.text.secondary
                       : theme.palette.text.primary,
-                  // Ensure the input doesn't expand infinitely
-                  // and let overflow happen
                   flexGrow: 1,
                   minWidth: 0,
                   overflow: 'hidden',
@@ -336,7 +332,6 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], ...other }) => {
                   fontStyle: 'normal',
                   fontWeight: 'var(--components-nav-item-weight, 500)',
                   lineHeight: 'var(--components-nav-item-line-height, 22px)',
-                  // Truncate if needed
                   whiteSpace: 'nowrap',
                   overflow: 'hidden',
                   textOverflow: 'clip',
@@ -348,16 +343,15 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], ...other }) => {
             </Box>
           </Box>
 
-          {/* Right side: Sell Token Button */}
           <Box
             sx={{
-              flexShrink: 0, // Don’t let the button shrink
+              flexShrink: 0,
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'center',
               alignItems: 'flex-end',
               height: '128px',
-              overflow: 'hidden', // keep button inside
+              overflow: 'hidden',
             }}
           >
             {sellToken ? (
@@ -394,17 +388,16 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], ...other }) => {
             borderRadius: '8px',
             border: `1px solid ${theme.palette.divider}`,
             backgroundColor: theme.palette.background.paper,
-            overflow: 'hidden', // ensure no overflow
+            overflow: 'hidden',
           }}
         >
-          {/* Left side: Buy display */}
           <Box
             sx={{
               display: 'flex',
               flexDirection: 'column',
               flexGrow: 1,
-              minWidth: 0, // Crucial for flex truncation
-              overflow: 'hidden', // Hide any overflow
+              minWidth: 0,
+              overflow: 'hidden',
               gap: 2,
             }}
           >
@@ -412,7 +405,6 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], ...other }) => {
               Buy
             </Typography>
 
-            {/* Primary buy amount */}
             <Box
               sx={{
                 maxWidth: '100%',
@@ -435,7 +427,6 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], ...other }) => {
               </Typography>
             </Box>
 
-            {/* Fiat value */}
             <Typography
               sx={{
                 fontSize: 'var(--components-nav-item-size, 14px)',
@@ -451,10 +442,9 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], ...other }) => {
             </Typography>
           </Box>
 
-          {/* Right side: Buy Token Button */}
           <Box
             sx={{
-              flexShrink: 0, // Don’t let the button shrink
+              flexShrink: 0,
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'center',
@@ -493,11 +483,290 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], ...other }) => {
           color="success"
           size="large"
           onClick={handleMainButtonClick}
-          disabled={isLoading} // disable if loading, optional
+          disabled={isLoading}
         >
           {getButtonLabel()}
         </Button>
       </Box>
+
+      {/* Additional box rendered under main button */}
+      {quoteFetched && !isLoading && (
+        <>
+          <Accordion
+            defaultExpanded
+            disableGutters
+            sx={{
+              mt: 0,
+              backgroundColor: 'transparent !important',
+              boxShadow: 'none !important',
+              width: '100%',
+              padding: '0px !important',
+            }}
+          >
+            <AccordionSummary
+              expandIcon={
+                <Iconify
+                  icon="eva:arrow-ios-upward-fill"
+                  width={14}
+                  sx={{ color: theme.palette.text.secondary, cursor: 'pointer' }}
+                />
+              }
+              aria-controls="panel3-content"
+              id="panel3-header"
+            >
+              <Typography
+                variant="body2"
+                sx={{
+                  fontWeight: 500,
+                  color: theme.palette.text.secondary,
+                  fontSize: '12px',
+                }}
+              >
+                {sellToken && buyToken ? getConversionText() : ''}
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails sx={{ p: 0, px: 1 }}>
+              <Box
+                sx={{
+                  mt: 0,
+                  px: 0,
+                  width: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: 1,
+                }}
+              >
+                {insufficientBalance && (
+                  <Box
+                    sx={{
+                      p: 2,
+                      width: '100%',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 1,
+                      border: `1px solid ${theme.palette.divider}`,
+                      backgroundColor: alpha(theme.palette.grey[500], 0.08),
+                      borderRadius: '8px',
+                    }}
+                  >
+                    <Iconify
+                      icon="solar:danger-triangle-bold"
+                      width={14}
+                      sx={{ color: theme.palette.text.secondary }}
+                    />
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        fontWeight: 500,
+                        color: theme.palette.text.secondary,
+                        fontSize: '12px',
+                      }}
+                    >
+                      Not enough{' '}
+                      <Box component="span" sx={{ color: theme.palette.text.primary }}>
+                        {sellToken?.shortname}
+                      </Box>{' '}
+                      to swap
+                    </Typography>
+                  </Box>
+                )}
+                <Box
+                  sx={{
+                    width: '100%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 1,
+                    px: 1,
+                  }}
+                >
+                  <Box
+                    sx={{
+                      width: '100%',
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      gap: 1,
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: 1,
+                      }}
+                    >
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          fontWeight: 500,
+                          color: theme.palette.text.secondary,
+                          fontSize: '12px',
+                        }}
+                      >
+                        Fee <Box component="span">({swapFeeInfo?.feePercentage}%)</Box>{' '}
+                      </Typography>
+                      <Iconify
+                        icon="solar:info-circle-bold"
+                        width={14}
+                        sx={{ color: theme.palette.text.secondary, cursor: 'pointer' }}
+                      />
+                    </Box>
+
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        fontWeight: 500,
+                        color: theme.palette.text.primary,
+                        fontSize: '12px',
+                      }}
+                    >
+                      {fCurrencyTwoDecimals(
+                        sellFiatValue * ((swapFeeInfo?.feePercentage ?? 0) / 100)
+                      )}
+                    </Typography>
+                  </Box>
+
+                  <Box
+                    sx={{
+                      width: '100%',
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      gap: 1,
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: 1,
+                      }}
+                    >
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          fontWeight: 500,
+                          color: theme.palette.text.secondary,
+                          fontSize: '12px',
+                        }}
+                      >
+                        Network cost
+                      </Typography>
+                      <Iconify
+                        icon="solar:info-circle-bold"
+                        width={14}
+                        sx={{ color: theme.palette.text.secondary, cursor: 'pointer' }}
+                      />
+                    </Box>
+
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        fontWeight: 500,
+                        color: theme.palette.text.secondary,
+                        fontSize: '12px',
+                      }}
+                    >
+                      {fCurrencyTwoDecimals(swapFeeInfo?.networkCost)}
+                    </Typography>
+                  </Box>
+
+                  <Box
+                    sx={{
+                      width: '100%',
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      gap: 1,
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: 1,
+                      }}
+                    >
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          fontWeight: 500,
+                          color: theme.palette.text.secondary,
+                          fontSize: '12px',
+                        }}
+                      >
+                        Price impact
+                      </Typography>
+                      <Iconify
+                        icon="solar:info-circle-bold"
+                        width={14}
+                        sx={{ color: theme.palette.text.secondary, cursor: 'pointer' }}
+                      />
+                    </Box>
+
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        fontWeight: 500,
+                        color: theme.palette.text.secondary,
+                        fontSize: '12px',
+                      }}
+                    >
+                      {fRawPercent(swapFeeInfo?.priceImpact)}
+                    </Typography>
+                  </Box>
+
+                  <Box
+                    sx={{
+                      width: '100%',
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      gap: 1,
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: 1,
+                      }}
+                    >
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          fontWeight: 500,
+                          color: theme.palette.text.secondary,
+                          fontSize: '12px',
+                        }}
+                      >
+                        Max slippage
+                      </Typography>
+                      <Iconify
+                        icon="solar:info-circle-bold"
+                        width={14}
+                        sx={{ color: theme.palette.text.secondary, cursor: 'pointer' }}
+                      />
+                    </Box>
+
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        fontWeight: 500,
+                        color: theme.palette.text.secondary,
+                        fontSize: '12px',
+                      }}
+                    >
+                      {fRawPercent(swapFeeInfo?.maxSlippage)}
+                    </Typography>
+                  </Box>
+                </Box>
+              </Box>
+            </AccordionDetails>
+          </Accordion>
+        </>
+      )}
 
       {/* Token Picker Popup */}
       <PickToken
