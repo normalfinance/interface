@@ -55,7 +55,6 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], ...other }) => {
     if (!sellToken || !buyToken) return;
 
     // If user hasn't typed anything or typed 0
-    const sellVal = parseFloat(amount) || 0;
     if (!amount || sellVal <= 0) {
       return;
     }
@@ -78,7 +77,7 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], ...other }) => {
 
     // Cleanup if user changes input quickly
     return () => clearTimeout(timer);
-  }, [sellToken, buyToken, amount]);
+  }, [sellToken, buyToken, amount, sellVal]);
 
   // 8) handle input changes
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -104,7 +103,6 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], ...other }) => {
   // 9) handle token selection from popup
   const handleTokenSelect = (token: Token) => {
     if (activeButton === 'sell') {
-      // If it’s the same as buy, clear buy
       if (buyToken && buyToken.id === token.id) {
         setBuyToken(null);
       }
@@ -117,7 +115,25 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], ...other }) => {
     }
   };
 
-  // 10) Derive the big button’s label
+  // --- New function to invert tokens ---
+  const handleInvertTokens = () => {
+    // If neither or only one token is selected, you could choose how to handle.
+    // For now, we skip if either side is null (optional).
+    if (!sellToken || !buyToken) return;
+
+    // Swap
+    const oldSellToken = sellToken;
+    setSellToken(buyToken);
+    setBuyToken(oldSellToken);
+
+    // Reset quote states if desired
+    setIsLoading(false);
+    setQuoteFetched(false);
+    setInsufficientBalance(false);
+    setBuyAmount(0);
+  };
+
+  // 10) Derive the main button’s label
   const getButtonLabel = (): string => {
     // 1) No tokens selected
     if (!sellToken || !buyToken) {
@@ -125,7 +141,6 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], ...other }) => {
     }
 
     // 2) Check user’s sell amount
-    const sellVal = parseFloat(amount) || 0;
     if (sellVal <= 0) {
       return 'Enter an amount';
     }
@@ -143,13 +158,10 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], ...other }) => {
       return 'Review';
     }
 
-    // 5) If not loading and quote hasn’t been fetched yet (rare edge case),
-    //    you can choose which label to show. Usually "Enter an amount"
-    //    or "Select a token" will catch most states.
-    //    Or you can do "Finalizing quote..." if you're sure the effect
-    //    is about to fetch.
+    // 5) If not loading and quote hasn’t been fetched yet
     return 'Enter an amount';
   };
+
   const handleMainButtonClick = () => {
     const label = getButtonLabel();
     if (label === 'Select a token') {
@@ -172,6 +184,7 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], ...other }) => {
       <Box sx={{ position: 'relative', display: 'flex', flexDirection: 'column', gap: '2px' }}>
         {/* Arrow in the middle */}
         <Box
+          onClick={handleInvertTokens} // <--- Click to invert
           sx={{
             position: 'absolute',
             top: '50%',
