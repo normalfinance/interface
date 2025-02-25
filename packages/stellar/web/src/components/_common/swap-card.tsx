@@ -19,6 +19,7 @@ import { Token } from '@/types/token';
 import { fCurrency, fCurrencyTwoDecimals, fRawPercent } from '@/utils/format-number';
 import { SwapFeeInfo } from '@/types/swap-fee-info';
 import { GridExpandMoreIcon } from '@mui/x-data-grid';
+import SwapReview from './swap-review';
 
 interface SwapCardProps extends CardProps {
   tokensList?: Token[];
@@ -40,6 +41,10 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], swapFeeInfo, ...ot
   // 3) Popup states
   const [open, setOpen] = useState(false);
   const [activeButton, setActiveButton] = useState<'sell' | 'buy' | ''>('');
+
+  // 4) State for review dialog
+  const [reviewOpen, setReviewOpen] = useState(false);
+  const handleReviewClose = () => setReviewOpen(false);
 
   // 4) Quote states
   const [isLoading, setIsLoading] = useState(false);
@@ -195,7 +200,13 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], swapFeeInfo, ...ot
       // show an error or do nothing
     } else if (label === 'Review') {
       // open a review popup
-      console.log('Open Review Popup');
+      setReviewOpen(true);
+    }
+  };
+
+  const handleMaxClick = () => {
+    if (sellToken) {
+      setAmount(sellToken.countstatus.toString());
     }
   };
 
@@ -314,8 +325,9 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], swapFeeInfo, ...ot
                   width: '100%',
                   border: 'none',
                   padding: 0,
-                  color:
-                    amount === '0' || amount === ''
+                  color: insufficientBalance
+                    ? theme.palette.error.main
+                    : amount === '0' || amount === ''
                       ? theme.palette.text.secondary
                       : theme.palette.text.primary,
                   flexGrow: 1,
@@ -355,14 +367,77 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], swapFeeInfo, ...ot
             }}
           >
             {sellToken ? (
-              <SwapSendPopupButton
-                imgUrl={sellToken.url}
-                label={sellToken.shortname}
-                onClick={() => {
-                  setActiveButton('sell');
-                  handleOpen();
-                }}
-              />
+              <Box
+                sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 1 }}
+              >
+                <SwapSendPopupButton
+                  imgUrl={sellToken.url}
+                  label={sellToken.shortname}
+                  onClick={() => {
+                    setActiveButton('sell');
+                    handleOpen();
+                  }}
+                />
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'flex-end',
+                    justifyContent: 'center',
+                    gap: '4px',
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '4px',
+                      height: '100%',
+                    }}
+                  >
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        fontWeight: 500,
+                        color: insufficientBalance
+                          ? theme.palette.error.main
+                          : theme.palette.text.secondary,
+                        fontSize: '12px',
+                      }}
+                    >
+                      {sellToken.countstatus}{' '}
+                      <Box
+                        component="span"
+                        sx={{
+                          color: insufficientBalance
+                            ? theme.palette.error.main
+                            : theme.palette.text.primary,
+                        }}
+                      >
+                        {sellToken?.shortname}
+                      </Box>
+                    </Typography>
+                  </Box>
+                  <Button
+                    variant="soft"
+                    color="success"
+                    size="small"
+                    onClick={handleMaxClick}
+                    disabled={isLoading}
+                    sx={{
+                      fontWeight: 500,
+                      fontSize: '12px',
+                      p: 0,
+                      height: '24px',
+                      minWidth: '36px',
+                    }}
+                  >
+                    Max
+                  </Button>
+                </Box>
+              </Box>
             ) : (
               <SwapSendEmptyPopupButton
                 label="Select token"
@@ -501,6 +576,9 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], swapFeeInfo, ...ot
               boxShadow: 'none !important',
               width: '100%',
               padding: '0px !important',
+              '::before': {
+                display: 'none',
+              },
             }}
           >
             <AccordionSummary
@@ -766,6 +844,22 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], swapFeeInfo, ...ot
             </AccordionDetails>
           </Accordion>
         </>
+      )}
+
+      {reviewOpen && (
+        <SwapReview
+          open={reviewOpen}
+          onClose={handleReviewClose}
+          sellToken={sellToken!}
+          buyToken={buyToken!}
+          sellAmount={amount}
+          buyAmount={buyAmount}
+          feePercentage={swapFeeInfo?.feePercentage ?? 0}
+          networkCost={swapFeeInfo?.networkCost ?? 0}
+          priceImpact={swapFeeInfo?.priceImpact ?? 0}
+          maxSlippage={swapFeeInfo?.maxSlippage ?? 0}
+          sellFiatValue={sellFiatValue}
+        />
       )}
 
       {/* Token Picker Popup */}
