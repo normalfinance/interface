@@ -11,6 +11,9 @@ import { StatCardData } from '@/types/stat-card-data';
 import { fCurrency, fCurrencyCompact, fPercent, fShortenNumber } from '@/utils/format-number';
 import { StatCard } from '@/components/_common/stat-card';
 import { AreaChartCard, LegendValue } from '@/components/_common/area-chart-card';
+import { SwapSendCard } from '@/components/_common/swap-send-card';
+import { Token } from '@/types/token';
+import { SwapFeeInfo } from '@/types/swap-fee-info';
 
 export default function OverviewView() {
   const theme = useTheme();
@@ -175,6 +178,83 @@ export default function OverviewView() {
     },
   ];
 
+  const tokensList: Token[] = [
+    {
+      id: 1,
+      url: 'https://token-icons.s3.amazonaws.com/eth.png',
+      name: 'Ethereum',
+      shortname: 'ETH',
+      owned: true,
+      countstatus: 0.02103,
+      pricestatus: 2814.25,
+      featured: true,
+      address: '0x742d35Cc6634C0532925a3b844Bc454e4438f44e',
+    },
+    {
+      id: 2,
+      url: 'https://coin-images.coingecko.com/coins/images/6319/large/usdc.png?1696506694',
+      name: 'USDC',
+      shortname: 'USDC',
+      owned: false,
+      countstatus: 0,
+      pricestatus: 0.9998,
+      featured: true,
+      address: '0x742d35Cc6634C0532925a3b844Bc454e4438f44e',
+    },
+    {
+      id: 3,
+      url: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xdAC17F958D2ee523a2206206994597C13D831ec7/logo.png',
+      name: 'Tether',
+      shortname: 'USDT',
+      owned: false,
+      countstatus: 0,
+      pricestatus: 0.9999,
+      featured: true,
+      address: '0x742d35Cc6634C0532925a3b844Bc454e4438f44e',
+    },
+
+    {
+      id: 4,
+      url: 'https://coin-images.coingecko.com/coins/images/7598/large/wrapped_bitcoin_wbtc.png?1696507857',
+      name: 'Wrapped Bitcoin',
+      shortname: 'WBTC',
+      owned: false,
+      countstatus: 0,
+      pricestatus: 95799.17,
+      featured: true,
+      address: '0x742d35Cc6634C0532925a3b844Bc454e4438f44e',
+    },
+    {
+      id: 5,
+      url: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png',
+      name: 'Wrapped Ether',
+      shortname: 'WETH',
+      owned: false,
+      countstatus: 0,
+      pricestatus: 2806.75,
+      featured: true,
+      address: '0x742d35Cc6634C0532925a3b844Bc454e4438f44e',
+    },
+    {
+      id: 6,
+      url: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png',
+      name: 'Wrapped Ether',
+      shortname: 'WETH',
+      owned: false,
+      countstatus: 0,
+      pricestatus: 2806.75,
+      featured: false,
+      address: '0x742d35Cc6634C0532925a3b844Bc454e4438f44e',
+    },
+  ];
+
+  const swapFeeInfo: SwapFeeInfo = {
+    feePercentage: 0.25,
+    networkCost: 1.0,
+    priceImpact: -0.3,
+    maxSlippage: 0.5,
+  };
+
   return (
     <DashboardContent maxWidth="xl">
       <Stack spacing={1}>
@@ -197,7 +277,8 @@ export default function OverviewView() {
           />
         </Grid2>
         <Grid2 size={{ xs: 12, md: 4 }}>
-          <AssetsAndLiabilities title="Assets & Liabilities" list={_appRelated} />
+          {/*<AssetsAndLiabilities title="Assets & Liabilities" list={_appRelated} />*/}
+          <SwapSendCard tokensList={tokensList} swapFeeInfo={swapFeeInfo} />
         </Grid2>
       </Grid2>
       {/* Second row: TradingVolume items */}
