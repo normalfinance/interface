@@ -87,7 +87,9 @@ const SendCard: React.FC<SendCardProps> = ({ tokensList = [], swapFeeInfo, ...ot
   const toggleAmountMode = () => {
     if (sendToken) {
       const amt = parseFloat(amount) || 0;
-      if (isFiatMode) {
+      if (amt === 0) {
+        setAmount('0');
+      } else if (isFiatMode) {
         const coinVal = convertFiatToCoin(amt, sendToken.pricestatus);
         setAmount(coinVal.toFixed(6));
       } else {
