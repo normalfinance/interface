@@ -157,7 +157,7 @@ const SwapReview: React.FC<SwapReviewProps> = ({
               icon="eva:arrow-downward-fill"
               sx={{
                 my: 2,
-                color: theme.palette.text.disabled,
+                color: theme.palette.text.secondary,
               }}
             />
 

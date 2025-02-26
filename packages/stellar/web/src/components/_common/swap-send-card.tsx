@@ -98,7 +98,7 @@ export const SwapSendCard: React.FC<SwapSendCardProps> = ({
       {tabs.value === 'swap' ? (
         <SwapCard tokensList={tokensList} swapFeeInfo={swapFeeInfo} />
       ) : (
-        <SendCard tokensList={tokensList} />
+        <SendCard tokensList={tokensList} swapFeeInfo={swapFeeInfo} />
       )}
     </Card>
   );
