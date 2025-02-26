@@ -18,10 +18,6 @@ import { varFade, MotionContainer } from 'src/components/animate';
 
 import { HeroBackground } from './components/hero-background';
 import SwapCard from '@/components/_common/swap-card';
-import { SwapFeeInfo } from '@/types/swap-fee-info';
-import { Token } from '@/types/token';
-import { SwapSendCard } from '@/components/_common/swap-send-card';
-import { Grid2 } from '@mui/material';
 import { AccountPopover } from '@/layouts/components/account-popover';
 import { usePrivy } from '@privy-io/react-auth';
 
@@ -79,7 +75,7 @@ export function HomeHero({ sx, ...other }: BoxProps) {
         ]}
       >
         <Box component="span" sx={{ width: 1, opacity: 0.24 }}>
-          Swap every crypto,
+          Swap any crypto,
         </Box>
         <Box
           component={m.span}
@@ -114,7 +110,7 @@ export function HomeHero({ sx, ...other }: BoxProps) {
           [theme.breakpoints.up(lgKey)]: { fontSize: 20, lineHeight: '36px' },
         }}
       >
-        {`Tokenized perps on Solana and Stellar.\nBuy and sell any crypto without bridges or CEXs.`}
+        {`Tokenized perps on Solana and Stellar -\nBuy and sell any crypto without bridges or CEXs.`}
       </Typography>
     </m.div>
   );
@@ -218,11 +214,7 @@ export function HomeHero({ sx, ...other }: BoxProps) {
             <m.div style={{ y: y1 }}>{renderHeading()}</m.div>
             <m.div style={{ y: y2 }}>{renderText()}</m.div>
             <m.div style={{ y: y3 }}>
-              {/* <Grid2 container spacing={3} sx={{ mt: 3 }}>
-            <Grid2 size={{ xs: 12, md: 4 }}> */}
               <SwapCard tokensList={CONFIG.tokenList} swapFeeInfo={CONFIG.swapFeeInfo} />
-              {/* </Grid2>
-              </Grid2> */}
             </m.div>
           </Stack>
           <m.div style={{ y: y5 }}>{renderIcons()}</m.div>
