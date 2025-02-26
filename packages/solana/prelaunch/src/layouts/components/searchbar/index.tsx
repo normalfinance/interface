@@ -28,6 +28,8 @@ import { SearchNotFound } from 'src/components/search-not-found';
 
 import { applyFilter } from './utils';
 import { ResultItem } from './result-item';
+import { CONFIG } from '@/global-config';
+import { paths } from '@/routes/paths';
 
 // ----------------------------------------------------------------------
 
@@ -72,7 +74,7 @@ export function Searchbar({ data: navItems = [], sx, ...other }: SearchbarProps)
   }, []);
 
   const dataFiltered = applyFilter({
-    inputData: [], // TODO: add tokens list
+    inputData: CONFIG.tokenList,
     query: searchQuery,
   });
 
@@ -149,16 +151,16 @@ export function Searchbar({ data: navItems = [], sx, ...other }: SearchbarProps)
       }}
     >
       {dataFiltered.map((item) => {
-        const partsTitle = parse(item.title, match(item.title, searchQuery));
-        const partsPath = parse(item.path, match(item.path, searchQuery));
+        const partsTitle = parse(item.name, match(item.name, searchQuery));
+        const partsPath = parse(item.shortname, match(item.shortname, searchQuery));
 
         return (
-          <MenuItem disableRipple key={`${item.title}${item.path}`}>
+          <MenuItem disableRipple key={item.shortname}>
             <ResultItem
               path={partsPath}
               title={partsTitle}
-              href={item.path}
-              labels={item.group.split('.')}
+              href={paths.markets.details(item.shortname)}
+              labels={item.name.split('.')}
               onClick={handleClose}
             />
           </MenuItem>
