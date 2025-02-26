@@ -17,6 +17,7 @@ import { fCurrency, fCurrencyTwoDecimals, fRawPercent } from '@/utils/format-num
 import { Token } from '@/types/token';
 import { Iconify } from '../iconify';
 import { alpha, useTheme } from '@mui/material/styles';
+import { getSwapConversionText } from '@/utils/conversion-helpers';
 
 export interface SwapReviewProps {
   open: boolean;
@@ -46,16 +47,6 @@ const SwapReview: React.FC<SwapReviewProps> = ({
   sellFiatValue,
 }) => {
   const theme = useTheme();
-
-  // New function: get conversion text in the final quote box.
-  const getConversionText = (): string => {
-    if (!sellToken || !buyToken) return '';
-    // Calculate conversion: 1 buyToken = (buyToken.pricestatus / sellToken.pricestatus) sellToken
-    const conversion = buyToken.pricestatus / sellToken.pricestatus;
-    return `1 ${buyToken.shortname} = ${conversion.toFixed(9)} ${sellToken.shortname} (${fCurrencyTwoDecimals(
-      buyToken.pricestatus
-    )})`;
-  };
 
   const getConversionTextSell = (): string => {
     if (!sellToken || !buyToken) return '';
@@ -157,7 +148,7 @@ const SwapReview: React.FC<SwapReviewProps> = ({
               icon="eva:arrow-downward-fill"
               sx={{
                 my: 2,
-                color: theme.palette.text.secondary,
+                color: theme.palette.text.primary,
               }}
             />
 
@@ -369,7 +360,7 @@ const SwapReview: React.FC<SwapReviewProps> = ({
                       variant="body2"
                       sx={{
                         fontWeight: 500,
-                        color: theme.palette.text.secondary,
+                        color: theme.palette.text.primary,
                         fontSize: '12px',
                       }}
                     >
@@ -414,11 +405,11 @@ const SwapReview: React.FC<SwapReviewProps> = ({
                       variant="body2"
                       sx={{
                         fontWeight: 500,
-                        color: theme.palette.text.secondary,
+                        color: theme.palette.text.primary,
                         fontSize: '12px',
                       }}
                     >
-                      {sellToken && buyToken ? getConversionTextSell() : ''}
+                      {sellToken && buyToken ? getSwapConversionText(sellToken, buyToken) : ''}
                     </Typography>
                   </Box>
 
@@ -459,7 +450,7 @@ const SwapReview: React.FC<SwapReviewProps> = ({
                       variant="body2"
                       sx={{
                         fontWeight: 500,
-                        color: theme.palette.text.secondary,
+                        color: theme.palette.text.primary,
                         fontSize: '12px',
                       }}
                     >
@@ -504,7 +495,7 @@ const SwapReview: React.FC<SwapReviewProps> = ({
                       variant="body2"
                       sx={{
                         fontWeight: 500,
-                        color: theme.palette.text.secondary,
+                        color: theme.palette.text.primary,
                         fontSize: '12px',
                       }}
                     >

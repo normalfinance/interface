@@ -186,7 +186,7 @@ const SendReview: React.FC<SendReviewProps> = ({
               variant="body2"
               sx={{
                 fontWeight: 500,
-                color: theme.palette.text.secondary,
+                color: theme.palette.text.primary,
                 fontSize: '12px',
               }}
             >

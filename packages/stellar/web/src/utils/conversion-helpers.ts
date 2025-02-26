@@ -9,6 +9,12 @@ export const getConversionText = (sellToken: Token, buyToken: Token): string => 
   )})`;
 };
 
+// 1 ETH = $2,814.81 USDC ($2,814.81) - We are swaping ETH to USDC
+export const getSwapConversionText = (sellToken: Token, buyToken: Token): string => {
+  const conversion = sellToken.pricestatus / buyToken.pricestatus;
+  return `1 ${sellToken.shortname} = ${fCurrencyTwoDecimals(conversion)} ${buyToken.shortname} (${fCurrencyTwoDecimals(conversion)})`;
+};
+
 export const convertFiatToCoin = (fiatAmount: number, tokenPrice: number): number => {
   return fiatAmount / tokenPrice;
 };
