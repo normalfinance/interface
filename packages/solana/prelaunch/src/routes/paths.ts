@@ -14,6 +14,7 @@ export const paths = {
     discord: 'https://discord.com/invite/xQMvceZjeS',
     github: 'https://github.com/normalfinance/',
   },
+  blog: 'https://blog.normalfinance.io/',
   docs: 'https://docs.normalfinance.io',
   overview: '/overview',
   markets: {

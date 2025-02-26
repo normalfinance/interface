@@ -13,8 +13,8 @@ const icon = (name: string) => (
 
 // TODO: update icons
 const ICONS = {
-  home: icon('ic-home'),
-  external: icon('ic-external'),
+  home: icon('mingcute-home'),
+  external: icon('mingcute-external'),
   insurance: icon('mingcute-insurance'),
   referrals: icon('mingcute-referrals'),
   analytics: icon('mingcute-analytics'),

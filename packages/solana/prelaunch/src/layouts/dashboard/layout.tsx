@@ -34,6 +34,7 @@ import { dashboardLayoutVars, dashboardNavColorVars } from './css-vars';
 import type { MainSectionProps } from '../core/main-section';
 import type { HeaderSectionProps } from '../core/header-section';
 import type { LayoutSectionProps } from '../core/layout-section';
+import { AccountPopover } from '../components/account-popover';
 
 // ----------------------------------------------------------------------
 
@@ -132,7 +133,7 @@ export function DashboardLayout({
           <SettingsButton />
 
           {/** @slot Account drawer */}
-          {/* <AccountDrawer data={_account} /> */}
+          <AccountPopover />
         </Box>
       ),
     };

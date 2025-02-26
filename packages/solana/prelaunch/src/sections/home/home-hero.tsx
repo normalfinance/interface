@@ -17,6 +17,11 @@ import { CONFIG } from 'src/global-config';
 import { varFade, MotionContainer } from 'src/components/animate';
 
 import { HeroBackground } from './components/hero-background';
+import SwapCard from '@/components/_common/swap-card';
+import { SwapFeeInfo } from '@/types/swap-fee-info';
+import { Token } from '@/types/token';
+import { SwapSendCard } from '@/components/_common/swap-send-card';
+import { Grid2 } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
@@ -141,6 +146,94 @@ export function HomeHero({ sx, ...other }: BoxProps) {
     </Stack>
   );
 
+  const tokensList: Token[] = [
+    {
+      id: 1,
+      url: 'https://cryptologos.cc/logos/solana-sol-logo.png?v=040',
+      name: 'Solana',
+      shortname: 'SOL',
+      owned: true,
+      countstatus: 0.02106,
+      pricestatus: 134.11,
+      featured: true,
+      address: 'GsD4XPiQtEMrkjtGZcNqK3R9pwDHxZ6ehmSb1sRsvjaX',
+    },
+    {
+      id: 1,
+      url: 'https://cryptologos.cc/logos/bitcoin-btc-logo.png?v=040',
+      name: 'Bitcoin',
+      shortname: 'nBTC',
+      owned: false,
+      countstatus: 0.02106,
+      pricestatus: 86204.89,
+      featured: true,
+      address: 'GsD4XPiQtEMrkjtGZcNqK3R9pwDHxZ6ehmSb1sRsvjaX',
+    },
+    {
+      id: 1,
+      url: 'https://token-icons.s3.amazonaws.com/eth.png',
+      name: 'Ethereum',
+      shortname: 'nETH',
+      owned: true,
+      countstatus: 0.02106,
+      pricestatus: 2372.25,
+      featured: true,
+      address: 'GsD4XPiQtEMrkjtGZcNqK3R9pwDHxZ6ehmSb1sRsvjaX',
+    },
+    {
+      id: 1,
+      url: 'https://cryptologos.cc/logos/xrp-xrp-logo.png?v=040',
+      name: 'Ripple',
+      shortname: 'nXRP',
+      owned: false,
+      countstatus: 0.02106,
+      pricestatus: 2.21,
+      featured: true,
+      address: 'GsD4XPiQtEMrkjtGZcNqK3R9pwDHxZ6ehmSb1sRsvjaX',
+    },
+    {
+      id: 1,
+      url: 'https://cryptologos.cc/logos/sui-sui-logo.png?v=040',
+      name: 'Sui',
+      shortname: 'nSUI',
+      owned: false,
+      countstatus: 0.02106,
+      pricestatus: 2.86,
+      featured: true,
+      address: 'GsD4XPiQtEMrkjtGZcNqK3R9pwDHxZ6ehmSb1sRsvjaX',
+    },
+    {
+      id: 1,
+      url: 'https://cryptologos.cc/logos/dogecoin-doge-logo.png?v=040',
+      name: 'DogeCoin',
+      shortname: 'nDOGE',
+      owned: false,
+      countstatus: 0.02106,
+      pricestatus: 0.2021,
+      featured: false,
+      address: 'GsD4XPiQtEMrkjtGZcNqK3R9pwDHxZ6ehmSb1sRsvjaX',
+    },
+    {
+      id: 2,
+      url: 'https://coin-images.coingecko.com/coins/images/6319/large/usdc.png?1696506694',
+      name: 'USDC',
+      shortname: 'USDC',
+      owned: false,
+      countstatus: 0,
+      pricestatus: 0.9998,
+      featured: false,
+      address: 'GsD4XPiQtEMrkjtGZcNqK3R9pwDHxZ6ehmSb1sRsvjaX',
+    },
+    
+  ];
+
+  const swapFeeInfo: SwapFeeInfo = {
+    feePercentage: 0.25,
+    networkCost: 1.0,
+    priceImpact: -0.3,
+    maxSlippage: 0.5,
+  };
+
   return (
     <Box
       ref={scrollProgress.elementRef}
@@ -193,7 +286,13 @@ export function HomeHero({ sx, ...other }: BoxProps) {
           <Stack spacing={3} sx={{ textAlign: 'center' }}>
             <m.div style={{ y: y1 }}>{renderHeading()}</m.div>
             <m.div style={{ y: y2 }}>{renderText()}</m.div>
-            <m.div style={{ y: y3 }}>{/* Swap compoennts */}</m.div>
+            <m.div style={{ y: y3 }}>
+            {/* <Grid2 container spacing={3} sx={{ mt: 3 }}>
+            <Grid2 size={{ xs: 12, md: 4 }}> */}
+              <SwapCard tokensList={tokensList} swapFeeInfo={swapFeeInfo} />
+              {/* </Grid2>
+              </Grid2> */}
+            </m.div>
           </Stack>
           <m.div style={{ y: y5 }}>{renderIcons()}</m.div>
         </Container>

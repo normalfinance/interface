@@ -149,18 +149,7 @@ function TaskItem({ item, selected, onChange, sx, ...other }: TaskItemProps) {
           <Iconify width={24} icon="solar:cup-star-bold" />
         </Box>
 
-        <FormControlLabel
-          label={item.title}
-          control={
-            <Checkbox
-              disableRipple
-              checked={selected}
-              onChange={onChange}
-              inputProps={{ id: `${item.title}-checkbox` }}
-            />
-          }
-          sx={{ flexGrow: 1, m: 0 }}
-        />
+       
 
         <ListItemText
           primary={<Typography variant="subtitle2">{item.title}</Typography>}
@@ -185,7 +174,7 @@ function TaskItem({ item, selected, onChange, sx, ...other }: TaskItemProps) {
           onClick={item.action}
           startIcon={<Iconify icon="mingcute:sword-fill" />}
         >
-          Complete quest
+          Complete
         </Button>
 
         {/* <IconButton color={menuActions.open ? 'inherit' : 'default'} onClick={menuActions.onOpen}>
