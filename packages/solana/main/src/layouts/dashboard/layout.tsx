@@ -25,12 +25,12 @@ import { MainSection } from '../core/main-section';
 import { MenuButton } from '../components/menu-button';
 import { HeaderSection } from '../core/header-section';
 import { LayoutSection } from '../core/layout-section';
+import { Searchbar } from '../components/searchbar';
 // import { AccountDrawer } from '../components/connect-wallet-drawer';
-import { SettingsButton } from '../components/settings-button';
+import { ThemeModeButton } from '../components/theme-mode-button';
 import { LanguagePopover } from '../components/language-popover';
 import { navData as dashboardNavData } from '../nav-config-dashboard';
 import { dashboardLayoutVars, dashboardNavColorVars } from './css-vars';
-import { NotificationsDrawer } from '../components/notifications-drawer';
 
 import type { MainSectionProps } from '../core/main-section';
 import type { HeaderSectionProps } from '../core/header-section';
@@ -123,17 +123,17 @@ export function DashboardLayout({
       ),
       rightArea: (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 0, sm: 0.75 } }}>
+          {/** @slot Searchbar */}
+          <Searchbar data={navData} />
+
           {/** @slot Language popover */}
           <LanguagePopover data={allLangs} />
 
-          {/** @slot Notifications popover */}
-          <NotificationsDrawer data={[]} />
-
           {/** @slot Settings button */}
-          <SettingsButton />
+          <ThemeModeButton />
 
           {/** @slot Account drawer */}
-          {/* <AccountDrawer /> */}
+          <AccountDrawer />
         </Box>
       ),
     };

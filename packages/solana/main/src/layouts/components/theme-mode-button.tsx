@@ -11,7 +11,7 @@ import { varTap, varHover, transitionTap } from 'src/components/animate';
 
 // ----------------------------------------------------------------------
 
-export function SettingsButton({ sx, ...other }: IconButtonProps) {
+export function ThemeModeButton({ sx, ...other }: IconButtonProps) {
   const settings = useSettingsContext();
 
   return (
