@@ -13,10 +13,10 @@ import {
   AccordionSummary,
   AccordionDetails,
 } from '@mui/material';
-import { fCurrency, fCurrencyTwoDecimals, fRawPercent } from '@/utils/format-number';
+import { fCurrencyTwoDecimals, fRawPercent } from '@/utils/format-number';
 import { Token } from '@/types/token';
 import { Iconify } from '../iconify';
-import { alpha, useTheme } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 import { getSwapConversionText } from '@/utils/conversion-helpers';
 
 export interface SwapReviewProps {
@@ -47,14 +47,6 @@ const SwapReview: React.FC<SwapReviewProps> = ({
   sellFiatValue,
 }) => {
   const theme = useTheme();
-
-  const getConversionTextSell = (): string => {
-    if (!sellToken || !buyToken) return '';
-    const sellValue = parseFloat(sellAmount);
-    if (!sellValue) return '';
-    const conversionRate = buyAmount / sellValue;
-    return `1 ${sellToken.shortname} = ${fCurrencyTwoDecimals(conversionRate)} ${buyToken.shortname} (${fCurrency(conversionRate)})`;
-  };
 
   return (
     <Dialog

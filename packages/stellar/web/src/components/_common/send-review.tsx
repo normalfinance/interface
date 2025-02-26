@@ -9,15 +9,11 @@ import {
   Typography,
   Box,
   IconButton,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
 } from '@mui/material';
-import { fCurrency, fCurrencyTwoDecimals, fRawPercent } from '@/utils/format-number';
+import { fCurrencyTwoDecimals } from '@/utils/format-number';
 import { Token } from '@/types/token';
 import { Iconify } from '../iconify';
-import { alpha, useTheme } from '@mui/material/styles';
-import { Address } from '@stellar/stellar-sdk';
+import { useTheme } from '@mui/material/styles';
 import { shortenAddress } from '@/utils/format-address';
 
 export interface SendReviewProps {
