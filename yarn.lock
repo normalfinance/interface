@@ -4214,7 +4214,6 @@ __metadata:
     "@typescript-eslint/parser": ^8.19.0
     apexcharts: ^4.3.0
     autosuggest-highlight: ^3.3.4
-    axios: ^1.7.9
     dayjs: ^1.11.13
     es-toolkit: ^1.31.0
     eslint: ^9.17.0
@@ -4245,7 +4244,6 @@ __metadata:
     react-i18next: ^15.4.0
     react-joyride: ^2.9.3
     react-phone-number-input: ^3.4.10
-    react-singleton-hook: ^4.0.1
     react-use: ^17.4.0
     rehype-highlight: ^7.0.1
     rehype-raw: ^7.0.0
@@ -4254,7 +4252,6 @@ __metadata:
     sonner: ^1.7.1
     stylis: ^4.3.4
     stylis-plugin-rtl: ^2.1.1
-    swr: ^2.3.0
     turndown: ^7.2.0
     typescript: ^5.7.2
     typescript-eslint: ^8.19.0
