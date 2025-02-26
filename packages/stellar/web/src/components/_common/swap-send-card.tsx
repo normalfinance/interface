@@ -15,7 +15,7 @@ import { SwapFeeInfo } from '@/types/swap-fee-info';
 interface SwapSendCardProps extends CardProps {
   title?: string;
   subheader?: string;
-  tokensList?: Token[]; // new prop for tokens list
+  tokensList?: Token[];
   swapFeeInfo?: SwapFeeInfo;
 }
 
