@@ -18,22 +18,36 @@ import Typography from '@mui/material/Typography';
 
 const LINKS = [
   {
-    headline: 'Normal',
+    headline: 'App',
     children: [
-      { name: 'About us', href: paths.rewards },
-      { name: 'Contact us', href: paths.rewards },
-      { name: 'FAQs', href: paths.rewards },
+      { name: 'Trade', href: '#' },
+      { name: 'Explore', href: '#' },
+      { name: 'Pool', href: '#' },
       { name: 'Docs', href: paths.docs },
     ],
   },
   {
-    headline: 'Legal',
+    headline: 'Company',
     children: [
-      { name: 'Terms and condition', href: '#' },
-      { name: 'Privacy policy', href: '#' },
+      { name: 'Blog', href: paths.blog },
+      { name: 'Brand assets', href: 'https://brandfetch.com/normalfinance.io' },
     ],
   },
-  { headline: 'Contact', children: [{ name: 'hello@normalfinance.io', href: '#' }] },
+  {
+    headline: 'Protocol',
+    children: [
+      { name: 'Vote', href: '#' },
+      { name: 'Governance (coming soon)', href: '#' },
+      { name: 'Developers', href: paths.socials.github },
+    ],
+  },
+  {
+    headline: 'Need help?',
+    children: [
+      { name: 'X', href: paths.socials.twitter },
+      { name: 'Discord', href: paths.socials.discord },
+    ],
+  },
 ];
 
 // ----------------------------------------------------------------------
@@ -118,9 +132,7 @@ export function HomeFooter({
               })}
             >
               {_socials.map((social) => (
-                <IconButton key={social.label}>
-                  {social.icon}
-                </IconButton>
+                <IconButton key={social.label}>{social.icon}</IconButton>
               ))}
             </Box>
           </Grid>
