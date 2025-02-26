@@ -8,7 +8,7 @@ import { Markets } from '@/components/_overview-page-components/markets/markets'
 import { MarketTable } from '@/components/_overview-page-components/market-table/market-table';
 import { createChartData, RealtimeChartData } from 'src/utils/portfolio-value-chart-series';
 import { StatCardData } from '@/types/stat-card-data';
-import { fCurrency, fCurrencyCompact, fPercent, fShortenNumber } from '@/utils/format-number';
+import { fCurrencyCompact, fShortenNumber } from '@/utils/format-number';
 import { StatCard } from '@/components/_common/stat-card';
 import { AreaChartCard, LegendValue } from '@/components/_common/area-chart-card';
 import { SwapSendCard } from '@/components/_common/swap-send-card';
@@ -22,7 +22,6 @@ export default function OverviewView() {
   // Hardcoded chart data arrays.
   // -------------------------
 
-  const portfolioValue = 7334;
   const data24h = [
     3444, 3600, 3750, 3900, 4100, 4300, 4500, 4700, 4900, 5200, 5400, 5500, 5650, 5800, 6000, 6200,
     6400, 6600, 6800, 7000, 7200, 7300, 7320, 7334,
