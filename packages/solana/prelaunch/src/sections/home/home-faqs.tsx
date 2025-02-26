@@ -78,9 +78,8 @@ const FAQs = [
         and following on{' '}
         <Link href={paths.socials.twitter} target="_blank" rel="noopener" sx={{ mx: 0.5 }}>
           X
-        </Link>.
-
-        If you&apos;re a developer and would like contribute, please 
+        </Link>
+        . If you&apos;re a developer and would like contribute, please
       </Typography>
     ),
   },

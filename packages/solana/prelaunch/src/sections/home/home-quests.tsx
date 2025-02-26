@@ -9,15 +9,7 @@ import { MotionViewport } from '@/components/animate';
 
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import {
-  Card,
-  Button,
-  Checkbox,
-  CardHeader,
-  Typography,
-  ListItemText,
-  FormControlLabel,
-} from '@mui/material';
+import { Card, Button, CardHeader, Typography, ListItemText } from '@mui/material';
 
 import { SectionTitle } from './components/section-title';
 
@@ -77,20 +69,20 @@ export function HomeQuests({ sx, ...other }: BoxProps) {
             sx={{ mb: { xs: 5, md: 8 }, textAlign: 'center' }}
           />
 
-          <Card sx={sx} {...other}>
+          <Card sx={sx}>
             <CardHeader title="Quests" subheader="Complete quests to earn rewards" sx={{ mb: 1 }} />
 
             <Scrollbar sx={{ minHeight: 304 }}>
               {/* <Stack divider={<Divider sx={{ borderStyle: 'dashed' }} />} sx={{ minWidth: 560 }}> */}
               <Box
-          sx={{
-            p: 3,
-            gap: 3,
-            minWidth: 360,
-            display: 'flex',
-            flexDirection: 'column',
-          }}
-        >
+                sx={{
+                  p: 3,
+                  gap: 3,
+                  minWidth: 360,
+                  display: 'flex',
+                  flexDirection: 'column',
+                }}
+              >
                 {QUESTS.map((item) => (
                   <TaskItem
                     key={item.id}
@@ -99,7 +91,7 @@ export function HomeQuests({ sx, ...other }: BoxProps) {
                     onChange={() => handleClickComplete(item.id)}
                   />
                 ))}
-                </Box>
+              </Box>
               {/* </Stack> */}
             </Scrollbar>
           </Card>
@@ -121,9 +113,9 @@ function TaskItem({ item, selected, onChange, sx, ...other }: TaskItemProps) {
   return (
     <>
       <Box
-      sx={[{ gap: 2, display: 'flex', alignItems: 'center' }, ...(Array.isArray(sx) ? sx : [sx])]}
-      {...other}
-    >
+        sx={[{ gap: 2, display: 'flex', alignItems: 'center' }, ...(Array.isArray(sx) ? sx : [sx])]}
+        {...other}
+      >
         <Box
           sx={[
             (theme) => ({
@@ -148,8 +140,6 @@ function TaskItem({ item, selected, onChange, sx, ...other }: TaskItemProps) {
         >
           <Iconify width={24} icon="solar:cup-star-bold" />
         </Box>
-
-       
 
         <ListItemText
           primary={<Typography variant="subtitle2">{item.title}</Typography>}

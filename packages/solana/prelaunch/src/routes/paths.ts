@@ -6,9 +6,7 @@ export const paths = {
   root: '/',
   page404: '/error/404',
   page500: '/error/500',
-  website: {
-
-  },
+  website: {},
   socials: {
     twitter: 'https://x.com/normalfi',
     discord: 'https://discord.com/invite/xQMvceZjeS',

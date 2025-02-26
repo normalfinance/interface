@@ -224,7 +224,6 @@ export function HomeHero({ sx, ...other }: BoxProps) {
       featured: false,
       address: 'GsD4XPiQtEMrkjtGZcNqK3R9pwDHxZ6ehmSb1sRsvjaX',
     },
-    
   ];
 
   const swapFeeInfo: SwapFeeInfo = {
@@ -287,7 +286,7 @@ export function HomeHero({ sx, ...other }: BoxProps) {
             <m.div style={{ y: y1 }}>{renderHeading()}</m.div>
             <m.div style={{ y: y2 }}>{renderText()}</m.div>
             <m.div style={{ y: y3 }}>
-            {/* <Grid2 container spacing={3} sx={{ mt: 3 }}>
+              {/* <Grid2 container spacing={3} sx={{ mt: 3 }}>
             <Grid2 size={{ xs: 12, md: 4 }}> */}
               <SwapCard tokensList={tokensList} swapFeeInfo={swapFeeInfo} />
               {/* </Grid2>

@@ -43,8 +43,6 @@ const renderLines = () => (
 );
 
 export function HomeStats({ sx, ...other }: BoxProps) {
- 
-
   const renderDescription = () => (
     <SectionTitle
       title="Join a growing"
