@@ -1,51 +1,37 @@
-import React, { useCallback } from 'react';
-import {
-  NormalInsuranceFundContract,
-  NormalSynthMarketFactoryContract,
-  NormalIndexFactoryContract,
-  NormalVestingContract,
-  SorobanTokenContract,
-} from '@normalfinance/contracts';
-import { AssembledTransaction, SentTransaction } from '@stellar/stellar-sdk/lib/contract';
+import type { AppStore, AppStorePersist } from '@/state/types';
+import type { AssembledTransaction} from '@stellar/stellar-sdk/lib/contract';
+
+import { useCallback } from 'react';
 import { useToast } from '@/hooks/useToast';
-import { constants, Signer } from '@normalfinance/utils';
-import { useRestoreModal } from '@/providers/RestoreModalProvider';
-import { AppStore, AppStorePersist } from '@normalfinance/types';
+import { Signer, constants } from '@normalfinance/utils';
 import { useAppStore, usePersistStore } from '@/state/store';
+import { useRestoreModal } from '@/providers/RestoreModalProvider';
+import {
+  NormalMarketContract,
+  SorobanTokenContract,
+  NormalInsuranceContract,
+  NormalMarketFactoryContract,
+} from '@normalfinance/contracts';
 
 // Define Contract Types
-type ContractType =
-  | 'market'
-  | 'market_factory'
-  | 'insurance'
-  | 'index'
-  | 'index_factory'
-  | 'scheduler'
-  | 'vesting'
-  | 'token';
+type ContractType = 'market' | 'market_factory' | 'insurance' | 'token';
 
 const contractClients = {
-  pair: NormalPairContract.Client,
-  multihop: NormalMultihopContract.Client,
-  stake: NormalStakeContract.Client,
-  factory: NormalFactoryContract.Client,
-  vesting: NormalVestingContract.Client,
+  market: NormalMarketContract.Client,
+  market_factory: NormalMarketFactoryContract.Client,
+  insurance: NormalInsuranceContract.Client,
   token: SorobanTokenContract.Client,
 };
 
-type ContractClientType<T extends ContractType> = T extends 'pair'
-  ? NormalPairContract.Client
-  : T extends 'multihop'
-  ? NormalMultihopContract.Client
-  : T extends 'stake'
-  ? NormalStakeContract.Client
-  : T extends 'factory'
-  ? NormalFactoryContract.Client
-  : T extends 'vesting'
-  ? NormalVestingContract.Client
-  : T extends 'token'
-  ? SorobanTokenContract.Client
-  : never;
+type ContractClientType<T extends ContractType> = T extends 'market'
+  ? NormalMarketContract.Client
+  : T extends 'market_factory'
+    ? NormalMarketFactoryContract.Client
+    : T extends 'insurance'
+      ? NormalInsuranceContract.Client
+      : T extends 'token'
+        ? SorobanTokenContract.Client
+        : never;
 
 interface BaseExecuteContractTransactionParams<T extends ContractType> {
   contractAddress: string;
@@ -60,18 +46,14 @@ interface ExecuteContractTransactionParams<T extends ContractType>
   contractType: T;
 }
 
-const getSigner = (storePersist: AppStorePersist, appStore: AppStore) => {
-  return storePersist.wallet.walletType === 'wallet-connect'
+const getSigner = (storePersist: AppStorePersist, appStore: AppStore) => storePersist.wallet.walletType === 'wallet-connect'
     ? appStore.walletConnectInstance
     : new Signer();
-};
 
-const getSignerFunction = (signer: any, storePersist: any) => {
-  return (tx: string) =>
+const getSignerFunction = (signer: any, storePersist: any) => (tx: string) =>
     storePersist.wallet.walletType === 'wallet-connect'
       ? signer.signTransaction(tx)
       : signer.sign(tx);
-};
 
 const getContractClient = <T extends ContractType>(
   contractType: T,
@@ -84,7 +66,7 @@ const getContractClient = <T extends ContractType>(
 ): ContractClientType<T> => {
   const signTransaction = getSignerFunction(signer, storePersist);
   const commonOptions = {
-    publicKey: publicKey,
+    publicKey,
     contractId: contractAddress,
     networkPassphrase,
     rpcUrl,
