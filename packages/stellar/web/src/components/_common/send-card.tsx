@@ -7,6 +7,8 @@ import { Iconify } from '../iconify';
 import PickToken from './pick-token';
 import SendReview from './send-review';
 import { SwapFeeInfo } from '@/types/swap-fee-info';
+import { sanitizeAmountInput } from '@/utils/input-helpers';
+import { convertCoinToFiat, convertFiatToCoin, getMaxAmount } from '@/utils/conversion-helpers';
 
 interface SendCardProps extends CardProps {
   tokensList?: Token[];
@@ -60,22 +62,9 @@ const SendCard: React.FC<SendCardProps> = ({ tokensList = [], swapFeeInfo, ...ot
     }
   }, [amount]);
 
-  // ...other handlers (handleDestinationChange, handleAmountChange, etc.)
-
-  const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let newVal = e.target.value;
-    // Allow only digits and a period
-    newVal = newVal.replace(/[^0-9.]/g, '');
-    // Ensure only one decimal point exists
-    const parts = newVal.split('.');
-    if (parts.length > 2) {
-      newVal = parts[0] + '.' + parts.slice(1).join('');
-    }
-    // Remove leading zeros (unless it’s a decimal like "0.5")
-    if (newVal.length > 1 && newVal.startsWith('0') && !newVal.startsWith('0.')) {
-      newVal = newVal.replace(/^0+/, '');
-    }
-    setAmount(newVal);
+  //prevent "-" ot "," in input
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setAmount(sanitizeAmountInput(e.target.value));
   };
 
   // Toggle mode, handle focus/blur, etc...
@@ -99,11 +88,11 @@ const SendCard: React.FC<SendCardProps> = ({ tokensList = [], swapFeeInfo, ...ot
     if (sendToken) {
       const amt = parseFloat(amount) || 0;
       if (isFiatMode) {
-        const coinVal = amt / sendToken.pricestatus;
-        setAmount(coinVal.toFixed(4).toString());
+        const coinVal = convertFiatToCoin(amt, sendToken.pricestatus);
+        setAmount(coinVal.toFixed(6));
       } else {
-        const fiatVal = amt * sendToken.pricestatus;
-        setAmount(fiatVal.toFixed(2).toString());
+        const fiatVal = convertCoinToFiat(amt, sendToken.pricestatus);
+        setAmount(fiatVal.toFixed(6));
       }
     }
     setIsFiatMode(!isFiatMode);
@@ -139,13 +128,9 @@ const SendCard: React.FC<SendCardProps> = ({ tokensList = [], swapFeeInfo, ...ot
   const handleMainButtonClick = () => {
     const label = getButtonLabel();
     if (label === 'Select a token') {
-      // Possibly do something like open whichever token is missing
     } else if (label === 'Enter an amount') {
-      // Focus the input?
     } else if (label === 'Input wallet address') {
-      // do nothing or show a message
     } else if (label.startsWith('Insufficient')) {
-      // show an error or do nothing
     } else if (label === 'Send') {
       // open a review popup
       setReviewOpen(true);
@@ -154,7 +139,6 @@ const SendCard: React.FC<SendCardProps> = ({ tokensList = [], swapFeeInfo, ...ot
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-      {/* --- Token Selection and Amount Input Area --- */}
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '1px' }}>
         <Box
           sx={{
@@ -192,7 +176,7 @@ const SendCard: React.FC<SendCardProps> = ({ tokensList = [], swapFeeInfo, ...ot
             <InputBase
               type="number"
               value={amount}
-              onChange={handleAmountChange}
+              onChange={handleInputChange}
               onFocus={handleAmountFocus}
               onBlur={handleAmountBlur}
               onKeyDown={handleAmountKeyDown}
@@ -247,7 +231,7 @@ const SendCard: React.FC<SendCardProps> = ({ tokensList = [], swapFeeInfo, ...ot
           >
             {sendToken && isFiatMode ? (
               <Typography variant="body1" sx={{ color: theme.palette.text.secondary }}>
-                {coinAmount.toFixed(4)} {sendToken.shortname}
+                {coinAmount.toFixed(6)} {sendToken.shortname}
               </Typography>
             ) : sendToken ? (
               <Typography variant="body1" sx={{ color: theme.palette.text.secondary }}>
@@ -266,7 +250,7 @@ const SendCard: React.FC<SendCardProps> = ({ tokensList = [], swapFeeInfo, ...ot
             />
           </Box>
         </Box>
-        {/* Rest of your component code for token selection, destination input, and button... */}
+        {/* Pick token */}
         <Button
           onClick={() => {
             setActiveButton('send');
@@ -335,13 +319,7 @@ const SendCard: React.FC<SendCardProps> = ({ tokensList = [], swapFeeInfo, ...ot
               onClick={(e) => {
                 e.stopPropagation();
                 if (sendToken) {
-                  const tokenBalance = sendToken.countstatus;
-                  if (isFiatMode) {
-                    const fiatVal = tokenBalance * sendToken.pricestatus;
-                    setAmount(fiatVal.toFixed(2).toString());
-                  } else {
-                    setAmount(tokenBalance.toFixed(4).toString());
-                  }
+                  setAmount(getMaxAmount(sendToken.countstatus, sendToken.pricestatus, isFiatMode));
                 }
               }}
             >

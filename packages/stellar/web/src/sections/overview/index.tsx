@@ -185,7 +185,7 @@ export default function OverviewView() {
       name: 'Ethereum',
       shortname: 'ETH',
       owned: true,
-      countstatus: 0.02103,
+      countstatus: 0.02106,
       pricestatus: 2814.25,
       featured: true,
       address: '0x742d35Cc6634C0532925a3b844Bc454e4438f44e',

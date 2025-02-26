@@ -1,26 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Typography,
-  Box,
-  Button,
-  InputBase,
-  CardProps,
-  Tooltip,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-} from '@mui/material';
+import { Typography, Box, Button, InputBase, CardProps } from '@mui/material';
 import { alpha, useTheme } from '@mui/material/styles';
 import { Iconify } from 'src/components/iconify';
 import SwapSendPopupButton from './swap-send-popup-button';
 import SwapSendEmptyPopupButton from './swap-send-empty-popup-button';
 import PickToken from './pick-token';
 import { Token } from '@/types/token';
-import { fCurrency, fCurrencyTwoDecimals, fRawPercent } from '@/utils/format-number';
+import { fCurrency } from '@/utils/format-number';
 import { SwapFeeInfo } from '@/types/swap-fee-info';
-import { GridExpandMoreIcon } from '@mui/x-data-grid';
 import SwapReview from './swap-review';
 import FeeInfoAccordion from './fee-info-accordion';
+import { sanitizeAmountInput } from '@/utils/input-helpers';
+import { getConversionText } from '@/utils/conversion-helpers';
 
 interface SwapCardProps extends CardProps {
   tokensList?: Token[];
@@ -30,7 +21,7 @@ interface SwapCardProps extends CardProps {
 const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], swapFeeInfo, ...other }) => {
   const theme = useTheme();
 
-  // 1) States for tokens
+  // 1) States for tokens, default sell token is first in the list
   const [sellToken, setSellToken] = useState<Token | null>(
     tokensList.length ? tokensList[0] : null
   );
@@ -39,7 +30,7 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], swapFeeInfo, ...ot
   // 2) State for the user’s sell amount
   const [amount, setAmount] = useState<string>('0');
 
-  // 3) Popup states
+  // 3) Popup states for picking tokens
   const [open, setOpen] = useState(false);
   const [activeButton, setActiveButton] = useState<'sell' | 'buy' | ''>('');
 
@@ -99,28 +90,24 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], swapFeeInfo, ...ot
     return () => clearTimeout(timer);
   }, [sellToken, buyToken, amount, sellVal]);
 
-  // 8) handle input changes
+  // 8) handle input changes, dont allow negative numbers as input
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let newVal = e.target.value;
-    // Remove unwanted characters: minus and comma
-    newVal = newVal.replace(/[-,]/g, '');
-    // Remove leading zeros if not a valid decimal
-    if (newVal.length > 1 && newVal.startsWith('0') && !newVal.startsWith('0.')) {
-      newVal = newVal.replace(/^0+/, '');
-    }
-    setAmount(newVal);
+    setAmount(sanitizeAmountInput(e.target.value));
   };
+
   const handleFocus = () => {
     if (amount === '0') setAmount('');
   };
+
   const handleBlur = () => {
     if (amount === '') setAmount('0');
   };
+
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === '-') e.preventDefault();
   };
 
-  // 9) handle token selection from popup
+  // 9) handle token selection from popup, are we picking a sell token or a buy token?
   const handleTokenSelect = (token: Token) => {
     if (activeButton === 'sell') {
       if (buyToken && buyToken.id === token.id) {
@@ -135,13 +122,12 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], swapFeeInfo, ...ot
     }
   };
 
-  // --- Function to invert tokens and amounts ---
+  // Function to invert tokens and amounts
   const handleInvertTokens = () => {
     if (!sellToken || !buyToken) return;
 
     const oldSellToken = sellToken;
     const oldBuyToken = buyToken;
-    const oldAmount = amount;
     const oldBuyAmount = buyAmount;
 
     // Swap tokens
@@ -149,7 +135,7 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], swapFeeInfo, ...ot
     setBuyToken(oldSellToken);
 
     // Swap amounts: set the input to reflect the old calculated buy amount
-    const newTypedAmount = oldBuyAmount > 0 ? oldBuyAmount.toFixed(4).replace(',', '.') : '0';
+    const newTypedAmount = oldBuyAmount > 0 ? oldBuyAmount.toFixed(6).replace(',', '.') : '0';
     setAmount(newTypedAmount);
 
     // Reset quote states
@@ -179,32 +165,20 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], swapFeeInfo, ...ot
     return 'Enter an amount';
   };
 
-  // New function: get conversion text in the final quote box.
-  const getConversionText = (): string => {
-    if (!sellToken || !buyToken) return '';
-    // Calculate conversion: 1 buyToken = (buyToken.pricestatus / sellToken.pricestatus) sellToken
-    const conversion = buyToken.pricestatus / sellToken.pricestatus;
-    return `1 ${buyToken.shortname} = ${conversion.toFixed(9)} ${sellToken.shortname} (${fCurrencyTwoDecimals(
-      buyToken.pricestatus
-    )})`;
-  };
-
+  // Different button states have different actions
   const handleMainButtonClick = () => {
     const label = getButtonLabel();
     if (label === 'Select a token') {
-      // Possibly do something like open whichever token is missing
     } else if (label === 'Enter an amount') {
-      // Focus the input?
     } else if (label === 'Finalizing quote...') {
-      // do nothing or show a message
     } else if (label.startsWith('Insufficient')) {
-      // show an error or do nothing
     } else if (label === 'Review') {
       // open a review popup
       setReviewOpen(true);
     }
   };
 
+  // Max the sell token
   const handleMaxClick = () => {
     if (sellToken) {
       setAmount(sellToken.countstatus.toString());
@@ -213,9 +187,7 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], swapFeeInfo, ...ot
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-      {/* Container with the 2 token boxes */}
       <Box sx={{ position: 'relative', display: 'flex', flexDirection: 'column', gap: '2px' }}>
-        {/* Arrow in the middle */}
         <Box
           onClick={handleInvertTokens}
           sx={{
@@ -499,7 +471,7 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], swapFeeInfo, ...ot
                   color: !quoteFetched ? theme.palette.text.secondary : theme.palette.text.primary,
                 }}
               >
-                {quoteFetched && buyToken ? buyAmount.toFixed(4) : 0}
+                {quoteFetched && buyToken ? buyAmount.toFixed(6) : 0}
               </Typography>
             </Box>
 
@@ -568,7 +540,7 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], swapFeeInfo, ...ot
       {/* Additional box with fee info */}
       {quoteFetched && !isLoading && (
         <FeeInfoAccordion
-          conversionText={sellToken && buyToken ? getConversionText() : ''}
+          conversionText={sellToken && buyToken ? getConversionText(sellToken, buyToken) : ''}
           insufficientBalance={insufficientBalance}
           sellToken={sellToken || undefined}
           swapFeeInfo={swapFeeInfo}
