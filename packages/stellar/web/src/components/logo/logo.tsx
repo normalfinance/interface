@@ -9,6 +9,7 @@ import { styled, useTheme } from '@mui/material/styles';
 import { RouterLink } from 'src/routes/components';
 
 import { logoClasses } from './classes';
+import { CONFIG } from '@/global-config';
 
 // ----------------------------------------------------------------------
 

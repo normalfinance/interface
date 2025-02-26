@@ -21,13 +21,13 @@
     "tsc:print": "npx tsc --showConfig"
   },
   "browser": {
+    "@microsoft/typescript-etw": false,
+    "crypto": false,
     "fs": false,
+    "inspector": false,
     "os": false,
     "path": false,
-    "crypto": false,
-    "@microsoft/typescript-etw": false,
-    "source-map-support": false,
-    "inspector": false
+    "source-map-support": false
   },
   "dependencies": {
     "@emotion/cache": "^11.14.0",

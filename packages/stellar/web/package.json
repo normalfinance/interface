@@ -44,7 +44,6 @@
     "@mui/x-data-grid": "^7.23.5",
     "@mui/x-date-pickers": "^7.23.3",
     "@mui/x-tree-view": "^7.23.2",
-    "@normalfinance/solana-sdk": "^0.0.1",
     "@normalfinance/types": "workspace:^",
     "@normalfinance/ui": "workspace:^",
     "@normalfinance/utils": "workspace:^",
