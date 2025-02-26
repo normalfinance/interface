@@ -26,7 +26,6 @@ import { MenuButton } from '../components/menu-button';
 import { HeaderSection } from '../core/header-section';
 import { LayoutSection } from '../core/layout-section';
 import { AccountDrawer } from '../components/account-drawer';
-import { SettingsButton } from '../components/settings-button';
 import { LanguagePopover } from '../components/language-popover';
 import { navData as dashboardNavData } from '../nav-config-dashboard';
 import { dashboardLayoutVars, dashboardNavColorVars } from './css-vars';
@@ -121,16 +120,16 @@ export function DashboardLayout({
           )}
         </>
       ),
-      rightArea: (
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 0, sm: 0.75 } }}>
+      centerArea: (
+        <>
           {/** @slot Searchbar */}
           <Searchbar data={navData} />
-
+        </>
+      ),
+      rightArea: (
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 0, sm: 0.75 } }}>
           {/** @slot Language popover */}
           <LanguagePopover data={allLangs} />
-
-          {/** @slot Settings button */}
-          <SettingsButton />
 
           {/** @slot Account drawer */}
           <AccountDrawer user={null} data={[]} />

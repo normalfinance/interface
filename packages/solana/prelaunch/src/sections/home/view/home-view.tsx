@@ -10,6 +10,7 @@ import { HomeStats } from '../home-stats';
 import { HomeQuests } from '../home-quests';
 import { HomeFooter } from '../home-footer';
 import { HomeExplainer } from '../home-explainer';
+import { DashboardContent } from '@/layouts/dashboard';
 
 // ----------------------------------------------------------------------
 
@@ -17,7 +18,7 @@ export function HomeView() {
   const pageProgress = useScrollProgress();
 
   return (
-    <>
+    <DashboardContent maxWidth="xl">
       <ScrollProgress
         variant="linear"
         progress={pageProgress.scrollYProgress}
@@ -37,6 +38,6 @@ export function HomeView() {
       </Stack>
 
       <HomeFooter />
-    </>
+    </DashboardContent>
   );
 }

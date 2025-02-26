@@ -100,7 +100,7 @@ export function ScrollProgress({
         {
           height: progressSize,
           ...(color !== 'inherit' && {
-            background: `linear-gradient(135deg, ${theme.vars.palette[color].light}, ${theme.vars.palette[color].main})`,
+            background: `linear-gradient(135deg, ${theme.vars.palette.primary.main} 0%, ${theme.vars.palette.secondary.main} 25%, ${theme.vars.palette.error.main} 50%, ${theme.vars.palette.warning.main} 75%, ${theme.vars.palette.primary.main} 100%)`,
           }),
         },
         ...(Array.isArray(sx) ? sx : [sx]),

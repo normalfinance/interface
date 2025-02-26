@@ -58,7 +58,7 @@ const FAQs = [
     ),
   },
   {
-    question: 'What are rypto indexes and how do they work?',
+    question: 'What are crypto indexes and how do they work?',
     answer: (
       <Typography>
         Bitcoin, Ethereum, Solana, XRP, and Dogecoin will be the first five Normal tokens launched.
@@ -183,7 +183,7 @@ export function HomeFAQs({ sx, ...other }: BoxProps) {
 
       <m.div variants={varFade('in')}>
         <Typography sx={{ mt: 2, mb: 3, color: 'text.secondary' }}>
-          Our team and community is happy to help
+          Our team and community are happy to help
         </Typography>
       </m.div>
 
@@ -194,6 +194,8 @@ export function HomeFAQs({ sx, ...other }: BoxProps) {
           href={paths.socials.twitter}
           startIcon={<Iconify icon="ic:baseline-x" />}
           sx={{ backgroundColor: '#000000', mr: 2 }}
+          target="_blank"
+          rel="noopener noreferrer"
         >
           Follow us on X
         </Button>
@@ -203,6 +205,8 @@ export function HomeFAQs({ sx, ...other }: BoxProps) {
           href={paths.socials.discord}
           startIcon={<Iconify icon="ic:baseline-discord" />}
           sx={{ backgroundColor: '#5865F2' }}
+          target="_blank"
+          rel="noopener noreferrer"
         >
           Join our Discord
         </Button>

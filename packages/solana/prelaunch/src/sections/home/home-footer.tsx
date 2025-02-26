@@ -97,7 +97,7 @@ export function HomeFooter({
           [theme.breakpoints.up(layoutQuery)]: { textAlign: 'unset' },
         })}
       >
-        <Logo isSingle={false} />
+        <Logo />
 
         <Grid
           container
@@ -180,7 +180,7 @@ export function HomeFooter({
         </Grid>
 
         <Typography variant="body2" sx={{ mt: 10 }}>
-          © All rights reserved.
+          © 2025 - Normal Labs
         </Typography>
       </Container>
     </FooterRoot>

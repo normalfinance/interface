@@ -48,12 +48,14 @@ export function AccountPopover({ data = [], sx, ...other }: AccountPopoverProps)
     >
       <Box sx={{ p: 2, pb: 1.5 }}>
         <Typography variant="subtitle2" noWrap>
-          {user?.wallet?.address}
+          Connected, now go
+          <br />
+          complete some quests!
         </Typography>
 
-        <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
+        {/* <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
           {user?.email?.address || ''}
-        </Typography>
+        </Typography> */}
       </Box>
 
       <Divider sx={{ borderStyle: 'dashed' }} />

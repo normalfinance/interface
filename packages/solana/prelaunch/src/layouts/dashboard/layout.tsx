@@ -26,7 +26,6 @@ import { Searchbar } from '../components/searchbar';
 import { MenuButton } from '../components/menu-button';
 import { HeaderSection } from '../core/header-section';
 import { LayoutSection } from '../core/layout-section';
-import { SettingsButton } from '../components/settings-button';
 import { LanguagePopover } from '../components/language-popover';
 import { navData as dashboardNavData } from '../nav-config-dashboard';
 import { dashboardLayoutVars, dashboardNavColorVars } from './css-vars';
@@ -108,6 +107,7 @@ export function DashboardLayout({
           {/** @slot Logo */}
           {isNavHorizontal && (
             <Logo
+              isSingle={false}
               sx={{
                 display: 'none',
                 [theme.breakpoints.up(layoutQuery)]: { display: 'inline-flex' },
@@ -128,9 +128,6 @@ export function DashboardLayout({
 
           {/** @slot Language popover */}
           <LanguagePopover data={allLangs} />
-
-          {/** @slot Settings button */}
-          <SettingsButton />
 
           {/** @slot Account drawer */}
           <AccountPopover />

@@ -1,6 +1,7 @@
 import type { CSSObject, Breakpoint } from '@mui/material/styles';
 import type { TypographyOptions } from '@mui/material/styles/createTypography';
 
+import localFont from 'next/font/local';
 import { pxToRem, setFont } from 'minimal-shared/utils';
 
 import { createTheme as getTheme } from '@mui/material/styles';
@@ -41,11 +42,37 @@ function responsiveFontSizes(obj: ResponsiveFontSizesInput): ResponsiveFontSizes
 
 // ----------------------------------------------------------------------
 
-const primaryFont = setFont(themeConfig.fontFamily.primary);
+// const primaryFont = setFont(themeConfig.fontFamily.primary);
+export const primaryFont = localFont({
+  src: [
+    {
+      path: '../../../public/fonts/CircularStd-Book.otf',
+      weight: '400',
+    },
+    {
+      path: '../../../public/fonts/CircularStd-Medium.otf',
+      weight: '500',
+    },
+    {
+      path: '../../../public/fonts/CircularStd-Bold.otf', // TODO:
+      weight: '600',
+    },
+    {
+      path: '../../../public/fonts/CircularStd-Bold.otf',
+      weight: '700',
+    },
+    {
+      path: '../../../public/fonts/CircularStd-Black.otf',
+      weight: '800',
+    },
+  ],
+  display: 'swap',
+  fallback: ['Helvetica', 'Arial', 'sans-serif'],
+});
 const secondaryFont = setFont(themeConfig.fontFamily.secondary);
 
 export const typography: TypographyOptions = {
-  fontFamily: primaryFont,
+  fontFamily: primaryFont as any,
   fontSecondaryFamily: secondaryFont,
   fontWeightLight: '300',
   fontWeightRegular: '400',

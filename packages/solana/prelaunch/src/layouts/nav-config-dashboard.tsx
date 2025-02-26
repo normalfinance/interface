@@ -14,6 +14,10 @@ const icon = (name: string) => (
 // TODO: update icons
 const ICONS = {
   home: icon('mingcute-home'),
+  trade: icon('mingcute-trade'),
+  synths: icon('mingcute-synths'),
+  indexes: icon('mingcute-indexes'),
+  earn: icon('mingcute-earn'),
   external: icon('mingcute-external'),
   insurance: icon('mingcute-insurance'),
   referrals: icon('mingcute-referrals'),
@@ -32,52 +36,93 @@ export const navData: NavSectionProps['data'] = [
     items: [
       {
         title: 'Overview',
-        caption: '/',
         path: paths.root,
         icon: ICONS.home,
       },
       {
         title: 'Trade',
         path: '#',
+        icon: ICONS.trade,
         children: [
-          { title: 'Synths', path: paths.markets.root },
-          { title: 'Indexes', path: paths.indexes.root },
+          {
+            title: 'Synths',
+            path: '#', // paths.markets.root,
+            icon: ICONS.synths,
+            caption: 'Trade any Top 100 asset directly on-chain',
+          },
+          {
+            title: 'Indexes',
+            path: '#', // paths.indexes.root,
+            icon: ICONS.indexes,
+            caption: 'Build diversified portfolios of assets to automate or hedge your investing',
+          },
         ],
       },
       {
         title: 'Earn',
         path: '#',
+        icon: ICONS.earn,
         children: [
-          { title: 'Yield', path: paths.markets.root, icon: ICONS.yield },
-          { title: 'LP', path: paths.markets.root, icon: ICONS.lp },
-          { title: 'Insurance', path: paths.insurance, icon: ICONS.insurance },
+          {
+            title: 'Yield',
+            path: '#', // paths.markets.root,
+            icon: ICONS.yield,
+            caption: 'Mint synths by depositing collateral and earn yield from exchange fees',
+          },
+          {
+            title: 'LP',
+            path: '#', // paths.markets.root,
+            icon: ICONS.lp,
+            caption: 'Provide liquidity to pools and earn yield from swaps',
+          },
+          {
+            title: 'Insurance',
+            path: '#', // paths.insurance,
+            icon: ICONS.insurance,
+            caption: 'Stake your assets into a vault and earn yield from exchange fees',
+          },
         ],
       },
       {
         title: 'Rewards',
         path: '#',
-        // icon: ICONS.rewards,
-        children: [{ title: 'Referrals', path: paths.rewards, icon: ICONS.referrals }],
+        icon: ICONS.rewards,
+        children: [
+          {
+            title: 'Referrals',
+            path: '#', // paths.rewards,
+            icon: ICONS.referrals,
+            caption: 'Refer friends to Normal and earn a share of their trading fees',
+          },
+        ],
       },
       {
         title: 'Analytics',
-        path: paths.analytics,
+        path: '#', // paths.analytics,
         icon: ICONS.analytics,
       },
       {
         title: 'More',
         path: '#',
-        // icon: ICONS.more,
+        icon: ICONS.more,
         children: [
           {
-            title: 'Help & Feedback',
-            path: 'https://www.google.com/',
+            title: 'Governance',
+            path: '#', // 'https://www.google.com/',
             icon: ICONS.external,
+            caption: 'NORM is a governance token powering the Normal platform',
+          },
+          {
+            title: 'Help & Feedback',
+            path: '#', // 'https://www.google.com/',
+            icon: ICONS.external,
+            caption: 'Get help and submit product feedback and ideas',
           },
           {
             title: 'Docs',
             path: paths.docs,
             icon: ICONS.external,
+            caption: 'Everything you need to know about getting started with Normal',
           },
         ],
       },

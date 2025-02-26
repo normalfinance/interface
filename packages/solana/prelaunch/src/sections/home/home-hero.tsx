@@ -22,6 +22,8 @@ import { SwapFeeInfo } from '@/types/swap-fee-info';
 import { Token } from '@/types/token';
 import { SwapSendCard } from '@/components/_common/swap-send-card';
 import { Grid2 } from '@mui/material';
+import { AccountPopover } from '@/layouts/components/account-popover';
+import { usePrivy } from '@privy-io/react-auth';
 
 // ----------------------------------------------------------------------
 
@@ -52,6 +54,8 @@ export function HomeHero({ sx, ...other }: BoxProps) {
     [0, 1],
     [1, mdUp ? Number((1 - scrollProgress.percent / 100).toFixed(1)) : 1]
   );
+
+  const { authenticated } = usePrivy();
 
   const renderHeading = () => (
     <m.div {...motionProps}>
@@ -88,7 +92,7 @@ export function HomeHero({ sx, ...other }: BoxProps) {
           }}
           sx={{
             ...theme.mixins.textGradient(
-              `300deg, ${theme.vars.palette.primary.main} 0%, ${theme.vars.palette.warning.main} 25%, ${theme.vars.palette.primary.main} 50%, ${theme.vars.palette.warning.main} 75%, ${theme.vars.palette.primary.main} 100%`
+              `300deg, ${theme.vars.palette.primary.main} 0%, ${theme.vars.palette.secondary.main} 25%, ${theme.vars.palette.error.main} 50%, ${theme.vars.palette.warning.main} 75%, ${theme.vars.palette.primary.main} 100%`
             ),
             backgroundSize: '400%',
             ml: { xs: 0.75, md: 1, xl: 1.5 },
@@ -122,6 +126,21 @@ export function HomeHero({ sx, ...other }: BoxProps) {
           Launching Soon On
         </Typography>
       </m.div>
+
+      {!authenticated ? (
+        <AccountPopover />
+      ) : (
+        <Typography
+          variant="body2"
+          sx={{
+            mx: 'auto',
+            [theme.breakpoints.up(smKey)]: { whiteSpace: 'pre' },
+            [theme.breakpoints.up(lgKey)]: { fontSize: 20, lineHeight: '36px' },
+          }}
+        >
+          Connected, now go complete some quests!
+        </Typography>
+      )}
 
       <Box sx={{ gap: 2.5, display: 'flex' }}>
         {['solana', 'stellar'].map((platform) => (

@@ -9,40 +9,41 @@ import { MotionViewport } from '@/components/animate';
 
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import { Card, Button, CardHeader, Typography, ListItemText } from '@mui/material';
+import { Card, Button, CardHeader } from '@mui/material';
 
 import { SectionTitle } from './components/section-title';
+import { RouterLink } from '@/routes/components';
 
 // ----------------------------------------------------------------------
 
 const QUESTS = [
   {
     id: '0',
-    title: 'Follow @normalfi on Twitter',
-    description: '',
-    reward: '',
+    title: 'Follow @normalfi on X',
+    description: 'Stay up to date with our upcoming launch',
+    reward: '1.10x NORM token airdrop boost',
     action: paths.socials.twitter,
   },
   {
     id: '1',
     title: 'Join our Discord',
-    description: '',
-    reward: '',
+    description: 'Connect with our team and community',
+    reward: '1.15x NORM token airdrop boost',
     action: paths.socials.discord,
   },
   {
     id: '2',
     title: 'Share Normal on Twitter',
-    description: '',
-    reward: '',
+    description: 'Build hype with our pre-written Tweet',
+    reward: '1.25 NORM token airdrop boost',
     action: 'https://twitter.com/intent/tweet?text=Your%20custom%20message%20here',
   },
   {
     id: '3',
-    title: 'Commit to providing liquidity',
-    description: '',
-    reward: '',
-    action: '',
+    title: 'Commit to provide liquidity on Normal v1',
+    description: 'Earn 7%+ yield on your SOL when we launch',
+    reward: '1.10x NORM token airdrop boost',
+    action: 'https://forms.fillout.com/t/eDb8Azmobbus?email=xxxxx',
   },
 ];
 
@@ -73,7 +74,6 @@ export function HomeQuests({ sx, ...other }: BoxProps) {
             <CardHeader title="Quests" subheader="Complete quests to earn rewards" sx={{ mb: 1 }} />
 
             <Scrollbar sx={{ minHeight: 304 }}>
-              {/* <Stack divider={<Divider sx={{ borderStyle: 'dashed' }} />} sx={{ minWidth: 560 }}> */}
               <Box
                 sx={{
                   p: 3,
@@ -92,7 +92,6 @@ export function HomeQuests({ sx, ...other }: BoxProps) {
                   />
                 ))}
               </Box>
-              {/* </Stack> */}
             </Scrollbar>
           </Card>
         </Container>
@@ -111,97 +110,80 @@ type TaskItemProps = BoxProps & {
 
 function TaskItem({ item, selected, onChange, sx, ...other }: TaskItemProps) {
   return (
-    <>
+    <Box
+      sx={[{ gap: 2, display: 'flex', alignItems: 'center' }, ...(Array.isArray(sx) ? sx : [sx])]}
+      {...other}
+    >
       <Box
-        sx={[{ gap: 2, display: 'flex', alignItems: 'center' }, ...(Array.isArray(sx) ? sx : [sx])]}
-        {...other}
-      >
-        <Box
-          sx={[
-            (theme) => ({
-              width: 40,
-              height: 40,
-              display: 'flex',
-              borderRadius: '50%',
-              alignItems: 'center',
-              color: 'primary.main',
-              justifyContent: 'center',
-              bgcolor: varAlpha(theme.vars.palette.primary.mainChannel, 0.08),
-              ...(item.id === '1' && {
-                color: 'info.main',
-                bgcolor: varAlpha(theme.vars.palette.info.mainChannel, 0.08),
-              }),
-              ...(item.id === '2' && {
-                color: 'error.main',
-                bgcolor: varAlpha(theme.vars.palette.error.mainChannel, 0.08),
-              }),
+        sx={[
+          (theme) => ({
+            width: 40,
+            height: 40,
+            display: 'flex',
+            borderRadius: '50%',
+            alignItems: 'center',
+            color: 'primary.main',
+            justifyContent: 'center',
+            bgcolor: varAlpha(theme.vars.palette.primary.mainChannel, 0.08),
+            ...(item.id === '1' && {
+              color: 'secondary.main',
+              bgcolor: varAlpha(theme.vars.palette.secondary.mainChannel, 0.08),
             }),
-          ]}
-        >
-          <Iconify width={24} icon="solar:cup-star-bold" />
-        </Box>
-
-        <ListItemText
-          primary={<Typography variant="subtitle2">{item.title}</Typography>}
-          secondary={
-            <Typography variant="caption" sx={{ color: 'text.disabled' }}>
-              {item.description}
-            </Typography>
-          }
-          slotProps={{
-            primary: { noWrap: true },
-            secondary: {
-              noWrap: true,
-              sx: { mt: 0.5 },
-            },
-          }}
-        />
-
-        <Button
-          variant="contained"
-          color="info"
-          size="small"
-          onClick={item.action}
-          startIcon={<Iconify icon="mingcute:sword-fill" />}
-        >
-          Complete
-        </Button>
-
-        {/* <IconButton color={menuActions.open ? 'inherit' : 'default'} onClick={menuActions.onOpen}>
-          <Iconify icon="eva:more-vertical-fill" />
-        </IconButton> */}
+            ...(item.id === '2' && {
+              color: 'error.main',
+              bgcolor: varAlpha(theme.vars.palette.error.mainChannel, 0.08),
+            }),
+            ...(item.id === '3' && {
+              color: 'warning.main',
+              bgcolor: varAlpha(theme.vars.palette.warning.mainChannel, 0.08),
+            }),
+            ...(item.id === '4' && {
+              color: 'info.main',
+              bgcolor: varAlpha(theme.vars.palette.info.mainChannel, 0.08),
+            }),
+            ...(item.id === '5' && {
+              color: 'success.main',
+              bgcolor: varAlpha(theme.vars.palette.success.mainChannel, 0.08),
+            }),
+          }),
+        ]}
+      >
+        <Iconify width={24} icon="solar:cup-star-bold" />
       </Box>
 
-      {/* <CustomPopover
-        open={menuActions.open}
-        anchorEl={menuActions.anchorEl}
-        onClose={menuActions.onClose}
-        slotProps={{ arrow: { placement: 'right-top' } }}
+      <Box flexGrow={1}>
+        <Box sx={{ typography: 'subtitle2' }}>{item.title}</Box>
+
+        <Box
+          sx={{
+            gap: 0.5,
+            mt: 0.5,
+            alignItems: 'center',
+            typography: 'caption',
+            display: 'inline-flex',
+            color: 'text.secondary',
+          }}
+        >
+          <Iconify icon="mingcute:information-fill" width={14} />
+          {item.description}
+
+          <Iconify icon="mingcute:receive-money-fill" width={14} />
+          {item.reward}
+        </Box>
+      </Box>
+
+      <Button
+        variant="contained"
+        color="info"
+        size="small"
+        LinkComponent={RouterLink}
+        href={item.action}
+        target="_blank"
+        rel="noopener noreferrer"
+        startIcon={<Iconify icon="mingcute:sword-fill" />}
       >
-        <MenuList>
-          <MenuItem onClick={handleMarkComplete}>
-            <Iconify icon="eva:checkmark-circle-2-fill" />
-            Mark complete
-          </MenuItem>
-
-          <MenuItem onClick={handleEdit}>
-            <Iconify icon="solar:pen-bold" />
-            Edit
-          </MenuItem>
-
-          <MenuItem onClick={handleShare}>
-            <Iconify icon="solar:share-bold" />
-            Share
-          </MenuItem>
-
-          <Divider sx={{ borderStyle: 'dashed' }} />
-
-          <MenuItem onClick={handleDelete} sx={{ color: 'error.main' }}>
-            <Iconify icon="solar:trash-bin-trash-bold" />
-            Delete
-          </MenuItem>
-        </MenuList>
-      </CustomPopover> */}
-    </>
+        Complete
+      </Button>
+    </Box>
   );
 }

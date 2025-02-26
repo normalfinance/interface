@@ -28,16 +28,6 @@ export function SettingsProvider({
     initialSettings
   );
 
-  const [openDrawer, setOpenDrawer] = useState(false);
-
-  const onToggleDrawer = useCallback(() => {
-    setOpenDrawer((prev) => !prev);
-  }, []);
-
-  const onCloseDrawer = useCallback(() => {
-    setOpenDrawer(false);
-  }, []);
-
   const canReset = !isEqual(state, defaultSettings);
 
   const onReset = useCallback(() => {
@@ -64,14 +54,11 @@ export function SettingsProvider({
     () => ({
       canReset,
       onReset,
-      openDrawer,
-      onCloseDrawer,
-      onToggleDrawer,
       state,
       setState,
       setField,
     }),
-    [canReset, onReset, openDrawer, onCloseDrawer, onToggleDrawer, state, setField, setState]
+    [canReset, onReset, state, setField, setState]
   );
 
   return <SettingsContext.Provider value={memoizedValue}>{children}</SettingsContext.Provider>;

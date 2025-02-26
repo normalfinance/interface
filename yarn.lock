@@ -4188,11 +4188,7 @@ __metadata:
     "@emotion/react": ^11.14.0
     "@emotion/styled": ^11.14.0
     "@eslint/js": ^9.17.0
-    "@fontsource-variable/dm-sans": ^5.1.1
     "@fontsource-variable/inter": ^5.1.1
-    "@fontsource-variable/nunito-sans": ^5.1.1
-    "@fontsource-variable/public-sans": ^5.1.2
-    "@fontsource/barlow": ^5.1.1
     "@hookform/resolvers": ^3.9.1
     "@iconify/react": ^5.1.0
     "@mui/lab": ^6.0.0-beta.21
@@ -4255,7 +4251,6 @@ __metadata:
     turndown: ^7.2.0
     typescript: ^5.7.2
     typescript-eslint: ^8.19.0
-    use-immer: ^0.9.0
     zod: ^3.24.1
   languageName: unknown
   linkType: soft
