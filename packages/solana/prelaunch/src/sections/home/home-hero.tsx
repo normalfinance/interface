@@ -18,6 +18,8 @@ import { varFade, MotionContainer } from 'src/components/animate';
 
 import { HeroBackground } from './components/hero-background';
 
+import { CountrySelect } from '@normalfinance/ui';
+
 // ----------------------------------------------------------------------
 
 const smKey: Breakpoint = 'sm';
@@ -193,7 +195,7 @@ export function HomeHero({ sx, ...other }: BoxProps) {
           <Stack spacing={3} sx={{ textAlign: 'center' }}>
             <m.div style={{ y: y1 }}>{renderHeading()}</m.div>
             <m.div style={{ y: y2 }}>{renderText()}</m.div>
-            <m.div style={{ y: y3 }}>{/* Swap compoennts */}</m.div>
+            <m.div style={{ y: y3 }}></m.div>
           </Stack>
           <m.div style={{ y: y5 }}>{renderIcons()}</m.div>
         </Container>
