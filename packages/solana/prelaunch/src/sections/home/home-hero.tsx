@@ -92,6 +92,7 @@ export function HomeHero({ sx, ...other }: BoxProps) {
             ),
             backgroundSize: '400%',
             ml: { xs: 0.75, md: 1, xl: 1.5 },
+            marginBottom: 1,
           }}
         >
           on-chain.
@@ -108,6 +109,7 @@ export function HomeHero({ sx, ...other }: BoxProps) {
           mx: 'auto',
           [theme.breakpoints.up(smKey)]: { whiteSpace: 'pre' },
           [theme.breakpoints.up(lgKey)]: { fontSize: 14, lineHeight: '20px' },
+          marginBottom: 3,
         }}
       >
         {`Tokenized perps on Solana and Stellar -\nBuy and sell any crypto without bridges or CEXs.`}
@@ -116,29 +118,30 @@ export function HomeHero({ sx, ...other }: BoxProps) {
   );
 
   const renderIcons = () => (
-    <Stack spacing={3} sx={{ textAlign: 'center' }}>
+    <Stack spacing={2} sx={{ textAlign: 'center' }}>
       <m.div {...motionProps}>
-        <Typography variant="overline" sx={{ opacity: 0.4 }}>
-          Launching Soon On
-        </Typography>
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1 }}>
+          <Typography variant="overline" sx={{ opacity: 0.4 }}>
+            Launching Soon On
+          </Typography>
+          {!authenticated ? (
+            <AccountPopover />
+          ) : (
+            <Typography
+              variant="body2"
+              sx={{
+                mx: 'auto',
+                [theme.breakpoints.up(smKey)]: { whiteSpace: 'pre' },
+                [theme.breakpoints.up(lgKey)]: { fontSize: 20, lineHeight: '36px' },
+              }}
+            >
+              Connected, now go complete some quests!
+            </Typography>
+          )}
+        </Box>
       </m.div>
 
-      {!authenticated ? (
-        <AccountPopover />
-      ) : (
-        <Typography
-          variant="body2"
-          sx={{
-            mx: 'auto',
-            [theme.breakpoints.up(smKey)]: { whiteSpace: 'pre' },
-            [theme.breakpoints.up(lgKey)]: { fontSize: 20, lineHeight: '36px' },
-          }}
-        >
-          Connected, now go complete some quests!
-        </Typography>
-      )}
-
-      <Box sx={{ gap: 2.5, display: 'flex' }}>
+      <Box sx={{ gap: 2.5, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         {['solana', 'stellar'].map((platform) => (
           <m.div {...motionProps} key={platform}>
             <Box
@@ -147,8 +150,7 @@ export function HomeHero({ sx, ...other }: BoxProps) {
               src={`${CONFIG.assetsDir}/assets/icons/platforms/${platform}.svg`}
               sx={[
                 {
-                  width: 256,
-                  height: 256,
+                  width: 80,
                   ...theme.applyStyles('dark', {
                     ...(platform === 'nextjs' && { filter: 'invert(1)' }),
                   }),
@@ -211,12 +213,12 @@ export function HomeHero({ sx, ...other }: BoxProps) {
             flexDirection: 'column',
             [theme.breakpoints.up(mdKey)]: {
               flex: '1 1 auto',
-              justifyContent: 'center',
+              justifyContent: 'flex-start',
               py: 'var(--layout-header-desktop-height)',
             },
           }}
         >
-          <Stack spacing={3} sx={{ textAlign: 'center', alignItems: 'center' }}>
+          <Stack spacing={0} sx={{ textAlign: 'center', alignItems: 'center' }}>
             <m.div style={{ y: y1 }}>{renderHeading()}</m.div>
             <m.div style={{ y: y2 }}>{renderText()}</m.div>
             <m.div style={{ y: y3, maxWidth: '480px' }}>
