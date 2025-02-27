@@ -191,7 +191,13 @@ export function HomeHero({ sx, ...other }: BoxProps) {
           position: 'relative',
           flexDirection: 'column',
           transition: theme.transitions.create(['opacity']),
-          [theme.breakpoints.up(mdKey)]: { height: 1, position: 'fixed', maxHeight: 'inherit' },
+          [theme.breakpoints.up(mdKey)]: {
+            height: 1,
+            position: 'fixed',
+            maxHeight: 'inherit',
+            left: '50%',
+            transform: 'translateX(-50%)',
+          },
         }}
       >
         <Container
