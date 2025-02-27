@@ -216,10 +216,10 @@ export function HomeHero({ sx, ...other }: BoxProps) {
             },
           }}
         >
-          <Stack spacing={3} sx={{ textAlign: 'center' }}>
+          <Stack spacing={3} sx={{ textAlign: 'center', alignItems: 'center' }}>
             <m.div style={{ y: y1 }}>{renderHeading()}</m.div>
             <m.div style={{ y: y2 }}>{renderText()}</m.div>
-            <m.div style={{ y: y3 }}>
+            <m.div style={{ y: y3, maxWidth: '480px' }}>
               <SwapCard tokensList={CONFIG.tokenList} swapFeeInfo={CONFIG.swapFeeInfo} />
             </m.div>
           </Stack>
