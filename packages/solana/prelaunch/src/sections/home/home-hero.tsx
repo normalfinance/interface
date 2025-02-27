@@ -68,8 +68,8 @@ export function HomeHero({ sx, ...other }: BoxProps) {
             justifyContent: 'center',
             fontFamily: theme.typography.fontSecondaryFamily,
             [theme.breakpoints.up(lgKey)]: {
-              fontSize: theme.typography.pxToRem(72),
-              lineHeight: '90px',
+              fontSize: theme.typography.pxToRem(48),
+              lineHeight: '56px',
             },
           },
         ]}
@@ -107,7 +107,7 @@ export function HomeHero({ sx, ...other }: BoxProps) {
         sx={{
           mx: 'auto',
           [theme.breakpoints.up(smKey)]: { whiteSpace: 'pre' },
-          [theme.breakpoints.up(lgKey)]: { fontSize: 20, lineHeight: '36px' },
+          [theme.breakpoints.up(lgKey)]: { fontSize: 14, lineHeight: '20px' },
         }}
       >
         {`Tokenized perps on Solana and Stellar -\nBuy and sell any crypto without bridges or CEXs.`}
@@ -204,7 +204,7 @@ export function HomeHero({ sx, ...other }: BoxProps) {
           component={MotionContainer}
           sx={{
             py: 3,
-            gap: 5,
+            gap: 2,
             zIndex: 9,
             display: 'flex',
             alignItems: 'center',
