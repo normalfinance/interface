@@ -1,16 +1,18 @@
 'use client';
 
+import { DashboardContent } from '@/layouts/dashboard';
+
 import Stack from '@mui/material/Stack';
 
 import { ScrollProgress, useScrollProgress } from 'src/components/animate/scroll-progress';
 
 import { HomeHero } from '../home-hero';
 import { HomeFAQs } from '../home-faqs';
+import { HomePOAP } from '../home-poap';
 import { HomeStats } from '../home-stats';
 import { HomeQuests } from '../home-quests';
 import { HomeFooter } from '../home-footer';
 import { HomeExplainer } from '../home-explainer';
-import { DashboardContent } from '@/layouts/dashboard';
 
 // ----------------------------------------------------------------------
 
@@ -33,6 +35,8 @@ export function HomeView() {
         <HomeStats />
 
         <HomeQuests />
+
+        <HomePOAP />
 
         <HomeFAQs />
       </Stack>
