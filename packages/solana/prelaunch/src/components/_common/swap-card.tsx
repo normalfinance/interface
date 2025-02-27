@@ -13,6 +13,7 @@ import FeeInfoAccordion from './fee-info-accordion';
 import { sanitizeAmountInput } from '@/utils/input-helpers';
 import { getConversionText } from '@/utils/conversion-helpers';
 import { useConfetti } from '../confetti';
+import { start } from 'nprogress';
 
 interface SwapCardProps extends CardProps {
   tokensList?: Token[];
@@ -279,7 +280,7 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], swapFeeInfo, ...ot
                 minWidth: 0,
               }}
             >
-              <Typography variant="body1" noWrap>
+              <Typography variant="body1" noWrap textAlign={'left'}>
                 Sell
               </Typography>
               <InputBase
@@ -329,6 +330,7 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], swapFeeInfo, ...ot
                   overflow: 'hidden',
                   textOverflow: 'clip',
                   minWidth: 0,
+                  textAlign: 'left',
                 }}
               >
                 {`${fCurrency(sellFiatValue)}`}
@@ -457,7 +459,7 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], swapFeeInfo, ...ot
               gap: 2,
             }}
           >
-            <Typography variant="body1" noWrap>
+            <Typography variant="body1" noWrap textAlign={'left'}>
               Buy
             </Typography>
 
@@ -466,6 +468,8 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], swapFeeInfo, ...ot
                 maxWidth: '100%',
                 overflowX: 'auto',
                 whiteSpace: 'nowrap',
+                display: 'flex',
+                alignItems: 'flex-start',
               }}
             >
               <Typography
@@ -476,6 +480,7 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], swapFeeInfo, ...ot
                   fontWeight: 'var(--h3-weight, 700)',
                   lineHeight: 'var(--h3-line-height, 48px)',
                   letterSpacing: 'var(--h3-letter-spacing, 0px)',
+                  textAlign: 'left',
                   color: !quoteFetched ? theme.palette.text.secondary : theme.palette.text.primary,
                 }}
               >
@@ -492,6 +497,7 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], swapFeeInfo, ...ot
                 opacity: quoteFetched && buyToken ? 1 : 0,
                 whiteSpace: 'nowrap',
                 overflow: 'visible',
+                textAlign: 'left',
               }}
             >
               {buyToken ? `${fCurrency(buyToken.pricestatus * buyAmount)}` : '$0'}

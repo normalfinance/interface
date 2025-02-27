@@ -34,6 +34,7 @@ import type { MainSectionProps } from '../core/main-section';
 import type { HeaderSectionProps } from '../core/header-section';
 import type { LayoutSectionProps } from '../core/layout-section';
 import { AccountPopover } from '../components/account-popover';
+import { varAlpha } from 'minimal-shared/utils';
 
 // ----------------------------------------------------------------------
 
@@ -81,55 +82,39 @@ export function DashboardLayout({
             bgcolor: 'var(--layout-nav-bg)',
             height: { [layoutQuery]: 'var(--layout-nav-horizontal-height)' },
             [`& .${iconButtonClasses.root}`]: { color: 'var(--layout-nav-text-secondary-color)' },
+            borderBottom: `solid 1px ${varAlpha(theme.vars.palette.grey['500Channel'], 0.08)}`,
           }),
         },
       },
     };
 
     const headerSlots: HeaderSectionProps['slots'] = {
-      topArea: (
-        <Alert severity="info" sx={{ display: 'none', borderRadius: 0 }}>
-          This is an info Alert.
-        </Alert>
-      ),
-      bottomArea: isNavHorizontal ? (
-        <NavHorizontal data={navData} layoutQuery={layoutQuery} cssVars={navVars.section} />
-      ) : null,
       leftArea: (
-        <>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           {/** @slot Nav mobile */}
+
           <MenuButton
             onClick={onOpen}
             sx={{ mr: 1, ml: -1, [theme.breakpoints.up(layoutQuery)]: { display: 'none' } }}
           />
           <NavMobile data={navData} open={open} onClose={onClose} cssVars={navVars.section} />
 
-          {/** @slot Logo */}
-          {isNavHorizontal && (
-            <Logo
-              isSingle={false}
-              sx={{
-                display: 'none',
-                [theme.breakpoints.up(layoutQuery)]: { display: 'inline-flex' },
-              }}
-            />
-          )}
+          {/** Desktop Logo */}
+          <Logo
+            isSingle={false}
+            sx={{
+              display: { xs: 'none', [layoutQuery]: 'inline-flex' },
+            }}
+          />
 
-          {/** @slot Divider */}
-          {isNavHorizontal && (
-            <VerticalDivider sx={{ [theme.breakpoints.up(layoutQuery)]: { display: 'flex' } }} />
-          )}
-        </>
+          {/** Desktop NavHorizontal */}
+          <NavHorizontal data={navData} layoutQuery={layoutQuery} cssVars={navVars.section} />
+        </Box>
       ),
       rightArea: (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 0, sm: 0.75 } }}>
-          {/** @slot Searchbar */}
           <Searchbar data={navData} />
-
-          {/** @slot Language popover */}
           <LanguagePopover data={allLangs} />
-
-          {/** @slot Account drawer */}
           <AccountPopover />
         </Box>
       ),

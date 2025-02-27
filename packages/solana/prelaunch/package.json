@@ -18,7 +18,8 @@
     "re:build-npm": "npm run clean && npm install && npm run build",
     "tsc:dev": "yarn dev & yarn tsc:watch",
     "tsc:watch": "tsc --noEmit --watch",
-    "tsc:print": "npx tsc --showConfig"
+    "tsc:print": "npx tsc --showConfig",
+    "setup_env": "cp .env.example > .env"
   },
   "dependencies": {
     "@emotion/cache": "^11.14.0",

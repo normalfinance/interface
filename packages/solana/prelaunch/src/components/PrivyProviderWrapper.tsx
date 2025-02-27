@@ -3,7 +3,7 @@
 import { CONFIG } from '@/global-config';
 import { PrivyProvider } from '@privy-io/react-auth';
 
-export default function Providers({ children }: { children: React.ReactNode }) {
+export default function PrivyProviderWrapper({ children }: { children: React.ReactNode }) {
   return (
     <PrivyProvider
       appId={CONFIG.privy.appId}
@@ -15,7 +15,9 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         ],
         // Create embedded wallets for users who don't have a wallet
         embeddedWallets: {
-          createOnLogin: 'users-without-wallets',
+          solana: {
+            createOnLogin: 'users-without-wallets',
+          },
         },
       }}
     >
