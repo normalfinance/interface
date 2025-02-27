@@ -2,7 +2,7 @@ import 'src/global.css';
 
 import type { Metadata, Viewport } from 'next';
 
-import Providers from '@/components/providers';
+import Providers from '@/components/PrivyProviderWrapper';
 import { DashboardLayout } from '@/layouts/dashboard';
 
 import InitColorSchemeScript from '@mui/material/InitColorSchemeScript';
@@ -20,6 +20,8 @@ import { ProgressBar } from 'src/components/progress-bar';
 import { MotionLazy } from 'src/components/animate/motion-lazy';
 import { detectSettings } from 'src/components/settings/server';
 import { defaultSettings, SettingsProvider } from 'src/components/settings';
+import PrivyProviderWrapper from '@/components/PrivyProviderWrapper';
+import { ConfettiProvider, defaultConfettiConfig } from '@/components/confetti';
 
 // ----------------------------------------------------------------------
 
@@ -87,13 +89,13 @@ export default async function RootLayout({ children }: RootLayoutProps) {
                   defaultMode={themeConfig.defaultMode}
                   modeStorageKey={themeConfig.modeStorageKey}
                 >
-                  <Providers>
+                  <PrivyProviderWrapper>
                     <MotionLazy>
                       <Snackbar />
                       <ProgressBar />
                       <DashboardLayout>{children}</DashboardLayout>
                     </MotionLazy>
-                  </Providers>
+                  </PrivyProviderWrapper>
                 </ThemeProvider>
               </AppRouterCacheProvider>
             </LocalizationProvider>
