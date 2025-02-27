@@ -21,29 +21,37 @@ const QUESTS = [
     id: '0',
     title: 'Follow @normalfi on X',
     description: 'Stay up to date with our upcoming launch',
-    reward: '1.10x NORM token airdrop boost',
+    reward: '1.10x airdrop boost',
     action: paths.socials.twitter,
   },
   {
     id: '1',
     title: 'Join our Discord',
     description: 'Connect with our team and community',
-    reward: '1.15x NORM token airdrop boost',
+    reward: '1.15x airdrop boost',
     action: paths.socials.discord,
   },
   {
     id: '2',
     title: 'Share Normal on Twitter',
     description: 'Build hype with our pre-written Tweet',
-    reward: '1.25 NORM token airdrop boost',
-    action: 'https://twitter.com/intent/tweet?text=Your%20custom%20message%20here',
+    reward: '1.25 airdrop boost',
+    action:
+      'https://twitter.com/intent/tweet?text=Shoutout%20to%20%40normalfi%20for%20an%20epic%20BBQ%20%26%20chill%20party%20after%20%23ETHDenver%21%20They%27re%20launching%20tokenized%20perps%20that%20let%20you%20trade%20any%20crypto%20directly%20on-chain%20without%20bridges%20or%20CEXs%20%F0%9F%94%A5%20%0A%0AGrab%20their%20token%20whitelist%20while%20you%20can%3A%20https%3A%2F%2Falpha.normalfinance.io%2F',
   },
   {
     id: '3',
     title: 'Commit to provide liquidity on Normal v1',
     description: 'Earn 7%+ yield on your SOL when we launch',
-    reward: '1.10x NORM token airdrop boost',
+    reward: '1.10x airdrop boost',
     action: 'https://forms.fillout.com/t/eDb8Azmobbus?email=xxxxx',
+  },
+  {
+    id: '4',
+    title: '',
+    description: '',
+    reward: '1.10x airdrop boost',
+    action: '',
   },
 ];
 
@@ -180,7 +188,6 @@ function TaskItem({ item, selected, onChange, sx, ...other }: TaskItemProps) {
         href={item.action}
         target="_blank"
         rel="noopener noreferrer"
-        startIcon={<Iconify icon="mingcute:sword-fill" />}
       >
         Complete
       </Button>

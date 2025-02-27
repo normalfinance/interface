@@ -117,12 +117,6 @@ export function HomeHero({ sx, ...other }: BoxProps) {
 
   const renderIcons = () => (
     <Stack spacing={3} sx={{ textAlign: 'center' }}>
-      <m.div {...motionProps}>
-        <Typography variant="overline" sx={{ opacity: 0.4 }}>
-          Launching Soon On
-        </Typography>
-      </m.div>
-
       {!authenticated ? (
         <AccountPopover />
       ) : (
@@ -137,6 +131,12 @@ export function HomeHero({ sx, ...other }: BoxProps) {
           Connected, now go complete some quests!
         </Typography>
       )}
+
+      <m.div {...motionProps}>
+        <Typography variant="overline" sx={{ opacity: 0.4 }}>
+          Launching Soon On
+        </Typography>
+      </m.div>
 
       <Box sx={{ gap: 2.5, display: 'flex' }}>
         {['solana', 'stellar'].map((platform) => (

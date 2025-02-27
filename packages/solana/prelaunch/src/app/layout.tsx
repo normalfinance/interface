@@ -2,8 +2,8 @@ import 'src/global.css';
 
 import type { Metadata, Viewport } from 'next';
 
-import Providers from '@/components/PrivyProviderWrapper';
 import { DashboardLayout } from '@/layouts/dashboard';
+import PrivyProviderWrapper from '@/components/PrivyProviderWrapper';
 
 import InitColorSchemeScript from '@mui/material/InitColorSchemeScript';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
@@ -20,8 +20,6 @@ import { ProgressBar } from 'src/components/progress-bar';
 import { MotionLazy } from 'src/components/animate/motion-lazy';
 import { detectSettings } from 'src/components/settings/server';
 import { defaultSettings, SettingsProvider } from 'src/components/settings';
-import PrivyProviderWrapper from '@/components/PrivyProviderWrapper';
-import { ConfettiProvider, defaultConfettiConfig } from '@/components/confetti';
 
 // ----------------------------------------------------------------------
 
