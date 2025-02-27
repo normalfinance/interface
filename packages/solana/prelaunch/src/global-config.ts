@@ -43,7 +43,7 @@ export const CONFIG: ConfigValue = {
       address: 'GsD4XPiQtEMrkjtGZcNqK3R9pwDHxZ6ehmSb1sRsvjaX',
     },
     {
-      id: 1,
+      id: 2,
       url: 'https://cryptologos.cc/logos/bitcoin-btc-logo.png?v=040',
       name: 'Bitcoin',
       shortname: 'nBTC',
@@ -54,7 +54,7 @@ export const CONFIG: ConfigValue = {
       address: 'GsD4XPiQtEMrkjtGZcNqK3R9pwDHxZ6ehmSb1sRsvjaX',
     },
     {
-      id: 1,
+      id: 3,
       url: 'https://token-icons.s3.amazonaws.com/eth.png',
       name: 'Ethereum',
       shortname: 'nETH',
@@ -65,7 +65,7 @@ export const CONFIG: ConfigValue = {
       address: 'GsD4XPiQtEMrkjtGZcNqK3R9pwDHxZ6ehmSb1sRsvjaX',
     },
     {
-      id: 1,
+      id: 4,
       url: 'https://cryptologos.cc/logos/xrp-xrp-logo.png?v=040',
       name: 'Ripple',
       shortname: 'nXRP',
@@ -76,7 +76,7 @@ export const CONFIG: ConfigValue = {
       address: 'GsD4XPiQtEMrkjtGZcNqK3R9pwDHxZ6ehmSb1sRsvjaX',
     },
     {
-      id: 1,
+      id: 5,
       url: 'https://cryptologos.cc/logos/sui-sui-logo.png?v=040',
       name: 'Sui',
       shortname: 'nSUI',
@@ -87,7 +87,7 @@ export const CONFIG: ConfigValue = {
       address: 'GsD4XPiQtEMrkjtGZcNqK3R9pwDHxZ6ehmSb1sRsvjaX',
     },
     {
-      id: 1,
+      id: 6,
       url: 'https://cryptologos.cc/logos/dogecoin-doge-logo.png?v=040',
       name: 'DogeCoin',
       shortname: 'nDOGE',
@@ -98,7 +98,7 @@ export const CONFIG: ConfigValue = {
       address: 'GsD4XPiQtEMrkjtGZcNqK3R9pwDHxZ6ehmSb1sRsvjaX',
     },
     {
-      id: 2,
+      id: 7,
       url: 'https://coin-images.coingecko.com/coins/images/6319/large/usdc.png?1696506694',
       name: 'USDC',
       shortname: 'USDC',
