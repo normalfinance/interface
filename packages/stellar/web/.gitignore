@@ -54,3 +54,7 @@ crowdin.yml
 /public/sw.js.map
 /public/workbox-*.js.map
 /public/worker-*.js.map
+
+# install state
+install-state.gz
+
