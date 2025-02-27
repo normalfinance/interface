@@ -2,8 +2,8 @@ import 'src/global.css';
 
 import type { Metadata, Viewport } from 'next';
 
-import Providers from '@/components/providers';
 import { DashboardLayout } from '@/layouts/dashboard';
+import PrivyProviderWrapper from '@/components/PrivyProviderWrapper';
 
 import InitColorSchemeScript from '@mui/material/InitColorSchemeScript';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
@@ -87,13 +87,13 @@ export default async function RootLayout({ children }: RootLayoutProps) {
                   defaultMode={themeConfig.defaultMode}
                   modeStorageKey={themeConfig.modeStorageKey}
                 >
-                  <Providers>
+                  <PrivyProviderWrapper>
                     <MotionLazy>
                       <Snackbar />
                       <ProgressBar />
                       <DashboardLayout>{children}</DashboardLayout>
                     </MotionLazy>
-                  </Providers>
+                  </PrivyProviderWrapper>
                 </ThemeProvider>
               </AppRouterCacheProvider>
             </LocalizationProvider>

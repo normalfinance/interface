@@ -1,6 +1,7 @@
 import packageJson from '../package.json';
-import { SwapFeeInfo } from './types/swap-fee-info';
-import { Token } from './types/token';
+
+import type { Token } from './types/token';
+import type { SwapFeeInfo } from './types/swap-fee-info';
 
 // ----------------------------------------------------------------------
 
@@ -14,6 +15,7 @@ export type ConfigValue = {
     appId: string;
     secret: string;
   };
+  poap_url: string;
   tokenList: Token[];
   swapFeeInfo: SwapFeeInfo;
 };
@@ -30,6 +32,7 @@ export const CONFIG: ConfigValue = {
     appId: process.env.NEXT_PUBLIC_PRIVY_APP_ID ?? '',
     secret: process.env.PRIVY_APP_SECRET ?? '',
   },
+  poap_url: process.env.NEXT_PUBLIC_NORMAL_POAP_URL ?? '',
   tokenList: [
     {
       id: 1,
