@@ -4234,6 +4234,7 @@ __metadata:
     prettier: ^3.4.2
     react: ^18.3.1
     react-apexcharts: ^1.7.0
+    react-confetti: ^6.2.3
     react-dom: ^18.3.1
     react-hook-form: ^7.54.2
     react-hot-toast: ^2.4.1
@@ -17124,6 +17125,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-confetti@npm:^6.2.3":
+  version: 6.2.3
+  resolution: "react-confetti@npm:6.2.3"
+  dependencies:
+    tween-functions: ^1.2.0
+  peerDependencies:
+    react: ^16.3.0 || ^17.0.1 || ^18.0.0 || ^19.0.0
+  checksum: 497a2597de3039bb818bbffe4fbd7cfa3cf993dc8a2a0f43f89f23e5f4a59f55b2540fdfe21b1118c59d46f69ee8bad6a39a8a5a870345a26bc5f89310c7d75e
+  languageName: node
+  linkType: hard
+
 "react-device-detect@npm:^2.2.2":
   version: 2.2.3
   resolution: "react-device-detect@npm:2.2.3"
@@ -19536,6 +19548,13 @@ __metadata:
   dependencies:
     "@mixmark-io/domino": ^2.2.0
   checksum: a0bdf2fcc8cd531c94edbd7c384ae58a13251e7b472f7245fac74a316c08f8d04eb9dddfce6a5e6170ddb09c0494154a0d69312e5d9c2a7223a936a7e369ac7c
+  languageName: node
+  linkType: hard
+
+"tween-functions@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "tween-functions@npm:1.2.0"
+  checksum: 880708d680eff5c347ddcb9f922ad121703a91c78ce308ed309073e73a794b633eb0b80589a839365803f150515ad34c9646809ae8a0e90f09e62686eefb1ab6
   languageName: node
   linkType: hard
 
