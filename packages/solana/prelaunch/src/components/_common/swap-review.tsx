@@ -12,6 +12,7 @@ import {
   AccordionSummary,
   AccordionDetails,
 } from '@mui/material';
+
 import { fCurrencyTwoDecimals, fRawPercent } from '@/utils/format-number';
 import { Token } from '@/types/token';
 import { Iconify } from '../iconify';
@@ -20,6 +21,7 @@ import { getSwapConversionText } from '@/utils/conversion-helpers';
 
 export interface SwapReviewProps {
   open: boolean;
+  onSubmit: () => void;
   onClose: () => void;
   sellToken?: Token;
   buyToken?: Token;
@@ -34,6 +36,7 @@ export interface SwapReviewProps {
 
 const SwapReview: React.FC<SwapReviewProps> = ({
   open,
+  onSubmit,
   onClose,
   sellToken,
   buyToken,
@@ -501,7 +504,7 @@ const SwapReview: React.FC<SwapReviewProps> = ({
       </DialogContent>
       <DialogActions sx={{ p: 2, pt: 0, width: '100%' }}>
         <Box sx={{ width: '100%' }}>
-          <Button fullWidth variant="soft" color="success" size="large">
+          <Button fullWidth variant="soft" color="success" size="large" onClick={onSubmit}>
             Swap
           </Button>
         </Box>

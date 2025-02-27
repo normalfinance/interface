@@ -20,6 +20,7 @@ import { ProgressBar } from 'src/components/progress-bar';
 import { MotionLazy } from 'src/components/animate/motion-lazy';
 import { detectSettings } from 'src/components/settings/server';
 import { defaultSettings, SettingsProvider } from 'src/components/settings';
+import { ConfettiProvider, defaultConfettiConfig } from '@/components/confetti';
 
 // ----------------------------------------------------------------------
 
@@ -91,7 +92,11 @@ export default async function RootLayout({ children }: RootLayoutProps) {
                     <MotionLazy>
                       <Snackbar />
                       <ProgressBar />
-                      <DashboardLayout>{children}</DashboardLayout>
+                      <DashboardLayout>
+                        <ConfettiProvider defaultConfig={defaultConfettiConfig}>
+                          {children}
+                        </ConfettiProvider>
+                      </DashboardLayout>
                     </MotionLazy>
                   </PrivyProviderWrapper>
                 </ThemeProvider>

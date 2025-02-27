@@ -12,6 +12,7 @@ import SwapReview from './swap-review';
 import FeeInfoAccordion from './fee-info-accordion';
 import { sanitizeAmountInput } from '@/utils/input-helpers';
 import { getConversionText } from '@/utils/conversion-helpers';
+import { useConfetti } from '../confetti';
 import { start } from 'nprogress';
 
 interface SwapCardProps extends CardProps {
@@ -21,6 +22,7 @@ interface SwapCardProps extends CardProps {
 
 const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], swapFeeInfo, ...other }) => {
   const theme = useTheme();
+  const { showConfetti } = useConfetti();
 
   // 1) States for tokens, default sell token is first in the list
   const [sellToken, setSellToken] = useState<Token | null>(
@@ -184,6 +186,11 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], swapFeeInfo, ...ot
     if (sellToken) {
       setAmount(sellToken.countstatus.toString());
     }
+  };
+
+  const handleSubmit = () => {
+    showConfetti();
+    handleReviewClose();
   };
 
   return (
@@ -568,6 +575,7 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], swapFeeInfo, ...ot
           priceImpact={swapFeeInfo?.priceImpact ?? 0}
           maxSlippage={swapFeeInfo?.maxSlippage ?? 0}
           sellFiatValue={sellFiatValue}
+          onSubmit={handleSubmit}
         />
       )}
 
