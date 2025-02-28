@@ -18,19 +18,22 @@ import { Iconify } from 'src/components/iconify';
 import { MotionViewport } from 'src/components/animate';
 
 import { FloatLine, FloatTriangleDownIcon } from './components/svg-elements';
+import { SectionTitle } from './components/section-title';
 
 // ----------------------------------------------------------------------
 
 export function HomePOAP({ sx, ...other }: BoxProps) {
   const renderContent = () => (
-    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        <Typography variant="h6" sx={{ flexGrow: 1 }}>
-          Take the spirit of Normal with you everywhere you go
-        </Typography>
+        <SectionTitle
+          title="Take the spirit of Normal with you everywhere you"
+          txtGradient="go!"
+          sx={{ mb: { xs: 5, md: 8, maxWidth: '767px' }, textAlign: 'center' }}
+        />
       </Box>
 
-      <PoapItem />
+      <PoapItem sx={{ maxWidth: '767px' }} />
     </Box>
   );
 
