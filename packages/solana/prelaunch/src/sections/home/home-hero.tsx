@@ -33,23 +33,27 @@ const motionProps: MotionProps = {
 
 export function HomeHero({ sx, ...other }: BoxProps) {
   const scrollProgress = useScrollPercent();
-
   const theme = useTheme();
   const mdUp = useMediaQuery(theme.breakpoints.up(mdKey));
 
-  const distance = mdUp ? scrollProgress.percent : 0;
+  // Get hero height (note: on first render this may be 0)
+  const heroHeight = scrollProgress.elementRef.current?.offsetHeight || 0;
+  const halfScroll = heroHeight / 2;
 
-  const y1 = useTransformY(scrollProgress.scrollY, distance * -7);
-  const y2 = useTransformY(scrollProgress.scrollY, distance * -6);
-  const y3 = useTransformY(scrollProgress.scrollY, distance * -5);
-  // const y4 = useTransformY(scrollProgress.scrollY, distance * -4);
-  const y5 = useTransformY(scrollProgress.scrollY, distance * -3);
-
-  const opacity: MotionValue<number> = useTransform(
+  // Create a delayed progress MotionValue that goes from 0 to 1 between these scroll values
+  const slowProgress = useTransform(
     scrollProgress.scrollY,
-    [0, 1],
-    [1, mdUp ? Number((1 - scrollProgress.percent / 100).toFixed(1)) : 1]
-  );
+    [halfScroll, heroHeight + 1600],
+    [0, 1]
+  ); // Use the delayedProgress for your translations instead of the raw scroll progress
+  const y1 = useTransformY(slowProgress, -600);
+  const y2 = useTransformY(slowProgress, -600);
+  const y3 = useTransformY(slowProgress, -600);
+  const y5 = useTransformY(slowProgress, -600);
+
+  // Use delayedProgress for opacity as well.
+  // For example, fully opaque until animation starts, then fades out.
+  const opacity: MotionValue<number> = useTransform(slowProgress, [0, 1], [1, mdUp ? 0 : 1]);
 
   const { authenticated } = usePrivy();
 
@@ -68,8 +72,8 @@ export function HomeHero({ sx, ...other }: BoxProps) {
             justifyContent: 'center',
             fontFamily: theme.typography.fontSecondaryFamily,
             [theme.breakpoints.up(lgKey)]: {
-              fontSize: theme.typography.pxToRem(48),
-              lineHeight: '56px',
+              fontSize: theme.typography.pxToRem(64),
+              lineHeight: '72px',
             },
           },
         ]}
@@ -110,6 +114,7 @@ export function HomeHero({ sx, ...other }: BoxProps) {
           [theme.breakpoints.up(smKey)]: { whiteSpace: 'pre' },
           [theme.breakpoints.up(lgKey)]: { fontSize: 14, lineHeight: '20px' },
           marginBottom: 3,
+          maxWidth: '360px',
         }}
       >
         {`Tokenized perps on Solana and Stellar -\nBuy and sell any crypto without bridges or CEXs.`}
@@ -173,8 +178,6 @@ export function HomeHero({ sx, ...other }: BoxProps) {
           position: 'relative',
           [theme.breakpoints.up(mdKey)]: {
             minHeight: 760,
-            height: '100vh',
-            maxHeight: 1440,
             display: 'block',
             willChange: 'opacity',
             mt: 'calc(var(--layout-header-desktop-height) * -1)',
@@ -193,13 +196,6 @@ export function HomeHero({ sx, ...other }: BoxProps) {
           position: 'relative',
           flexDirection: 'column',
           transition: theme.transitions.create(['opacity']),
-          [theme.breakpoints.up(mdKey)]: {
-            height: 1,
-            position: 'fixed',
-            maxHeight: 'inherit',
-            left: '50%',
-            transform: 'translateX(-50%)',
-          },
         }}
       >
         <Container
@@ -221,7 +217,7 @@ export function HomeHero({ sx, ...other }: BoxProps) {
           <Stack spacing={0} sx={{ textAlign: 'center', alignItems: 'center' }}>
             <m.div style={{ y: y1 }}>{renderHeading()}</m.div>
             <m.div style={{ y: y2 }}>{renderText()}</m.div>
-            <m.div style={{ y: y3, maxWidth: '480px' }}>
+            <m.div {...motionProps} style={{ y: y3, maxWidth: '480px' }}>
               <SwapCard tokensList={CONFIG.tokenList} swapFeeInfo={CONFIG.swapFeeInfo} />
             </m.div>
           </Stack>
