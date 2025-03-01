@@ -1,24 +1,39 @@
-import React, { useState, useEffect } from 'react';
-import { Typography, Box, Button, InputBase, CardProps } from '@mui/material';
-import { alpha, useTheme } from '@mui/material/styles';
-import { Iconify } from 'src/components/iconify';
-import SwapSendPopupButton from './swap-send-popup-button';
-import SwapSendEmptyPopupButton from './swap-send-empty-popup-button';
-import PickToken from './pick-token';
-import { Token } from '@/types/token';
+import type { Token } from '@/types/token';
+import type { CardProps } from '@mui/material';
+import type { SwapFeeInfo } from '@/types/swap-fee-info';
+
 import { fCurrency } from '@/utils/format-number';
-import { SwapFeeInfo } from '@/types/swap-fee-info';
-import SwapReview from './swap-review';
-import FeeInfoAccordion from './fee-info-accordion';
+import React, { useState, useEffect } from 'react';
 import { sanitizeAmountInput } from '@/utils/input-helpers';
 import { getConversionText } from '@/utils/conversion-helpers';
+
+import { alpha, useTheme } from '@mui/material/styles';
+import { Box, Button, InputBase, Typography } from '@mui/material';
+
+import { Iconify } from 'src/components/iconify';
+
+import PickToken from './pick-token';
+import SwapReview from './swap-review';
+import FeeInfoAccordion from './fee-info-accordion';
+import SwapSendPopupButton from './swap-send-popup-button';
+import SwapSendEmptyPopupButton from './swap-send-empty-popup-button';
 
 interface SwapCardProps extends CardProps {
   tokensList?: Token[];
   swapFeeInfo?: SwapFeeInfo;
+  sellTokenParam?: Token;
+  buyTokenParam?: Token;
+  amountParam?: string;
 }
 
-const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], swapFeeInfo, ...other }) => {
+const SwapCard: React.FC<SwapCardProps> = ({
+  tokensList = [],
+  swapFeeInfo,
+  sellTokenParam,
+  buyTokenParam,
+  amountParam,
+  ...other
+}) => {
   const theme = useTheme();
 
   // 1) States for tokens, default sell token is first in the list

@@ -1,31 +1,45 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Typography, Box, CardProps, Button, InputBase } from '@mui/material';
-import { alpha, useTheme } from '@mui/material/styles';
-import { Token } from '@/types/token';
+import type { Token } from '@/types/token';
+import type { CardProps } from '@mui/material';
+import type { SwapFeeInfo } from '@/types/swap-fee-info';
+
 import { fCurrency } from '@/utils/format-number';
+import React, { useRef, useState, useEffect } from 'react';
+import { sanitizeAmountInput } from '@/utils/input-helpers';
+import { getMaxAmount, convertCoinToFiat, convertFiatToCoin } from '@/utils/conversion-helpers';
+
+import { alpha, useTheme } from '@mui/material/styles';
+import { Box, Button, InputBase, Typography } from '@mui/material';
+
 import { Iconify } from '../iconify';
 import PickToken from './pick-token';
 import SendReview from './send-review';
-import { SwapFeeInfo } from '@/types/swap-fee-info';
-import { sanitizeAmountInput } from '@/utils/input-helpers';
-import { convertCoinToFiat, convertFiatToCoin, getMaxAmount } from '@/utils/conversion-helpers';
 
 interface SendCardProps extends CardProps {
   tokensList?: Token[];
   swapFeeInfo?: SwapFeeInfo;
+  tokenParam?: Token;
+  amountParam?: string;
+  destinationParam?: string;
 }
 
 const DEFAULT_DESTINATION = 'Wallet address or ENS name';
 
-const SendCard: React.FC<SendCardProps> = ({ tokensList = [], swapFeeInfo, ...other }) => {
+const SendCard: React.FC<SendCardProps> = ({
+  tokensList = [],
+  swapFeeInfo,
+  tokenParam,
+  amountParam,
+  destinationParam,
+  ...other
+}) => {
   const theme = useTheme();
 
   // State declarations...
   const [sendToken, setSendToken] = useState<Token | null>(
-    tokensList.length ? tokensList[0] : null
+    tokenParam ?? (tokensList.length ? tokensList[0] : null)
   );
-  const [destination, setDestination] = useState<string>(DEFAULT_DESTINATION);
-  const [amount, setAmount] = useState<string>('0');
+  const [destination, setDestination] = useState<string>(destinationParam ?? DEFAULT_DESTINATION);
+  const [amount, setAmount] = useState<string>(amountParam ?? '0');
   const [isFiatMode, setIsFiatMode] = useState<boolean>(true);
   const [open, setOpen] = useState<boolean>(false);
   const [activeButton, setActiveButton] = useState<'sell' | 'buy' | 'send' | ''>('');

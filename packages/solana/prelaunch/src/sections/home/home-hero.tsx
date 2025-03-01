@@ -3,9 +3,13 @@ import type { Breakpoint } from '@mui/material/styles';
 import type { MotionProps, MotionValue, SpringOptions } from 'framer-motion';
 
 import { useRef, useState } from 'react';
+import { usePrivy } from '@privy-io/react-auth';
+import SwapCard from '@/components/_common/swap-card';
+import { SignInButton } from '@/layouts/components/sign-in-button';
 import { m, useScroll, useSpring, useTransform, useMotionValueEvent } from 'framer-motion';
 
 import Box from '@mui/material/Box';
+import { Alert } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import Container from '@mui/material/Container';
 import { useTheme } from '@mui/material/styles';
@@ -17,9 +21,6 @@ import { CONFIG } from 'src/global-config';
 import { varFade, MotionContainer } from 'src/components/animate';
 
 import { HeroBackground } from './components/hero-background';
-import SwapCard from '@/components/_common/swap-card';
-import { AccountPopover } from '@/layouts/components/account-popover';
-import { usePrivy } from '@privy-io/react-auth';
 
 // ----------------------------------------------------------------------
 
@@ -78,9 +79,9 @@ export function HomeHero({ sx, ...other }: BoxProps) {
           },
         ]}
       >
-        <Box component="span" sx={{ width: 1, opacity: 0.24 }}>
-          Swap any crypto,
-        </Box>
+        {/* <Box component="span" sx={{ width: 1, opacity: 0.24 }}>
+          Trade any crypto,
+        </Box> */}
         <Box
           component={m.span}
           animate={{ backgroundPosition: '200% center' }}
@@ -99,6 +100,8 @@ export function HomeHero({ sx, ...other }: BoxProps) {
             marginBottom: 1,
           }}
         >
+          Trade any crypto,
+          <br />
           on-chain.
         </Box>
       </Box>
@@ -117,32 +120,37 @@ export function HomeHero({ sx, ...other }: BoxProps) {
           maxWidth: '360px',
         }}
       >
-        {`Tokenized perps on Solana and Stellar -\nBuy and sell any crypto without bridges or CEXs.`}
+        {`Buy & sell any crypto directly on Solana without bridges or CEXes -\nCreate & use crypto index funds to diversify & automate your investing.`}
       </Typography>
+
+      <Alert severity="warning" sx={{ my: 2 }}>
+        This is a demo. Normal will launch later this year.
+      </Alert>
     </m.div>
   );
 
   const renderIcons = () => (
-    <Stack spacing={2} sx={{ textAlign: 'center' }}>
+    <Stack spacing={3} sx={{ textAlign: 'center' }}>
+      {!authenticated ? (
+        <SignInButton title="Get your whitelist spot" />
+      ) : (
+        <Typography
+          variant="body2"
+          sx={{
+            mx: 'auto',
+            [theme.breakpoints.up(smKey)]: { whiteSpace: 'pre' },
+            [theme.breakpoints.up(lgKey)]: { fontSize: 20, lineHeight: '36px' },
+          }}
+        >
+          Connected, now go complete some quests!
+        </Typography>
+      )}
+
       <m.div {...motionProps}>
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1 }}>
           <Typography variant="overline" sx={{ opacity: 0.4 }}>
             Launching Soon On
           </Typography>
-          {!authenticated ? (
-            <AccountPopover />
-          ) : (
-            <Typography
-              variant="body2"
-              sx={{
-                mx: 'auto',
-                [theme.breakpoints.up(smKey)]: { whiteSpace: 'pre' },
-                [theme.breakpoints.up(lgKey)]: { fontSize: 20, lineHeight: '36px' },
-              }}
-            >
-              Connected, now go complete some quests!
-            </Typography>
-          )}
         </Box>
       </m.div>
 
@@ -218,7 +226,13 @@ export function HomeHero({ sx, ...other }: BoxProps) {
             <m.div style={{ y: y1 }}>{renderHeading()}</m.div>
             <m.div style={{ y: y2 }}>{renderText()}</m.div>
             <m.div {...motionProps} style={{ y: y3, maxWidth: '480px' }}>
-              <SwapCard tokensList={CONFIG.tokenList} swapFeeInfo={CONFIG.swapFeeInfo} />
+              <SwapCard
+                tokensList={CONFIG.tokenList}
+                swapFeeInfo={CONFIG.swapFeeInfo}
+                selectedSellToken={CONFIG.tokenList[1]} // SOL
+                selectedBuyToken={CONFIG.tokenList[0]} // A Normal index
+                selectedAmount="1"
+              />
             </m.div>
           </Stack>
           <m.div style={{ y: y5 }}>{renderIcons()}</m.div>

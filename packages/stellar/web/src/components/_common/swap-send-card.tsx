@@ -1,22 +1,39 @@
-import React from 'react';
-import Card from '@mui/material/Card';
+import type { Token } from '@/types/token';
 import type { CardProps } from '@mui/material/Card';
+import type { SwapFeeInfo } from '@/types/swap-fee-info';
+
+import React from 'react';
+import { useTabs } from 'minimal-shared/hooks';
+
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
+import Card from '@mui/material/Card';
 import { Typography } from '@mui/material';
-import { useTabs } from 'minimal-shared/hooks';
-import { CustomTabsSwapSend } from './swap-send-card-custom-card';
+import { alpha, useTheme } from '@mui/material/styles';
+
 import SwapCard from './swap-card';
 import SendCard from './send-card';
-import { alpha, useTheme } from '@mui/material/styles';
-import { Token } from '@/types/token';
-import { SwapFeeInfo } from '@/types/swap-fee-info';
+import { CustomTabsSwapSend } from './swap-send-card-custom-card';
+
+export enum MainCardTabs {
+  swap = 'swap',
+  send = 'send',
+}
 
 interface SwapSendCardProps extends CardProps {
   title?: string;
   subheader?: string;
   tokensList?: Token[];
   swapFeeInfo?: SwapFeeInfo;
+  activeTab?: MainCardTabs;
+  // Swap
+  swapSellTokenParam?: Token;
+  swapBuyTokenParam?: Token;
+  swapAmountParam?: string;
+  // Send
+  sendTokenParam?: Token;
+  sendAmountParam?: string;
+  sendDestinationParam?: string;
 }
 
 export const SwapSendCard: React.FC<SwapSendCardProps> = ({
@@ -25,16 +42,25 @@ export const SwapSendCard: React.FC<SwapSendCardProps> = ({
   subheader,
   tokensList,
   swapFeeInfo,
+  activeTab,
+  // Swap
+  swapSellTokenParam,
+  swapBuyTokenParam,
+  swapAmountParam,
+  // Send
+  sendTokenParam,
+  sendAmountParam,
+  sendDestinationParam,
   ...other
 }) => {
   const theme = useTheme();
   // Use the tabs hook with a default value of 'swap'
-  const tabs = useTabs('swap');
+  const tabs = useTabs(activeTab ?? MainCardTabs.swap);
 
   // Define the tabs for this component
   const TABS = [
-    { value: 'swap', label: 'Swap' },
-    { value: 'send', label: 'Send' },
+    { value: MainCardTabs.swap, label: 'Swap' },
+    { value: MainCardTabs.send, label: 'Send' },
   ];
 
   return (
@@ -96,9 +122,21 @@ export const SwapSendCard: React.FC<SwapSendCardProps> = ({
 
       {/* Conditionally render a component based on the active tab */}
       {tabs.value === 'swap' ? (
-        <SwapCard tokensList={tokensList} swapFeeInfo={swapFeeInfo} />
+        <SwapCard
+          tokensList={tokensList}
+          swapFeeInfo={swapFeeInfo}
+          sellTokenParam={swapSellTokenParam}
+          buyTokenParam={swapBuyTokenParam}
+          amountParam={swapAmountParam}
+        />
       ) : (
-        <SendCard tokensList={tokensList} swapFeeInfo={swapFeeInfo} />
+        <SendCard
+          tokensList={tokensList}
+          swapFeeInfo={swapFeeInfo}
+          tokenParam={sendTokenParam}
+          amountParam={sendAmountParam}
+          destinationParam={sendDestinationParam}
+        />
       )}
     </Card>
   );
