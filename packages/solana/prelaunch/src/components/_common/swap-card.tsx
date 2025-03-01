@@ -287,7 +287,7 @@ const SwapCard: React.FC<SwapCardProps> = ({
                 minWidth: 0,
               }}
             >
-              <Typography variant="body1" noWrap>
+              <Typography variant="body1" noWrap textAlign={'left'}>
                 Sell
               </Typography>
               <InputBase
@@ -337,6 +337,7 @@ const SwapCard: React.FC<SwapCardProps> = ({
                   overflow: 'hidden',
                   textOverflow: 'clip',
                   minWidth: 0,
+                  textAlign: 'left',
                 }}
               >
                 {`${fCurrency(sellFiatValue)}`}
@@ -465,7 +466,7 @@ const SwapCard: React.FC<SwapCardProps> = ({
               gap: 2,
             }}
           >
-            <Typography variant="body1" noWrap>
+            <Typography variant="body1" noWrap textAlign={'left'}>
               Buy
             </Typography>
 
@@ -474,6 +475,7 @@ const SwapCard: React.FC<SwapCardProps> = ({
                 maxWidth: '100%',
                 overflowX: 'auto',
                 whiteSpace: 'nowrap',
+                textAlign: 'left',
               }}
             >
               <Typography
@@ -485,6 +487,7 @@ const SwapCard: React.FC<SwapCardProps> = ({
                   lineHeight: 'var(--h3-line-height, 48px)',
                   letterSpacing: 'var(--h3-letter-spacing, 0px)',
                   color: !quoteFetched ? theme.palette.text.secondary : theme.palette.text.primary,
+                  textAlign: 'left',
                 }}
               >
                 {quoteFetched && buyToken ? buyAmount.toFixed(6) : 0}
