@@ -105,7 +105,7 @@ const SwapReview: React.FC<SwapReviewProps> = ({
             >
               <Box>
                 <Typography variant="h4">
-                  {sellAmount} {sellToken?.shortname}
+                  {Number(sellAmount).toFixed(6)} {sellToken?.shortname}
                 </Typography>
                 <Typography
                   variant="body1"
@@ -156,7 +156,7 @@ const SwapReview: React.FC<SwapReviewProps> = ({
             >
               <Box>
                 <Typography variant="h4">
-                  {buyAmount.toFixed(4)} {buyToken?.shortname}
+                  {buyAmount.toFixed(6)} {buyToken?.shortname}
                 </Typography>
                 <Typography
                   variant="body1"
