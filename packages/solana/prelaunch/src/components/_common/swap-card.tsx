@@ -14,6 +14,7 @@ import { sanitizeAmountInput } from '@/utils/input-helpers';
 import { getConversionText } from '@/utils/conversion-helpers';
 import { useConfetti } from '../confetti';
 import { start } from 'nprogress';
+import { CONFIG } from '@/global-config';
 
 interface SwapCardProps extends CardProps {
   tokensList?: Token[];
@@ -24,9 +25,49 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], swapFeeInfo, ...ot
   const theme = useTheme();
   const { showConfetti } = useConfetti();
 
+  //For swap simulation purposes we make a copy of our list
+  const [localTokenList, setLocalTokenList] = useState(CONFIG.tokenList);
+  //simulate the swap
+  const simulateSwap = () => {
+    if (!sellToken || !buyToken) return;
+
+    const sellVal = parseFloat(amount) || 0;
+    const soldDollarValue = sellVal * sellToken.pricestatus;
+    const buyVal = soldDollarValue / buyToken.pricestatus;
+
+    setLocalTokenList((prevTokens) => {
+      console.log('prevTokens:', prevTokens);
+      const newTokens = prevTokens.map((token) => {
+        if (token.id === sellToken.id) {
+          const newCount = token.countstatus - sellVal;
+          return {
+            ...token,
+            countstatus: newCount,
+            owned: newCount > 0,
+          };
+        }
+        if (token.id === buyToken.id) {
+          const newCount = token.countstatus + buyVal;
+          return {
+            ...token,
+            countstatus: newCount,
+            owned: newCount > 0,
+          };
+        }
+        return token;
+      });
+      console.log('newTokens:', newTokens);
+      const updatedSellToken = newTokens.find((token) => token.id === sellToken.id) || null;
+      const updatedBuyToken = newTokens.find((token) => token.id === buyToken.id) || null;
+      setSellToken(updatedSellToken);
+      setBuyToken(updatedBuyToken);
+      return newTokens;
+    });
+  };
+
   // 1) States for tokens, default sell token is first in the list
   const [sellToken, setSellToken] = useState<Token | null>(
-    tokensList.length ? tokensList[0] : null
+    localTokenList.length ? localTokenList[0] : null
   );
   const [buyToken, setBuyToken] = useState<Token | null>(null);
 
@@ -189,6 +230,7 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], swapFeeInfo, ...ot
   };
 
   const handleSubmit = () => {
+    simulateSwap();
     showConfetti();
     handleReviewClose();
   };
@@ -584,7 +626,7 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], swapFeeInfo, ...ot
         open={open}
         onClose={handleClose}
         buttonSource={activeButton}
-        tokensList={tokensList}
+        tokensList={localTokenList}
         onTokenSelect={handleTokenSelect}
       />
     </Box>

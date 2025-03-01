@@ -233,7 +233,7 @@ const PickToken: React.FC<PickTokenProps> = ({
                             fontSize: '12px',
                           }}
                         >
-                          {token.countstatus.toFixed(4)}
+                          {token.countstatus.toFixed(6)}
                         </Typography>
                       </Box>
                     )}
@@ -400,7 +400,7 @@ const PickToken: React.FC<PickTokenProps> = ({
                                   fontSize: '12px',
                                 }}
                               >
-                                {token.countstatus.toFixed(4)}
+                                {token.countstatus.toFixed(6)}
                               </Typography>
                             </Box>
                           </Box>
@@ -524,7 +524,7 @@ const PickToken: React.FC<PickTokenProps> = ({
                                 fontSize: '12px',
                               }}
                             >
-                              {token.countstatus.toFixed(4)}
+                              {token.countstatus.toFixed(6)}
                             </Typography>
                           </Box>
                         )}
