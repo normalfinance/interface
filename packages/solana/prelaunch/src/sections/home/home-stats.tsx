@@ -1,7 +1,6 @@
 import type { BoxProps } from '@mui/material/Box';
 
 import { m } from 'framer-motion';
-import { varAlpha } from 'minimal-shared/utils';
 
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -97,14 +96,15 @@ export function HomeStats({ sx, ...other }: BoxProps) {
         {[
           { label: 'TVL', value: 332000 },
           { label: 'Users', value: 160 },
-          { label: 'Testing', value: 4.9 },
+          { label: 'Countries', value: 30 },
         ].map((item) => (
           <Stack key={item.label} spacing={2} sx={{ textAlign: 'center', width: 1 }}>
             <m.div variants={varFade('inUp', { distance: 24 })}>
               <AnimateCountUp
                 to={item.value}
                 unit={item.label === 'TVL' ? 'k+' : '+'}
-                toFixed={item.label === 'Happy customers' ? 0 : 1}
+                // toFixed={item.label === 'Happy customers' ? 0 : 1}
+                isCurrency={item.label === 'TVL'}
                 sx={[
                   (theme) => ({
                     fontWeight: 'fontWeightBold',
@@ -121,10 +121,10 @@ export function HomeStats({ sx, ...other }: BoxProps) {
                 component="span"
                 sx={[
                   (theme) => ({
-                    ...theme.mixins.textGradient(
-                      `90deg, ${theme.vars.palette.text.primary}, ${varAlpha(theme.vars.palette.text.primaryChannel, 0.2)}`
-                    ),
-                    opacity: 0.4,
+                    // ...theme.mixins.textGradient(
+                    //   `90deg, ${theme.vars.palette.text.primary}, ${varAlpha(theme.vars.palette.text.primaryChannel, 0.2)}`
+                    // ),
+                    // opacity: 0.4,
                     typography: 'h6',
                   }),
                 ]}

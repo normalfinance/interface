@@ -89,8 +89,8 @@ export function HomeExplainer({ sx, ...other }: BoxProps) {
         <Box
           component="img"
           alt="Home chart"
-          src={`${CONFIG.assetsDir}/assets/images/home/home-chart.webp`}
-          sx={{ width: 720 }}
+          src={`${CONFIG.assetsDir}/assets/images/home/home-image.png`}
+          sx={{ width: 480 }}
         />
       </Box>
     </Stack>

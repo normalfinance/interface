@@ -1,23 +1,25 @@
+import type { Token } from '@/types/token';
+
 import React from 'react';
+import { getSwapConversionText } from '@/utils/conversion-helpers';
+import { fRawPercent, fCurrencyTwoDecimals } from '@/utils/format-number';
+
+import { useTheme } from '@mui/material/styles';
 import {
+  Box,
   Dialog,
+  Button,
+  Accordion,
+  Typography,
+  IconButton,
   DialogTitle,
   DialogContent,
   DialogActions,
-  Button,
-  Typography,
-  Box,
-  IconButton,
-  Accordion,
   AccordionSummary,
   AccordionDetails,
 } from '@mui/material';
 
-import { fCurrencyTwoDecimals, fRawPercent } from '@/utils/format-number';
-import { Token } from '@/types/token';
 import { Iconify } from '../iconify';
-import { useTheme } from '@mui/material/styles';
-import { getSwapConversionText } from '@/utils/conversion-helpers';
 
 export interface SwapReviewProps {
   open: boolean;

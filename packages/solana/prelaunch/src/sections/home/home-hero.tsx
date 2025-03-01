@@ -3,6 +3,9 @@ import type { Breakpoint } from '@mui/material/styles';
 import type { MotionProps, MotionValue, SpringOptions } from 'framer-motion';
 
 import { useRef, useState } from 'react';
+import { usePrivy } from '@privy-io/react-auth';
+import SwapCard from '@/components/_common/swap-card';
+import { SignInButton } from '@/layouts/components/sign-in-button';
 import { m, useScroll, useSpring, useTransform, useMotionValueEvent } from 'framer-motion';
 
 import Box from '@mui/material/Box';
@@ -17,9 +20,6 @@ import { CONFIG } from 'src/global-config';
 import { varFade, MotionContainer } from 'src/components/animate';
 
 import { HeroBackground } from './components/hero-background';
-import SwapCard from '@/components/_common/swap-card';
-import { AccountPopover } from '@/layouts/components/account-popover';
-import { usePrivy } from '@privy-io/react-auth';
 
 // ----------------------------------------------------------------------
 
@@ -117,7 +117,7 @@ export function HomeHero({ sx, ...other }: BoxProps) {
           maxWidth: '360px',
         }}
       >
-        {`Tokenized perps on Solana and Stellar -\nBuy and sell any crypto without bridges or CEXs.`}
+        {`Invest in any crypto directly on Solana without bridges or CEXes -\ncreate & use crypto index funds to diversify & automate your investing.`}
       </Typography>
     </m.div>
   );
@@ -125,24 +125,24 @@ export function HomeHero({ sx, ...other }: BoxProps) {
   const renderIcons = () => (
     <Stack spacing={2} sx={{ textAlign: 'center' }}>
       <m.div {...motionProps}>
+        {!authenticated ? (
+          <SignInButton title="Get your whitelist spot" size="large" sx={{ my: 2 }} />
+        ) : (
+          <Typography
+            variant="body2"
+            sx={{
+              mx: 'auto',
+              [theme.breakpoints.up(smKey)]: { whiteSpace: 'pre' },
+              [theme.breakpoints.up(lgKey)]: { fontSize: 20, lineHeight: '36px' },
+            }}
+          >
+            Connected, now go complete some quests!
+          </Typography>
+        )}
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1 }}>
           <Typography variant="overline" sx={{ opacity: 0.4 }}>
             Launching Soon On
           </Typography>
-          {!authenticated ? (
-            <AccountPopover />
-          ) : (
-            <Typography
-              variant="body2"
-              sx={{
-                mx: 'auto',
-                [theme.breakpoints.up(smKey)]: { whiteSpace: 'pre' },
-                [theme.breakpoints.up(lgKey)]: { fontSize: 20, lineHeight: '36px' },
-              }}
-            >
-              Connected, now go complete some quests!
-            </Typography>
-          )}
         </Box>
       </m.div>
 

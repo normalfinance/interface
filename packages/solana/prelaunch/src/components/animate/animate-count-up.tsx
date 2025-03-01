@@ -16,6 +16,7 @@ export type AnimateCountUpProps = TypographyProps & {
   unit?: 'k' | 'm' | 'b' | string;
   once?: UseInViewOptions['once'];
   amount?: UseInViewOptions['amount'];
+  isCurrency?: boolean;
 };
 
 export function AnimateCountUp({
@@ -28,6 +29,7 @@ export function AnimateCountUp({
   amount = 0.5,
   unit: unitProp,
   component = 'p',
+  isCurrency = false,
   ...other
 }: AnimateCountUpProps) {
   const countRef = useRef(null);
@@ -64,6 +66,7 @@ export function AnimateCountUp({
       ]}
       {...other}
     >
+      {isCurrency && '$'}
       <m.span ref={countRef}>{rounded}</m.span>
       {unit}
     </Typography>
