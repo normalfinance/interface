@@ -3,8 +3,8 @@
 import type { Token } from '@/types/token';
 import type { SwapFeeInfo } from '@/types/swap-fee-info';
 import type { StatCardData } from '@/types/stat-card-data';
-import type { OverviewPageParams } from '@/types/pageParams';
 import type { LegendValue } from '@/components/_common/area-chart-card';
+import type { SendPageParams, SwapPageParams } from '@/types/pageParams';
 import type { RealtimeChartData } from 'src/utils/portfolio-value-chart-series';
 
 import { useParams } from 'next/navigation';
@@ -24,7 +24,7 @@ import { createChartData } from 'src/utils/portfolio-value-chart-series';
 export default function OverviewView() {
   const theme = useTheme();
 
-  const { sellToken, buyToken, amount }: OverviewPageParams = useParams();
+  const { swap: swapParams, send: sendParams } = useParams();
 
   // -------------------------
   // Hardcoded chart data arrays.
@@ -285,7 +285,12 @@ export default function OverviewView() {
         </Grid2>
         <Grid2 size={{ xs: 12, md: 4 }}>
           {/*<AssetsAndLiabilities title="Assets & Liabilities" list={_appRelated} />*/}
-          <SwapSendCard tokensList={tokensList} swapFeeInfo={swapFeeInfo} />
+          <SwapSendCard
+            tokensList={tokensList}
+            swapFeeInfo={swapFeeInfo}
+            swapParams={swapParams as SwapPageParams}
+            sendParams={sendParams as SendPageParams}
+          />
         </Grid2>
       </Grid2>
       {/* Second row: TradingVolume items */}

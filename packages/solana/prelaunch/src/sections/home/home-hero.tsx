@@ -1,8 +1,10 @@
 import type { BoxProps } from '@mui/material/Box';
 import type { Breakpoint } from '@mui/material/styles';
+import type { SwapPageParams } from '@/types/pageParams';
 import type { MotionProps, MotionValue, SpringOptions } from 'framer-motion';
 
 import { useRef, useState } from 'react';
+import { useParams } from 'next/navigation';
 import { usePrivy } from '@privy-io/react-auth';
 import SwapCard from '@/components/_common/swap-card';
 import { SignInButton } from '@/layouts/components/sign-in-button';
@@ -36,6 +38,8 @@ export function HomeHero({ sx, ...other }: BoxProps) {
   const scrollProgress = useScrollPercent();
   const theme = useTheme();
   const mdUp = useMediaQuery(theme.breakpoints.up(mdKey));
+
+  const params = useParams();
 
   // Get hero height (note: on first render this may be 0)
   const heroHeight = scrollProgress.elementRef.current?.offsetHeight || 0;
@@ -132,7 +136,7 @@ export function HomeHero({ sx, ...other }: BoxProps) {
   const renderIcons = () => (
     <Stack spacing={3} sx={{ textAlign: 'center' }}>
       {!authenticated ? (
-        <SignInButton title="Get your whitelist spot" />
+        <SignInButton title="Get your whitelist spot" size="large" />
       ) : (
         <Typography
           variant="body2"
@@ -229,9 +233,21 @@ export function HomeHero({ sx, ...other }: BoxProps) {
               <SwapCard
                 tokensList={CONFIG.tokenList}
                 swapFeeInfo={CONFIG.swapFeeInfo}
-                selectedSellToken={CONFIG.tokenList[1]} // SOL
-                selectedBuyToken={CONFIG.tokenList[0]} // A Normal index
-                selectedAmount="1"
+                sellTokenParam={
+                  (params &&
+                    CONFIG.tokenList.find(
+                      (t) => t.name === (params as SwapPageParams).swapSellTokenParam
+                    )) ??
+                  CONFIG.tokenList[1] // SOL
+                }
+                buyTokenParam={
+                  (params &&
+                    CONFIG.tokenList.find(
+                      (t) => t.name === (params as SwapPageParams).swapBuyTokenParam
+                    )) ??
+                  CONFIG.tokenList[1] // A Normal index
+                } // A Normal index
+                amountParam={params ? (params as SwapPageParams).swapAmountParam : '1'}
               />
             </m.div>
           </Stack>

@@ -14,7 +14,6 @@ import { Iconify } from 'src/components/iconify';
 
 import PickToken from './pick-token';
 import SwapReview from './swap-review';
-import { useConfetti } from '../confetti';
 import FeeInfoAccordion from './fee-info-accordion';
 import SwapSendPopupButton from './swap-send-popup-button';
 import SwapSendEmptyPopupButton from './swap-send-empty-popup-button';
@@ -36,16 +35,15 @@ const SwapCard: React.FC<SwapCardProps> = ({
   ...other
 }) => {
   const theme = useTheme();
-  const { showConfetti } = useConfetti();
 
   // 1) States for tokens, default sell token is first in the list
   const [sellToken, setSellToken] = useState<Token | null>(
-    sellTokenParam ?? (tokensList.length ? tokensList[0] : null)
+    tokensList.length ? tokensList[0] : null
   );
-  const [buyToken, setBuyToken] = useState<Token | null>(buyTokenParam ?? null);
+  const [buyToken, setBuyToken] = useState<Token | null>(null);
 
   // 2) State for the user’s sell amount
-  const [amount, setAmount] = useState<string>(amountParam ?? '0');
+  const [amount, setAmount] = useState<string>('0');
 
   // 3) Popup states for picking tokens
   const [open, setOpen] = useState(false);
@@ -202,11 +200,6 @@ const SwapCard: React.FC<SwapCardProps> = ({
     }
   };
 
-  const handleSubmit = () => {
-    showConfetti();
-    handleReviewClose();
-  };
-
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
       <Box sx={{ position: 'relative', display: 'flex', flexDirection: 'column', gap: '2px' }}>
@@ -294,7 +287,7 @@ const SwapCard: React.FC<SwapCardProps> = ({
                 minWidth: 0,
               }}
             >
-              <Typography variant="body1" noWrap textAlign="left">
+              <Typography variant="body1" noWrap>
                 Sell
               </Typography>
               <InputBase
@@ -344,7 +337,6 @@ const SwapCard: React.FC<SwapCardProps> = ({
                   overflow: 'hidden',
                   textOverflow: 'clip',
                   minWidth: 0,
-                  textAlign: 'left',
                 }}
               >
                 {`${fCurrency(sellFiatValue)}`}
@@ -473,7 +465,7 @@ const SwapCard: React.FC<SwapCardProps> = ({
               gap: 2,
             }}
           >
-            <Typography variant="body1" noWrap textAlign="left">
+            <Typography variant="body1" noWrap>
               Buy
             </Typography>
 
@@ -482,8 +474,6 @@ const SwapCard: React.FC<SwapCardProps> = ({
                 maxWidth: '100%',
                 overflowX: 'auto',
                 whiteSpace: 'nowrap',
-                display: 'flex',
-                alignItems: 'flex-start',
               }}
             >
               <Typography
@@ -494,7 +484,6 @@ const SwapCard: React.FC<SwapCardProps> = ({
                   fontWeight: 'var(--h3-weight, 700)',
                   lineHeight: 'var(--h3-line-height, 48px)',
                   letterSpacing: 'var(--h3-letter-spacing, 0px)',
-                  textAlign: 'left',
                   color: !quoteFetched ? theme.palette.text.secondary : theme.palette.text.primary,
                 }}
               >
@@ -511,7 +500,6 @@ const SwapCard: React.FC<SwapCardProps> = ({
                 opacity: quoteFetched && buyToken ? 1 : 0,
                 whiteSpace: 'nowrap',
                 overflow: 'visible',
-                textAlign: 'left',
               }}
             >
               {buyToken ? `${fCurrency(buyToken.pricestatus * buyAmount)}` : '$0'}
@@ -589,7 +577,6 @@ const SwapCard: React.FC<SwapCardProps> = ({
           priceImpact={swapFeeInfo?.priceImpact ?? 0}
           maxSlippage={swapFeeInfo?.maxSlippage ?? 0}
           sellFiatValue={sellFiatValue}
-          onSubmit={handleSubmit}
         />
       )}
 

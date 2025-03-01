@@ -1,6 +1,7 @@
 import type { Token } from '@/types/token';
 import type { CardProps } from '@mui/material/Card';
 import type { SwapFeeInfo } from '@/types/swap-fee-info';
+import type { SendPageParams, SwapPageParams } from '@/types/pageParams';
 
 import React from 'react';
 import { useTabs } from 'minimal-shared/hooks';
@@ -26,14 +27,8 @@ interface SwapSendCardProps extends CardProps {
   tokensList?: Token[];
   swapFeeInfo?: SwapFeeInfo;
   activeTab?: MainCardTabs;
-  // Swap
-  swapSellTokenParam?: Token;
-  swapBuyTokenParam?: Token;
-  swapAmountParam?: string;
-  // Send
-  sendTokenParam?: Token;
-  sendAmountParam?: string;
-  sendDestinationParam?: string;
+  swapParams: SwapPageParams;
+  sendParams: SendPageParams;
 }
 
 export const SwapSendCard: React.FC<SwapSendCardProps> = ({
@@ -43,14 +38,8 @@ export const SwapSendCard: React.FC<SwapSendCardProps> = ({
   tokensList,
   swapFeeInfo,
   activeTab,
-  // Swap
-  swapSellTokenParam,
-  swapBuyTokenParam,
-  swapAmountParam,
-  // Send
-  sendTokenParam,
-  sendAmountParam,
-  sendDestinationParam,
+  swapParams,
+  sendParams,
   ...other
 }) => {
   const theme = useTheme();
@@ -125,17 +114,17 @@ export const SwapSendCard: React.FC<SwapSendCardProps> = ({
         <SwapCard
           tokensList={tokensList}
           swapFeeInfo={swapFeeInfo}
-          sellTokenParam={swapSellTokenParam}
-          buyTokenParam={swapBuyTokenParam}
-          amountParam={swapAmountParam}
+          sellTokenParam={tokensList?.find((t) => t.name == swapParams.swapSellTokenParam)}
+          buyTokenParam={tokensList?.find((t) => t.name == swapParams.swapBuyTokenParam)}
+          amountParam={swapParams.swapAmountParam}
         />
       ) : (
         <SendCard
           tokensList={tokensList}
           swapFeeInfo={swapFeeInfo}
-          tokenParam={sendTokenParam}
-          amountParam={sendAmountParam}
-          destinationParam={sendDestinationParam}
+          tokenParam={tokensList?.find((t) => t.name === sendParams.sendTokenParam)}
+          amountParam={sendParams.sendAmountParam}
+          destinationParam={sendParams.sendDestinationParam}
         />
       )}
     </Card>

@@ -1,6 +1,7 @@
 import type { Token } from '@/types/token';
 import type { CardProps } from '@mui/material/Card';
 import type { SwapFeeInfo } from '@/types/swap-fee-info';
+import type { SendPageParams, SwapPageParams } from '@/types/pageParams';
 
 import React from 'react';
 import { useTabs } from 'minimal-shared/hooks';
@@ -15,14 +16,19 @@ import SwapCard from './swap-card';
 import SendCard from './send-card';
 import { CustomTabsSwapSend } from './swap-send-card-custom-card';
 
+export enum MainCardTabs {
+  swap = 'swap',
+  send = 'send',
+}
+
 interface SwapSendCardProps extends CardProps {
   title?: string;
   subheader?: string;
   tokensList?: Token[];
   swapFeeInfo?: SwapFeeInfo;
-  tokenParam?: Token;
-  amountParam?: string;
-  destinationParam?: string;
+  activeTab?: MainCardTabs;
+  swapParams: SwapPageParams;
+  sendParams: SendPageParams;
 }
 
 export const SwapSendCard: React.FC<SwapSendCardProps> = ({
@@ -31,16 +37,19 @@ export const SwapSendCard: React.FC<SwapSendCardProps> = ({
   subheader,
   tokensList,
   swapFeeInfo,
+  activeTab,
+  swapParams,
+  sendParams,
   ...other
 }) => {
   const theme = useTheme();
   // Use the tabs hook with a default value of 'swap'
-  const tabs = useTabs('swap');
+  const tabs = useTabs(activeTab ?? MainCardTabs.swap);
 
   // Define the tabs for this component
   const TABS = [
-    { value: 'swap', label: 'Swap' },
-    { value: 'send', label: 'Send' },
+    { value: MainCardTabs.swap, label: 'Swap' },
+    { value: MainCardTabs.send, label: 'Send' },
   ];
 
   return (
@@ -105,17 +114,17 @@ export const SwapSendCard: React.FC<SwapSendCardProps> = ({
         <SwapCard
           tokensList={tokensList}
           swapFeeInfo={swapFeeInfo}
-          sellTokenParam={swapSellTokenParam}
-          buyTokenParam={swapBuyTokenParam}
-          amountParam={swapAmountParam}
+          sellTokenParam={tokensList?.find((t) => t.name == swapParams.swapSellTokenParam)}
+          buyTokenParam={tokensList?.find((t) => t.name == swapParams.swapBuyTokenParam)}
+          amountParam={swapParams.swapAmountParam}
         />
       ) : (
         <SendCard
           tokensList={tokensList}
           swapFeeInfo={swapFeeInfo}
-          tokenParam={sendTokenParam}
-          amountParam={sendAmountParam}
-          destinationParam={sendDestinationParam}
+          tokenParam={tokensList?.find((t) => t.name === sendParams.sendTokenParam)}
+          amountParam={sendParams.sendAmountParam}
+          destinationParam={sendParams.sendDestinationParam}
         />
       )}
     </Card>
