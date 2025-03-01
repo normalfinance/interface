@@ -27,6 +27,8 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], swapFeeInfo, ...ot
 
   //For swap simulation purposes we make a copy of our list
   const [localTokenList, setLocalTokenList] = useState(CONFIG.tokenList);
+  // Add a state for swap simulation
+  const [isSwapping, setIsSwapping] = useState(false);
   //simulate the swap
   const simulateSwap = () => {
     if (!sellToken || !buyToken) return;
@@ -61,6 +63,9 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], swapFeeInfo, ...ot
       const updatedBuyToken = newTokens.find((token) => token.id === buyToken.id) || null;
       setSellToken(updatedSellToken);
       setBuyToken(updatedBuyToken);
+      //set amount to 0
+      setAmount('0');
+
       return newTokens;
     });
   };
@@ -191,6 +196,9 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], swapFeeInfo, ...ot
 
   // 10) Derive the main button’s label
   const getButtonLabel = (): string => {
+    if (isSwapping) {
+      return 'Finalizing swap...';
+    }
     if (!sellToken || !buyToken) {
       return 'Select a token';
     }
@@ -230,9 +238,15 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], swapFeeInfo, ...ot
   };
 
   const handleSubmit = () => {
-    simulateSwap();
-    showConfetti();
     handleReviewClose();
+
+    setIsSwapping(true);
+    // Simulate a 1s delay before performing the swap
+    setTimeout(() => {
+      simulateSwap();
+      showConfetti();
+      setIsSwapping(false);
+    }, 1000);
   };
 
   return (
@@ -587,7 +601,7 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], swapFeeInfo, ...ot
           color="success"
           size="large"
           onClick={handleMainButtonClick}
-          disabled={isLoading}
+          disabled={isLoading || isSwapping}
         >
           {getButtonLabel()}
         </Button>
