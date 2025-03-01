@@ -1,28 +1,40 @@
-import React, { useState, useEffect } from 'react';
-import { Typography, Box, Button, InputBase, CardProps } from '@mui/material';
-import { alpha, useTheme } from '@mui/material/styles';
-import { Iconify } from 'src/components/iconify';
-import SwapSendPopupButton from './swap-send-popup-button';
-import SwapSendEmptyPopupButton from './swap-send-empty-popup-button';
-import PickToken from './pick-token';
-import { Token } from '@/types/token';
+import type { Token } from '@/types/token';
+import type { CardProps } from '@mui/material';
+import type { SwapFeeInfo } from '@/types/swap-fee-info';
+
 import { fCurrency } from '@/utils/format-number';
-import { SwapFeeInfo } from '@/types/swap-fee-info';
-import SwapReview from './swap-review';
-import FeeInfoAccordion from './fee-info-accordion';
+import React, { useState, useEffect } from 'react';
 import { sanitizeAmountInput } from '@/utils/input-helpers';
 import { getConversionText } from '@/utils/conversion-helpers';
-import { useConfetti } from '../confetti';
-import { start } from 'nprogress';
+
+import { alpha, useTheme } from '@mui/material/styles';
+import { Box, Button, InputBase, Typography } from '@mui/material';
+
+import { Iconify } from 'src/components/iconify';
+
+import PickToken from './pick-token';
+import SwapReview from './swap-review';
+import FeeInfoAccordion from './fee-info-accordion';
+import SwapSendPopupButton from './swap-send-popup-button';
+import SwapSendEmptyPopupButton from './swap-send-empty-popup-button';
 
 interface SwapCardProps extends CardProps {
   tokensList?: Token[];
   swapFeeInfo?: SwapFeeInfo;
+  sellTokenParam?: Token;
+  buyTokenParam?: Token;
+  amountParam?: string;
 }
 
-const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], swapFeeInfo, ...other }) => {
+const SwapCard: React.FC<SwapCardProps> = ({
+  tokensList = [],
+  swapFeeInfo,
+  sellTokenParam,
+  buyTokenParam,
+  amountParam,
+  ...other
+}) => {
   const theme = useTheme();
-  const { showConfetti } = useConfetti();
 
   // 1) States for tokens, default sell token is first in the list
   const [sellToken, setSellToken] = useState<Token | null>(
@@ -188,11 +200,6 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], swapFeeInfo, ...ot
     }
   };
 
-  const handleSubmit = () => {
-    showConfetti();
-    handleReviewClose();
-  };
-
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
       <Box sx={{ position: 'relative', display: 'flex', flexDirection: 'column', gap: '2px' }}>
@@ -280,7 +287,7 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], swapFeeInfo, ...ot
                 minWidth: 0,
               }}
             >
-              <Typography variant="body1" noWrap textAlign={'left'}>
+              <Typography variant="body1" noWrap>
                 Sell
               </Typography>
               <InputBase
@@ -330,7 +337,6 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], swapFeeInfo, ...ot
                   overflow: 'hidden',
                   textOverflow: 'clip',
                   minWidth: 0,
-                  textAlign: 'left',
                 }}
               >
                 {`${fCurrency(sellFiatValue)}`}
@@ -459,7 +465,7 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], swapFeeInfo, ...ot
               gap: 2,
             }}
           >
-            <Typography variant="body1" noWrap textAlign={'left'}>
+            <Typography variant="body1" noWrap>
               Buy
             </Typography>
 
@@ -468,8 +474,6 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], swapFeeInfo, ...ot
                 maxWidth: '100%',
                 overflowX: 'auto',
                 whiteSpace: 'nowrap',
-                display: 'flex',
-                alignItems: 'flex-start',
               }}
             >
               <Typography
@@ -480,7 +484,6 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], swapFeeInfo, ...ot
                   fontWeight: 'var(--h3-weight, 700)',
                   lineHeight: 'var(--h3-line-height, 48px)',
                   letterSpacing: 'var(--h3-letter-spacing, 0px)',
-                  textAlign: 'left',
                   color: !quoteFetched ? theme.palette.text.secondary : theme.palette.text.primary,
                 }}
               >
@@ -497,7 +500,6 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], swapFeeInfo, ...ot
                 opacity: quoteFetched && buyToken ? 1 : 0,
                 whiteSpace: 'nowrap',
                 overflow: 'visible',
-                textAlign: 'left',
               }}
             >
               {buyToken ? `${fCurrency(buyToken.pricestatus * buyAmount)}` : '$0'}
@@ -575,7 +577,6 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], swapFeeInfo, ...ot
           priceImpact={swapFeeInfo?.priceImpact ?? 0}
           maxSlippage={swapFeeInfo?.maxSlippage ?? 0}
           sellFiatValue={sellFiatValue}
-          onSubmit={handleSubmit}
         />
       )}
 

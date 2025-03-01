@@ -33,9 +33,9 @@ export function HomeExplainer({ sx, ...other }: BoxProps) {
   const renderDescription = () => (
     <>
       <SectionTitle
-        caption="Make crypto normal"
-        title="Go Direct to"
-        txtGradient="DeFi"
+        caption="MHow it works"
+        title="Make Crypto"
+        txtGradient="Normal"
         sx={{ mb: { xs: 5, md: 8 }, textAlign: { xs: 'center', md: 'left' } }}
       />
 
@@ -133,19 +133,20 @@ export function HomeExplainer({ sx, ...other }: BoxProps) {
 const ITEMS = [
   {
     icon: `${CONFIG.assetsDir}/assets/icons/home/ic-make-brand.svg`,
-    title: 'Earn Yield',
+    title: 'Trade Bitcoin on Solana with nBTC',
     description:
-      'Deposit SOL or XLM as collateral to mint tokenized perps - earning competitive yield froms swap fees.',
+      'Normal tokens - like nBTC - are native Solana tokens tracking the value of each Top 100 crypto, backed by SOL deposited from liquidity providers.',
   },
   {
     icon: `${CONFIG.assetsDir}/assets/icons/home/ic-design.svg`,
-    title: 'Swap Anything',
-    description: 'Or just buy and sell any Top 100 crypto directly on Solana and Stellar.',
+    title: 'Swap Anything and Earn Competitive Yield',
+    description:
+      'Every crypto can now be traded on Solana. Provide liquidity to earn 7%+ yield for helping mint Normal tokens.',
   },
   {
     icon: `${CONFIG.assetsDir}/assets/icons/home/ic-development.svg`,
-    title: 'Diversify Endlessly',
+    title: 'Build Crypto Index Funds to Diversify',
     description:
-      'Normal tokens can be configured into on-chain crypto indexes - automating and diversifying your portfolio.',
+      'Normal tokens can be combined into on-chain crypto indexes - automating and diversifying your portfolio.',
   },
 ];

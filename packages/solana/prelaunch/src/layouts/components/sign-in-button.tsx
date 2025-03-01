@@ -8,14 +8,18 @@ import Button from '@mui/material/Button';
 
 // ----------------------------------------------------------------------
 
-export function SignInButton({ sx, ...other }: ButtonProps) {
+type Props = ButtonProps & {
+  title: string;
+};
+
+export function SignInButton({ title, sx, ...other }: Props) {
   const { ready, authenticated, login } = usePrivy();
   // Disable login when Privy is not ready or the user is already authenticated
   const disableLogin = !ready || (ready && authenticated);
 
   return (
-    <Button disabled={disableLogin} onClick={login} variant="outlined" sx={sx} {...other}>
-      Sign in
+    <Button disabled={disableLogin} onClick={login} variant="contained" color='info' sx={sx} {...other}>
+      {title}
     </Button>
   );
 }

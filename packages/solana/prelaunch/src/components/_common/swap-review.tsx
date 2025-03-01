@@ -1,23 +1,26 @@
+import type { Token } from '@/types/token';
+
 import React from 'react';
+import { getSwapConversionText } from '@/utils/conversion-helpers';
+import { fRawPercent, fCurrencyTwoDecimals } from '@/utils/format-number';
+
+import { useTheme } from '@mui/material/styles';
 import {
+  Box,
+  Alert,
   Dialog,
+  Button,
+  Accordion,
+  Typography,
+  IconButton,
   DialogTitle,
   DialogContent,
   DialogActions,
-  Button,
-  Typography,
-  Box,
-  IconButton,
-  Accordion,
   AccordionSummary,
   AccordionDetails,
 } from '@mui/material';
 
-import { fCurrencyTwoDecimals, fRawPercent } from '@/utils/format-number';
-import { Token } from '@/types/token';
 import { Iconify } from '../iconify';
-import { useTheme } from '@mui/material/styles';
-import { getSwapConversionText } from '@/utils/conversion-helpers';
 
 export interface SwapReviewProps {
   open: boolean;
@@ -71,12 +74,15 @@ const SwapReview: React.FC<SwapReviewProps> = ({
       <DialogTitle sx={{ p: 2, pb: 0, width: '100%' }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Typography variant="h6" component="div" color="text.primary">
-            You're swapping
+            You&apos;re swapping
           </Typography>
           <IconButton onClick={onClose}>
             <Iconify icon="mingcute:close-line" width={24} />
           </IconButton>
         </Box>
+        <Alert severity="warning" sx={{ mt: 2 }}>
+          This is a demo. No assets will actually be swapped.
+        </Alert>
       </DialogTitle>
       <DialogContent
         sx={{

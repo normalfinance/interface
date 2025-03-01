@@ -116,7 +116,7 @@ export function AccountPopover({ data = [], sx, ...other }: AccountPopoverProps)
   );
 
   if (!authenticated) {
-    return <SignInButton />;
+    return <SignInButton title="Sign in" />;
   }
 
   return (
