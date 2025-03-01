@@ -446,7 +446,7 @@ const SwapCard: React.FC<SwapCardProps> = ({ tokensList = [], swapFeeInfo, ...ot
                         fontSize: '12px',
                       }}
                     >
-                      {sellToken.countstatus}{' '}
+                      {sellToken.countstatus.toFixed(6)}{' '}
                       <Box
                         component="span"
                         sx={{
