@@ -121,7 +121,7 @@ export function HomeHero({ sx, ...other }: BoxProps) {
           [theme.breakpoints.up(smKey)]: { whiteSpace: 'pre' },
           [theme.breakpoints.up(lgKey)]: { fontSize: 14, lineHeight: '20px' },
           marginBottom: 3,
-          maxWidth: '360px',
+          textAlign: 'center',
         }}
       >
         {`Buy & sell any crypto directly on Solana without bridges or CEXes -\nCreate & use crypto index funds to diversify & automate your investing.`}
