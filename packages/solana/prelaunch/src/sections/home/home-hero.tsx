@@ -23,6 +23,7 @@ import { CONFIG } from 'src/global-config';
 import { varFade, MotionContainer } from 'src/components/animate';
 
 import { HeroBackground } from './components/hero-background';
+import { getTokenByParam } from '@/utils/token-helpers';
 
 // ----------------------------------------------------------------------
 
@@ -233,21 +234,9 @@ export function HomeHero({ sx, ...other }: BoxProps) {
               <SwapCard
                 tokensList={CONFIG.tokenList}
                 swapFeeInfo={CONFIG.swapFeeInfo}
-                sellTokenParam={
-                  (params &&
-                    CONFIG.tokenList.find(
-                      (t) => t.name === (params as SwapPageParams).swapSellTokenParam
-                    )) ??
-                  CONFIG.tokenList[1] // SOL
-                }
-                buyTokenParam={
-                  (params &&
-                    CONFIG.tokenList.find(
-                      (t) => t.name === (params as SwapPageParams).swapBuyTokenParam
-                    )) ??
-                  CONFIG.tokenList[1] // A Normal index
-                } // A Normal index
-                amountParam={params ? (params as SwapPageParams).swapAmountParam : '1'}
+                sellTokenParam={getTokenByParam((params as SwapPageParams)?.swapSellTokenParam)}
+                buyTokenParam={getTokenByParam((params as SwapPageParams)?.swapBuyTokenParam)}
+                amountParam={(params as SwapPageParams)?.swapAmountParam || '1'}
               />
             </m.div>
           </Stack>
